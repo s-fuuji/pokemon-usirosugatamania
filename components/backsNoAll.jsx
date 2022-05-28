@@ -17,6 +17,7 @@ export const BacksNoAll = ({ isVisible }) => {
                     <PokeCard
                       imgurl={p.sprites.back_default}
                       link={`./Pokemon/${index}`}
+                      index={Number(index) + 1}
                     />
                   </Grid.Col>
                 );

@@ -6,11 +6,12 @@ const PokeSingle = function () {
   const { poke, pokeError } = usePokeSWR();
   const router = useRouter();
   const id = router.query.id;
+  const indexId = Number(id) + 1;
   const pokeid = poke[id];
 
   return (
     <>
-      <PokeCard imgurl={pokeid.sprites.back_default} link="/" />
+      <PokeCard imgurl={pokeid.sprites.back_default} link="/" index={indexId} />
     </>
   );
 };
