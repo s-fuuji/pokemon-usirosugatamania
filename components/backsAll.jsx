@@ -1,14 +1,6 @@
 import { Grid } from "@mantine/core";
 import { usePokeSWR } from "../hooks/usePokeSWR";
-import {
-  Card,
-  Image,
-  Text,
-  Badge,
-  Button,
-  Group,
-  useMantineTheme,
-} from "@mantine/core";
+
 export const BacksAll = ({ isVisible }) => {
   const { poke, pokeError } = usePokeSWR();
 
