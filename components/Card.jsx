@@ -14,18 +14,28 @@ const fetcher = async (...args) => {
   const res = await fetch(...args);
   return await res.json();
 };
-export const PokeCard = ({ imgurl, link, index }) => {
+export const PokeCard = ({ imgurl, link, index, getPoke }) => {
   const { data: pokeSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
     fetcher
   );
 
   return (
-    <Card shadow="sm" p="lg">
-      <Card.Section>
-        <Link href={link}>
+    <Card shadow="sm" p="lg" width={50}>
+      <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
+        <Link href={link} marginBottom={5}>
           <a>
-            <Image src={imgurl} height={250} alt="Norway" />
+            <Image
+              src={imgurl}
+              style={{
+                paddingLeft: 80,
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+              height={200}
+              width={200}
+              alt="Norway"
+            />
           </a>
         </Link>
       </Card.Section>
@@ -38,9 +48,15 @@ export const PokeCard = ({ imgurl, link, index }) => {
       <Text size="sm" style={{ color: "black", lineHeight: 1.5 }}>
         {pokeSpecies?.flavor_text_entries[22].flavor_text}
       </Text>
-
-      <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }}>
-        Book classic tour now
+      <Button
+        value={index}
+        onClick={getPoke}
+        variant="light"
+        color="blue"
+        fullWidth
+        style={{ marginTop: 14 }}
+      >
+        手持ちに加える
       </Button>
     </Card>
   );
