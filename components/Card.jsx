@@ -21,7 +21,7 @@ export const PokeCard = ({ imgurl, link, index, getPoke }) => {
   );
 
   return (
-    <Card shadow="sm" p="lg" width={50}>
+    <Card shadow="sm" p="lg" withBorder={true}>
       <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
         <Link href={link} marginBottom={5}>
           <a>

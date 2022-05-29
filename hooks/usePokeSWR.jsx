@@ -5,7 +5,7 @@ const fetcher = async (...args) => {
   return await res.json();
 };
 
-const fetcher2 = (...urls) => {
+const fetcherAll = (...urls) => {
   const f = (url) => fetch(url).then((r) => r.json());
   return Promise.all(urls.map(f));
 };
@@ -22,7 +22,7 @@ export const usePokeSWR = () => {
 
   const { data: poke, error: pokeError } = useSWR(
     pokeDataUrl ? pokeDataUrl : null,
-    fetcher2
+    fetcherAll
   );
 
   return { poke, pokeError };

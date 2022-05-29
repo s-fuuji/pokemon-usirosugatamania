@@ -1,7 +1,9 @@
+import { Button } from "@mantine/core";
 import { useState } from "react";
 import { BacksAll } from "../components/BacksAll";
 import { BacksNoAll } from "../components/BacksNoAll";
-import { Button } from "@mantine/core";
+import { PokeCard } from "../components/Card";
+
 const Home = () => {
   const [isVisible, setIsVisivle] = useState(false);
   const [got, setGot] = useState([]);
@@ -40,8 +42,15 @@ const Home = () => {
       >
         手持ち
       </Button>
+      <h1 className="text-red-400 text-3xl font-bold underline">
+        Hello world!
+      </h1>
 
-      {isPokeVisible ? <div>手持ち</div> : null}
+      {isPokeVisible
+        ? got.map((g) => {
+            return <PokeCard imgurl={""} link={`./Pokemon/${g}`} index={g} />;
+          })
+        : null}
 
       <BacksAll isVisible={isVisible} getPoke={getPoke} />
       <BacksNoAll isVisible={!isVisible} getPoke={getPoke} />
