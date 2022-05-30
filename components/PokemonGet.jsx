@@ -1,18 +1,8 @@
-import { useContext } from "react";
-import { gotContext, setGotContext } from "../pages/_app";
-import { PokeCard } from "./Card";
+/*import { useContext } from "react";
+import { setGotContext } from "../contexts/gotPoke";
 
 export const PokemonGet = (e) => {
-  const setGot = useContext(setGotContext);
   setGot((s) => {
-    return [...s, e.currentTarget.value];
+    return [...s, e.Target.value];
   });
-};
-
-export const MyParty = () => {
-  const got = useContext(gotContext);
-
-  return got?.map((g) => {
-    return <PokeCard imgurl={""} link={`./Pokemon/${g}`} index={g} />;
-  });
-};
+};*/

@@ -2,7 +2,7 @@ import { Button } from "@mantine/core";
 import { useState } from "react";
 import { BacksAll } from "../components/BacksAll";
 import { BacksNoAll } from "../components/BacksNoAll";
-import { MyParty } from "../components/PokemonGet";
+import { MyParty } from "../components/MyParty";
 
 const Home = () => {
   const [isAllPokemon, setIsAllPokemon] = useState(false);

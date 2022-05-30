@@ -1,20 +1,22 @@
 import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
 import Link from "next/link";
-
+import { useContext } from "react";
 import useSWR from "swr";
+import { setGotContext } from "../contexts/gotPoke";
+import { fetcher } from "../utils/fetcher";
 
-import { PokemonGet } from "./PokemonGet";
-
-const fetcher = async (...args) => {
-  const res = await fetch(...args);
-  return await res.json();
-};
 export const PokeCard = ({ imgurl, link, index }) => {
+  const setGot = useContext(setGotContext);
+
   const { data: pokeSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
     fetcher
   );
-
+  const PokemonGet = (e) => {
+    setGot((s) => {
+      return [...s, e.target.value];
+    });
+  };
   return (
     <Card shadow="sm" p="lg" withBorder={true}>
       <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
