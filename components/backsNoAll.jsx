@@ -3,7 +3,7 @@ import { usePokeSWR } from "../hooks/usePokeSwr";
 
 import { PokeCard } from "./Card";
 
-export const BacksNoAll = ({ isVisible, getPoke }) => {
+export const BacksNoAll = ({ isVisible }) => {
   const { poke, pokeError } = usePokeSWR();
 
   return (
@@ -18,7 +18,6 @@ export const BacksNoAll = ({ isVisible, getPoke }) => {
                       imgurl={p.sprites.back_default}
                       link={`./Pokemon/${index}`}
                       index={Number(index) + 1}
-                      getPoke={getPoke}
                     />
                   </Grid.Col>
                 );
