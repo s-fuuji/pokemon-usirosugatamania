@@ -2,31 +2,24 @@ import { Button } from "@mantine/core";
 import { useState } from "react";
 import { BacksAll } from "../components/BacksAll";
 import { BacksNoAll } from "../components/BacksNoAll";
-import { PokeCard } from "../components/Card";
+import { MyParty } from "../components/PokemonGet";
 
 const Home = () => {
-  const [isVisible, setIsVisivle] = useState(false);
-  const [got, setGot] = useState([]);
-  const [isPokeVisible, setIsPokeVisivle] = useState(false);
+  const [isAllPokemon, setIsAllPokemon] = useState(false);
+  const [isPartyVisible, setIsPartyVisivle] = useState(false);
 
-  const myPoke = () => {
-    setIsPokeVisivle(!isPokeVisible);
+  const toggleMyParty = () => {
+    setIsPartyVisivle(!isPartyVisible);
   };
 
-  const VisibleChange = () => {
-    setIsVisivle(!isVisible);
+  const toggleAllPokemon = () => {
+    setIsAllPokemon(!isAllPokemon);
   };
 
-  const getPoke = (e) => {
-    setGot((s) => {
-      return [...s, e.currentTarget.value];
-    });
-  };
-  console.log(isPokeVisible);
   return (
     <>
       <Button
-        onClick={VisibleChange}
+        onClick={toggleAllPokemon}
         variant="gradient"
         gradient={{ from: "orange", to: "red" }}
         style={{ marginBottom: 30 }}
@@ -35,7 +28,7 @@ const Home = () => {
       </Button>
 
       <Button
-        onClick={myPoke}
+        onClick={toggleMyParty}
         variant="gradient"
         gradient={{ from: "orange", to: "red" }}
         style={{ marginBottom: 30 }}
@@ -46,14 +39,10 @@ const Home = () => {
         Hello world!
       </h1>
 
-      {isPokeVisible
-        ? got.map((g) => {
-            return <PokeCard imgurl={""} link={`./Pokemon/${g}`} index={g} />;
-          })
-        : null}
+      {isPartyVisible ? <MyParty /> : null}
 
-      <BacksAll isVisible={isVisible} getPoke={getPoke} />
-      <BacksNoAll isVisible={!isVisible} getPoke={getPoke} />
+      <BacksAll isVisible={isAllPokemon} />
+      <BacksNoAll isVisible={!isAllPokemon} />
     </>
   );
 };

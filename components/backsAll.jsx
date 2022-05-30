@@ -2,14 +2,11 @@ import { Grid } from "@mantine/core";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { PokeCard } from "./Card";
 
-export const BacksAll = ({ isVisible, getPoke }) => {
+export const BacksAll = ({ isVisible }) => {
   const { poke, pokeError } = usePokeSWR();
 
   return (
     <>
-      <button value={2} onClick={getPoke}>
-        test
-      </button>
       <Grid>
         {isVisible
           ? poke
@@ -20,7 +17,6 @@ export const BacksAll = ({ isVisible, getPoke }) => {
                       imgurl={p.sprites.back_default}
                       link={`./Pokemon/${index}`}
                       index={Number(index) + 1}
-                      getPoke={getPoke}
                     />
                   </Grid.Col>
                 );

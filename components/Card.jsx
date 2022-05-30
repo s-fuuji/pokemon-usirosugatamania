@@ -1,20 +1,15 @@
-import {
-  Card,
-  Image,
-  Text,
-  Badge,
-  Button,
-  Group,
-  useMantineTheme,
-} from "@mantine/core";
+import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
 import Link from "next/link";
+
 import useSWR from "swr";
+
+import { PokemonGet } from "./PokemonGet";
 
 const fetcher = async (...args) => {
   const res = await fetch(...args);
   return await res.json();
 };
-export const PokeCard = ({ imgurl, link, index, getPoke }) => {
+export const PokeCard = ({ imgurl, link, index }) => {
   const { data: pokeSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
     fetcher
@@ -50,7 +45,7 @@ export const PokeCard = ({ imgurl, link, index, getPoke }) => {
       </Text>
       <Button
         value={index}
-        onClick={getPoke}
+        onClick={PokemonGet}
         variant="light"
         color="blue"
         fullWidth
