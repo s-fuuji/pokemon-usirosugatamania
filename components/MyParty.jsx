@@ -4,7 +4,6 @@ import { PokeCard } from "./Card";
 
 export const MyParty = () => {
   const got = useContext(gotContext);
-  console.log(got);
   return got?.map((g) => {
     return (
       <PokeCard

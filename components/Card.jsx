@@ -1,22 +1,15 @@
 import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
 import Link from "next/link";
-import { useContext } from "react";
 import useSWR from "swr";
-import { setGotContext } from "../contexts/gotPoke";
 import { fetcher } from "../utils/fetcher";
+import { GetOrGoodby } from "./GetOrGoodby";
 
 export const PokeCard = ({ imgurl, link, index }) => {
-  const setGot = useContext(setGotContext);
-
   const { data: pokeSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
     fetcher
   );
-  const PokemonGet = (e) => {
-    setGot((s) => {
-      return [...s, e.target.value];
-    });
-  };
+
   return (
     <Card shadow="sm" p="lg" withBorder={true}>
       <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
@@ -45,16 +38,7 @@ export const PokeCard = ({ imgurl, link, index }) => {
       <Text size="sm" style={{ color: "black", lineHeight: 1.5 }}>
         {pokeSpecies?.flavor_text_entries[22].flavor_text}
       </Text>
-      <Button
-        value={index}
-        onClick={PokemonGet}
-        variant="light"
-        color="blue"
-        fullWidth
-        style={{ marginTop: 14 }}
-      >
-        手持ちに加える
-      </Button>
+      <GetOrGoodby index={index} />
     </Card>
   );
 };

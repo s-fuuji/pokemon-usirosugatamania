@@ -2,6 +2,7 @@ import Head from "next/head";
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
 import { PartyChangeContext } from "../contexts/gotPoke";
+import { Header } from "../components/header";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
           withGlobalStyles
           withNormalizeCSS
         >
+          <Header />
           <Component {...pageProps} />
         </MantineProvider>
       </PartyChangeContext>
