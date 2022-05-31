@@ -1,50 +1,74 @@
+import { Button } from "@mantine/core";
+import { useState } from "react";
 import { QuizCard } from "../components/QuizCard";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 
 export const Quiz = () => {
   const { poke, pokeError } = usePokeSWR();
-  const quizPoke = poke?.filter((p) => p.sprites.back_female !== null);
-  const quizPokeCount = quizPoke?.length;
-  const i = quizPokeCount ? Math.floor(Math.random() * quizPokeCount) : null;
+  const [randomQuestion, setRandomQuestion] = useState({
+    right: 0,
+    left: 0,
+    selectPokeIndex: -1,
+    quizImgUrl: "",
+    prevQuizPokeArray: [],
+  });
+  const right = randomQuestion.right;
+  const left = randomQuestion.left;
+  const selectPokeIndex = randomQuestion.selectPokeIndex;
+  const quizImgUrl = randomQuestion.quizImgUrl;
+  const prevQuizPokeArray = randomQuestion.prevQuizPokeArray;
 
-  let right = Math.random();
-  let left = Math.random();
+  const quizPokeArray = poke?.filter((p) => p.sprites.back_female !== null);
+  console.log(prevQuizPokeArray);
+  const Randomizer = () => {
+    const newQuizPokeArray =
+      selectPokeIndex >= 0
+        ? prevQuizPokeArray.filter((q, i) => i !== selectPokeIndex)
+        : quizPokeArray;
+
+    const selectPokeNum = Math.floor(Math.random() * newQuizPokeArray.length);
+    const quizImgUrl = newQuizPokeArray[selectPokeNum].sprites;
+    setRandomQuestion({
+      right: Math.random(),
+      left: Math.random(),
+      selectPokeIndex: selectPokeNum,
+      quizImgUrl: quizImgUrl,
+      prevQuizPokeArray: newQuizPokeArray,
+    });
+  };
 
   const CorrectAnswer = () => {
-    return <div>test</div>;
+    Randomizer();
   };
 
   const InCorrectAnswer = () => {
-    return <div>test2</div>;
+    Randomizer();
   };
 
-  return poke ? (
+  return right > 0 ? (
     right >= left ? (
       <>
-        <QuizCard
-          imgurl={quizPoke[1]?.sprites.back_female}
-          onClick={CorrectAnswer}
-        />
+        <QuizCard imgurl={quizImgUrl.back_female} onClick={CorrectAnswer} />
         <h1>test1</h1>
-        <QuizCard
-          imgurl={quizPoke[i]?.sprites.back_default}
-          onClick={InCorrectAnswer}
-        />
+        <QuizCard imgurl={quizImgUrl.back_default} onClick={InCorrectAnswer} />
       </>
     ) : (
       <>
-        <QuizCard
-          imgurl={quizPoke[i]?.sprites.back_default}
-          onClick={InCorrectAnswer}
-        />
+        <QuizCard imgurl={quizImgUrl.back_default} onClick={InCorrectAnswer} />
         <h1>test2</h1>
-        <QuizCard
-          imgurl={quizPoke[i]?.sprites.back_female}
-          onClick={CorrectAnswer}
-        />
+        <QuizCard imgurl={quizImgUrl.back_female} onClick={CorrectAnswer} />
       </>
     )
-  ) : null;
+  ) : (
+    <Button
+      onClick={Randomizer}
+      variant="gradient"
+      gradient={{ from: "yellow", to: "red" }}
+      style={{ marginBottom: 30 }}
+    >
+      見極めスタート
+    </Button>
+  );
 };
 
 export default Quiz;

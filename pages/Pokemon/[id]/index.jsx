@@ -10,18 +10,20 @@ const PokeSingle = function () {
 
   return (
     <>
-      <PokeCard
-        imgurl={pokeid?.sprites.back_default}
-        link="/"
-        index={indexId}
-      />
-      {pokeid?.sprites.back_female ? (
+      <div className="flex justify-between">
         <PokeCard
-          imgurl={pokeid?.sprites.back_female}
+          imgurl={pokeid?.sprites.back_default}
           link="/"
           index={indexId}
         />
-      ) : null}
+        {pokeid?.sprites.back_female ? (
+          <PokeCard
+            imgurl={pokeid?.sprites.back_female}
+            link="/"
+            index={indexId}
+          />
+        ) : null}
+      </div>
     </>
   );
 };

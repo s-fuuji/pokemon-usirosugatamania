@@ -1,6 +1,6 @@
 import { Grid } from "@mantine/core";
 import { usePokeSWR } from "../hooks/usePokeSwr";
-import { PokeCard } from "./Card";
+import { PokeCard } from "./PokeCard";
 
 export const AllPoke = ({ isVisible }) => {
   const { poke, pokeError } = usePokeSWR();

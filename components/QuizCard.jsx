@@ -1,8 +1,8 @@
 import { Card, Image } from "@mantine/core";
 
-export const QuizCard = ({ imgurl }) => {
+export const QuizCard = ({ imgurl, onClick }) => {
   return (
-    <Card shadow="sm" p="lg" withBorder={true}>
+    <Card shadow="sm" p="lg" withBorder={true} onClick={onClick}>
       <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
         <Image
           src={imgurl}

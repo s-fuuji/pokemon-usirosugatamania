@@ -19,6 +19,7 @@ const Home = () => {
       >
         オスとメスでうしろ姿が違うポケモン達
       </Button>
+
       <AllPoke isVisible={isAllPokemon} />
       <FilteredPoke isVisible={!isAllPokemon} />
     </>

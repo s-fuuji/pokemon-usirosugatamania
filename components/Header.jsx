@@ -16,7 +16,6 @@ export const Header = () => {
       <div className="flex">
         <Link href="/">
           <Button
-            href="/"
             variant="gradient"
             gradient={{ from: "orange", to: "red" }}
             style={{ marginBottom: 30 }}
@@ -32,6 +31,15 @@ export const Header = () => {
         >
           手持ち
         </Button>
+        <Link href="/quiz">
+          <Button
+            variant="gradient"
+            gradient={{ from: "orange", to: "red" }}
+            style={{ marginBottom: 30 }}
+          >
+            <a>クイズ</a>
+          </Button>
+        </Link>
         <h1 className="text-red-400 text-3xl font-bold underline">
           {got.length}匹
         </h1>
