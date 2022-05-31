@@ -1,7 +1,7 @@
 import { Button } from "@mantine/core";
 import { useState } from "react";
-import { BacksAll } from "../components/BacksAll";
-import { BacksNoAll } from "../components/BacksNoAll";
+import { AllPoke } from "../components/AllPoke";
+import { FilteredPoke } from "../components/FilteredPoke";
 
 const Home = () => {
   const [isAllPokemon, setIsAllPokemon] = useState(false);
@@ -19,8 +19,8 @@ const Home = () => {
       >
         オスとメスでうしろ姿が違うポケモン達
       </Button>
-      <BacksAll isVisible={isAllPokemon} />
-      <BacksNoAll isVisible={!isAllPokemon} />
+      <AllPoke isVisible={isAllPokemon} />
+      <FilteredPoke isVisible={!isAllPokemon} />
     </>
   );
 };

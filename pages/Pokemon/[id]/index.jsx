@@ -1,4 +1,4 @@
-import { PokeCard } from "../../../components/Card";
+import { PokeCard } from "../../../components/PokeCard";
 import { usePokeSWR } from "../../../hooks/usePokeSwr";
 import { useRouter } from "next/router";
 
@@ -15,6 +15,13 @@ const PokeSingle = function () {
         link="/"
         index={indexId}
       />
+      {pokeid?.sprites.back_female ? (
+        <PokeCard
+          imgurl={pokeid?.sprites.back_female}
+          link="/"
+          index={indexId}
+        />
+      ) : null}
     </>
   );
 };

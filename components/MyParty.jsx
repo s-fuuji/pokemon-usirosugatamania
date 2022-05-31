@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { gotContext } from "../contexts/gotPoke";
-import { PokeCard } from "./Card";
+import { PokeCard } from "./PokeCard";
 
 export const MyParty = () => {
   const got = useContext(gotContext);
