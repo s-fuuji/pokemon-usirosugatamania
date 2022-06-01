@@ -10,7 +10,7 @@ const PokeSingle = function () {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-center">
         <PokeCard
           imgurl={pokeid?.sprites.back_default}
           link="/"

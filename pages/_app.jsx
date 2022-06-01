@@ -6,7 +6,7 @@ import { Header } from "../components/header";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
+    <div className="bg-quiz-back min-h-screen">
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>

@@ -11,20 +11,16 @@ export const PokeCard = ({ imgurl, link, index }) => {
   );
 
   return (
-    <Card shadow="sm" p="lg" withBorder={true}>
+    <Card shadow="sm" p="lg" withBorder={true} className="bg-red-500">
       <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
         <Link href={link} marginBottom={5}>
           <a>
             <Image
+              className="bg-card-back bg-cover pl-[84px] mx-auto"
               src={imgurl}
-              style={{
-                paddingLeft: 80,
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
               height={200}
               width={200}
-              alt="Norway"
+              alt="読み込み中"
             />
           </a>
         </Link>

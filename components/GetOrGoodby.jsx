@@ -18,6 +18,7 @@ export const GetOrGoodby = ({ index }) => {
 
   return !got.includes(index) ? (
     <Button
+      className="bg-amber-900"
       value={index}
       onClick={(e) => PokemonGet(index)}
       variant="light"

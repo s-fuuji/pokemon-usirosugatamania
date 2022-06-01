@@ -10,7 +10,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div>
       <Button
         onClick={toggleAllPokemon}
         variant="gradient"
@@ -22,7 +22,7 @@ const Home = () => {
 
       <AllPoke isVisible={isAllPokemon} />
       <FilteredPoke isVisible={!isAllPokemon} />
-    </>
+    </div>
   );
 };
 
