@@ -16,7 +16,7 @@ export const PokeCard = ({ imgurl, link, index }) => {
         <Link href={link} marginBottom={5}>
           <a>
             <Image
-              className="bg-card-back bg-cover pl-[84px] mx-auto"
+              className="bg-card-back bg-cover pl-28 mx-auto"
               src={imgurl}
               height={200}
               width={200}

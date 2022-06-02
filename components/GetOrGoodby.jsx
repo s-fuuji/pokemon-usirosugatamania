@@ -1,19 +1,16 @@
 import { Button } from "@mantine/core";
-import { useContext } from "react";
-import { gotContext, setGotContext } from "../contexts/gotPoke";
-
+import { useDispatch, useSelector } from "react-redux";
+import { get, goodbye } from "../slicer/slicer";
 export const GetOrGoodby = ({ index }) => {
-  const got = useContext(gotContext);
-  const setGot = useContext(setGotContext);
-  const PokemonGet = (e) => {
-    setGot((got) => {
-      return [...got, e];
-    });
+  const got = useSelector((state) => state.got);
+  const dispatch = useDispatch();
+
+  const PokemonGet = (index) => {
+    dispatch(get(index));
   };
 
   const PokeGoodby = (e) => {
-    const removeParty = got.filter((g) => g !== e);
-    setGot(removeParty);
+    dispatch(goodbye(index));
   };
 
   return !got.includes(index) ? (

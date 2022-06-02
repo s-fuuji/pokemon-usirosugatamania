@@ -3,8 +3,7 @@
 
 html,
 body {
-  width:1260px;
-  padding-right: 0 30px;
+  width:auto;
   margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;

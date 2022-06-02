@@ -1,8 +1,9 @@
 import Head from "next/head";
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
-import { PartyChangeContext } from "../contexts/gotPoke";
 import { Header } from "../components/header";
+import { store } from "../slicer/store";
+import { Provider } from "react-redux";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,16 +11,19 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <PartyChangeContext>
+
+      <Provider store={store}>
         <MantineProvider
           theme={{ fontFamily: "Open Sans" }}
           withGlobalStyles
           withNormalizeCSS
         >
           <Header />
-          <Component {...pageProps} />
+          <main className="pt-24">
+            <Component {...pageProps} />
+          </main>
         </MantineProvider>
-      </PartyChangeContext>
+      </Provider>
     </div>
   );
 }

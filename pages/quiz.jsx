@@ -1,6 +1,5 @@
 import { Button } from "@mantine/core";
-import { useState, useContext } from "react";
-import { QuizCard } from "../components/QuizCard";
+import { useState } from "react";
 import { QuizFinish } from "../components/QuizFinish";
 import { ShuffleCard } from "../components/ShuffleQuiz";
 
@@ -30,7 +29,7 @@ export const Quiz = () => {
         ? prevQuizPokeArray.filter((q, i) => i !== selectPokeIndex)
         : quizPokeArray;
 
-    const selectPokeNum = Math.floor(Math.random() * newQuizPokeArray.length);
+    const selectPokeNum = Math.floor(Math.random() * newQuizPokeArray?.length);
     const quizImgUrl = newQuizPokeArray[selectPokeNum].sprites;
     setRandomQuestion({
       right: Math.random(),
@@ -64,16 +63,20 @@ export const Quiz = () => {
       left={left}
       maleUrl={quizImgUrl.back_default}
       femaleUrl={quizImgUrl.back_female}
+      numQuestion={quizPokeArray.length}
+      numNowQuestion={correctCount.length + 1}
     />
   ) : (
-    <Button
-      onClick={Randomizer}
-      variant="gradient"
-      gradient={{ from: "yellow", to: "red" }}
-      style={{ marginBottom: 30 }}
-    >
-      クイズスタート
-    </Button>
+    <div className="text-center mt-48">
+      <Button
+        className="h-28 text-5xl rounded-full px-11"
+        onClick={Randomizer}
+        variant="gradient"
+        gradient={{ from: "yellow", to: "red" }}
+      >
+        クイズスタート
+      </Button>
+    </div>
   );
 };
 

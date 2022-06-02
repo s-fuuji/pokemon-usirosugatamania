@@ -1,23 +1,21 @@
 import { Button } from "@mantine/core";
-import { useContext, useState } from "react";
-import { clearedQuizContext, setClearedQuizContext } from "../contexts/gotPoke";
+import { useDispatch } from "react-redux";
+import { triedQuizCount } from "../slicer/slicer";
 
 export const QuizFinish = ({ numCorrect, numQuestion }) => {
-  const setClearedQuiz = useContext(setClearedQuizContext);
-
+  const dispatch = useDispatch();
   const resultSave = (version) => {
-    setClearedQuiz({
-      red: `${numCorrect} / ${numQuestion}問クリア`,
-    });
+    dispatch(triedQuizCount({ numCorrect, numQuestion }));
   };
 
   return (
-    <>
-      <div>
+    <div className="mt-24 text-center ">
+      <p className=" text-5xl text-red-800">
         {numQuestion}問中{numCorrect}
         問正解！
-      </div>
+      </p>
       <Button
+        className="h-28 text-5xl rounded-full px-11"
         onClick={resultSave("red")}
         variant="gradient"
         gradient={{ from: "yellow", to: "red" }}
@@ -25,6 +23,6 @@ export const QuizFinish = ({ numCorrect, numQuestion }) => {
       >
         もう一度
       </Button>
-    </>
+    </div>
   );
 };

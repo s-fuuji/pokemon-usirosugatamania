@@ -1,14 +1,16 @@
-import { useContext } from "react";
-import { gotContext } from "../contexts/gotPoke";
-import { PokeCard } from "./PokeCard";
+import { useSelector } from "react-redux";
+import { usePokeSWR } from "../hooks/usePokeSwr";
+import { PartyHolder } from "./PartyHolder";
 
 export const MyParty = () => {
-  const got = useContext(gotContext);
+  const { poke, pokeError } = usePokeSWR();
+  const got = useSelector((state) => state.got);
+  console.log(got);
   return got?.map((g) => {
     return (
-      <PokeCard
+      <PartyHolder
         key={Math.random()}
-        imgurl={""}
+        imgurl={poke[g - 1].sprites.back_default}
         link={`./Pokemon/${g}`}
         index={g}
       />

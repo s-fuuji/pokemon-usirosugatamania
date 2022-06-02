@@ -11,7 +11,7 @@ export const QuizCard = ({ imgurl, onClick }) => {
     >
       <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
         <Image
-          className="bg-card-back bg-cover w-96 pl-24 mx-auto"
+          className="bg-card-back bg-cover w-96 pl-24"
           src={imgurl}
           height={200}
           width={200}
