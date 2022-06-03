@@ -1,6 +1,5 @@
 import { Button } from "@mantine/core";
 import { useState } from "react";
-import { AllPoke } from "../components/AllPoke";
 import { FilteredPoke } from "../components/FilteredPoke";
 
 const Home = () => {
@@ -20,7 +19,6 @@ const Home = () => {
         オスとメスでうしろ姿が違うポケモン達
       </Button>
 
-      <AllPoke isVisible={isAllPokemon} />
       <FilteredPoke isVisible={!isAllPokemon} />
     </div>
   );
