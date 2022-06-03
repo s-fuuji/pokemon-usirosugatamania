@@ -10,15 +10,12 @@ export const Quiz = () => {
 
   const [correctCount, setCorrectCount] = useState([]);
   const [randomQuestion, setRandomQuestion] = useState({
-    right: 0,
-    left: 0,
     selectPokeIndex: -1,
     quizImgUrl: "",
     prevQuizPokeArray: [],
   });
 
-  const { right, left, selectPokeIndex, quizImgUrl, prevQuizPokeArray } =
-    randomQuestion;
+  const { selectPokeIndex, quizImgUrl, prevQuizPokeArray } = randomQuestion;
 
   const quizPokeArray = poke?.filter((p) => p.sprites.back_female !== null);
 
@@ -31,8 +28,6 @@ export const Quiz = () => {
     const selectPokeNum = Math.floor(Math.random() * newQuizPokeArray?.length);
     const quizImgUrl = newQuizPokeArray[selectPokeNum].sprites;
     setRandomQuestion({
-      right: Math.random(),
-      left: Math.random(),
       selectPokeIndex: selectPokeNum,
       quizImgUrl: quizImgUrl,
       prevQuizPokeArray: newQuizPokeArray,
@@ -51,19 +46,25 @@ export const Quiz = () => {
 
   return cleared ? (
     <QuizFinish
+      //こうやって、やりたいことを認識するフェーズを日常生活につくる
+      //もう一度を押した時の処理
+      //ここも出来たら進行度stateにまとめる
       numCorrect={correctCount.filter((s) => s === 1).length}
       numQuestion={quizPokeArray.length}
     />
-  ) : right > 0 ? (
+  ) : quizImgUrl !== "" ? (
     <ShuffleCard
       CorrectAnswer={CorrectAnswer}
       InCorrectAnswer={InCorrectAnswer}
-      right={right}
-      left={left}
+      //shuffleの方で乱数にする huffleは乱数生成だけの役割
+
+      //性別のurlとして、quiimgurlのまとめる
       maleUrl={quizImgUrl.back_default}
       femaleUrl={quizImgUrl.back_female}
+      //クイズの進行状態としてまとめてオブジェクトにする
       numQuestion={quizPokeArray.length}
       numNowQuestion={correctCount.length + 1}
+      //component もフォルダ分け
     />
   ) : (
     <div className="text-center mt-48">

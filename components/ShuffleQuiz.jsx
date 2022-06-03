@@ -3,13 +3,13 @@ import { QuizCard } from "./QuizCard";
 export const ShuffleCard = ({
   CorrectAnswer,
   InCorrectAnswer,
-  right,
-  left,
   maleUrl,
   femaleUrl,
   numQuestion,
   numNowQuestion,
 }) => {
+  const right = Math.random();
+  const left = Math.random();
   return right >= left ? (
     <div className="flex justify-center items-center">
       <QuizCard imgurl={femaleUrl} onClick={CorrectAnswer} />

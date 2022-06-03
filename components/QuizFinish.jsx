@@ -16,7 +16,7 @@ export const QuizFinish = ({ numCorrect, numQuestion }) => {
       </p>
       <Button
         className="h-28 text-5xl rounded-full px-11"
-        onClick={resultSave("red")}
+        onClick={() => resultSave("red")}
         variant="gradient"
         gradient={{ from: "yellow", to: "red" }}
         style={{ marginBottom: 30 }}
