@@ -13,45 +13,46 @@ export const Header = () => {
   };
 
   return (
-    <header className="flex h-16 w-full items-baseline bg-orange-400 fixed z-10">
-      <Link href="/">
-        <Button
-          variant="gradient"
-          gradient={{ from: "orange", to: "red" }}
-          style={{ marginBottom: 30 }}
-        >
-          <a>図鑑TOPへ</a>
-        </Button>
-      </Link>
-      <Link href="/quiz">
-        <Button
-          variant="gradient"
-          gradient={{ from: "orange", to: "red" }}
-          style={{ marginBottom: 30 }}
-        >
-          <a>クイズ</a>
-        </Button>
-      </Link>
-      <ul className="flex gap-3 ">
-        <li>初代：{triedQuiz.red}</li>
-        <li>金銀：{triedQuiz.gold}</li>
-        <li>ルビサファ：{triedQuiz.ruby}</li>
-      </ul>
-
-      <Button
-        onClick={toggleMyParty}
-        variant="gradient"
-        gradient={{ from: "orange", to: "red" }}
-        style={{ marginBottom: 30 }}
-      >
-        手持ち: <span>{got.length}</span> 匹
-      </Button>
-
-      {isPartyVisible ? (
+    <header className="flex fixed z-10 h-16 w-full bg-orange-400  ">
+      <div className="flex items-baseline ">
+        <Link href="/">
+          <Button
+            variant="gradient"
+            gradient={{ from: "orange", to: "red" }}
+            style={{ marginBottom: 30 }}
+          >
+            <a>図鑑TOPへ</a>
+          </Button>
+        </Link>
+        <Link href="/quiz">
+          <Button
+            variant="gradient"
+            gradient={{ from: "orange", to: "red" }}
+            style={{ marginBottom: 30 }}
+          >
+            <a>クイズ</a>
+          </Button>
+        </Link>
         <ul className="flex gap-3 ">
-          <MyParty />
+          <li>初代：{triedQuiz.red}</li>
+          <li>金銀：{triedQuiz.gold}</li>
+          <li>ルビサファ：{triedQuiz.ruby}</li>
         </ul>
-      ) : null}
+
+        <Button
+          className="ml-8"
+          onClick={toggleMyParty}
+          variant="gradient"
+          gradient={{ from: "orange", to: "red" }}
+          style={{ marginBottom: 30 }}
+        >
+          手持ち: <span>{got.length}</span> 匹
+        </Button>
+      </div>
+
+      <ul className="flex gap-3 items-center">
+        {isPartyVisible ? <MyParty /> : null}
+      </ul>
     </header>
   );
 };

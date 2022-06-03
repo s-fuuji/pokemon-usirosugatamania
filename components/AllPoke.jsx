@@ -6,7 +6,7 @@ export const AllPoke = ({ isVisible }) => {
   const { poke, pokeError } = usePokeSWR();
 
   return (
-    <>
+    <div>
       <Grid>
         {isVisible
           ? poke
@@ -24,6 +24,6 @@ export const AllPoke = ({ isVisible }) => {
             : null
           : null}
       </Grid>
-    </>
+    </div>
   );
 };

@@ -2,7 +2,6 @@ import { Button } from "@mantine/core";
 import { useState } from "react";
 import { QuizFinish } from "../components/QuizFinish";
 import { ShuffleCard } from "../components/ShuffleQuiz";
-
 import { usePokeSWR } from "../hooks/usePokeSwr";
 
 export const Quiz = () => {
