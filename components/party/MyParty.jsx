@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { usePokeSWR } from "../hooks/usePokeSwr";
+import { usePokeSWR } from "../../hooks/usePokeSwr";
 import { PartyHolder } from "./PartyHolder";
 
 export const MyParty = () => {

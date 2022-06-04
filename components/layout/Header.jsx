@@ -1,8 +1,8 @@
 import { Button } from "@mantine/core";
 import { useState } from "react";
-import { MyParty } from "./MyParty";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { MyParty } from "../party/MyParty";
 
 export const Header = () => {
   const got = useSelector((state) => state.got);

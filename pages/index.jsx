@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { useState } from "react";
-import { FilteredPoke } from "../components/FilteredPoke";
+import { FilteredPoke } from "../components/topPage/FilteredPoke";
 
 const Home = () => {
   const [isAllPokemon, setIsAllPokemon] = useState(false);

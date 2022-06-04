@@ -1,7 +1,7 @@
 import Head from "next/head";
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
-import { Header } from "../components/header";
+import { Header } from "../components/layout/header";
 import { store } from "../slicer/store";
 import { Provider } from "react-redux";
 

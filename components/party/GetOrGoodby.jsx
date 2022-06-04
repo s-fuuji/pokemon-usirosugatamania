@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { get, goodbye } from "../slicer/slicer";
+import { get, goodbye } from "../../slicer/slicer";
 export const GetOrGoodby = ({ index }) => {
   const got = useSelector((state) => state.got);
   const dispatch = useDispatch();

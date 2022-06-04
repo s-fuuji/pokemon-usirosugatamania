@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { useDispatch } from "react-redux";
-import { triedQuizCount } from "../slicer/slicer";
+import { triedQuizCount } from "../../slicer/slicer";
 
 export const QuizFinish = ({ numCorrect, numQuestion }) => {
   const dispatch = useDispatch();

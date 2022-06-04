@@ -1,8 +1,8 @@
 import { Card, Image, Text, Badge, Group } from "@mantine/core";
 import Link from "next/link";
 import useSWR from "swr";
-import { fetcher } from "../utils/fetcher";
-import { GetOrGoodby } from "./GetOrGoodby";
+import { fetcher } from "../../utils/fetcher";
+import { GetOrGoodby } from "../party/GetOrGoodby";
 
 export const PokeCard = ({ imgurl, link, index }) => {
   const { data: pokeSpecies, error: spexiesError } = useSWR(

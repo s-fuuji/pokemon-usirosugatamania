@@ -1,14 +1,16 @@
 import { Button } from "@mantine/core";
 import { useState } from "react";
-import { QuizFinish } from "../components/QuizFinish";
-import { ShuffleCard } from "../components/ShuffleQuiz";
+import { QuizFinish } from "../components/quiz/QuizFinish";
+import { ShuffleCard } from "../components/quiz/ShuffleCard";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 
 export const Quiz = () => {
   const { poke, pokeError } = usePokeSWR();
-  const [cleared, setCleared] = useState(false);
+  const [cleared, setCleared] = useState({
+    correctCount: [],
+    quizCleared: false,
+  });
 
-  const [correctCount, setCorrectCount] = useState([]);
   const [randomQuestion, setRandomQuestion] = useState({
     selectPokeIndex: -1,
     quizImgUrl: "",
@@ -18,6 +20,9 @@ export const Quiz = () => {
   const { selectPokeIndex, quizImgUrl, prevQuizPokeArray } = randomQuestion;
 
   const quizPokeArray = poke?.filter((p) => p.sprites.back_female !== null);
+  const numAllQuestion = quizPokeArray?.length;
+  const numNowQuestion = cleared.correctCount.length;
+  const numCorrect = cleared.correctCount.filter((s) => s === 1).length;
 
   const Randomizer = () => {
     const newQuizPokeArray =
@@ -29,43 +34,41 @@ export const Quiz = () => {
     const quizImgUrl = newQuizPokeArray[selectPokeNum].sprites;
     setRandomQuestion({
       selectPokeIndex: selectPokeNum,
-      quizImgUrl: quizImgUrl,
+      quizImgUrl: {
+        maleUrl: quizImgUrl.back_default,
+        femaleUrl: quizImgUrl.back_female,
+      },
       prevQuizPokeArray: newQuizPokeArray,
     });
   };
 
   const CorrectAnswer = () => {
-    setCorrectCount([...correctCount, 1]);
-    prevQuizPokeArray.length !== 1 ? Randomizer() : setCleared(true);
+    setCleared({ ...cleared, quizCleared: false });
+    console.log(cleared);
+    prevQuizPokeArray.length !== 1
+      ? Randomizer()
+      : setCleared({ ...cleared, quizCleared: false });
   };
 
   const InCorrectAnswer = () => {
-    setCorrectCount([...correctCount, 0]);
-    prevQuizPokeArray.length !== 1 ? Randomizer() : setCleared(true);
+    setCleared({ correctCount: [...cleared.correctCount, 0], ...cleared });
+    prevQuizPokeArray.length !== 1
+      ? Randomizer()
+      : setCleared({ ...cleared, quizCleared: false });
   };
 
-  return cleared ? (
-    <QuizFinish
-      //こうやって、やりたいことを認識するフェーズを日常生活につくる
-      //もう一度を押した時の処理
-      //ここも出来たら進行度stateにまとめる
-      numCorrect={correctCount.filter((s) => s === 1).length}
-      numQuestion={quizPokeArray.length}
-    />
+  return cleared.quizCleared ? (
+    <QuizFinish numCorrect={numCorrect} numQuestion={numAllQuestion} />
   ) : quizImgUrl !== "" ? (
     <ShuffleCard
       CorrectAnswer={CorrectAnswer}
       InCorrectAnswer={InCorrectAnswer}
-      //shuffleの方で乱数にする huffleは乱数生成だけの役割
-
-      //性別のurlとして、quiimgurlのまとめる
-      maleUrl={quizImgUrl.back_default}
-      femaleUrl={quizImgUrl.back_female}
-      //クイズの進行状態としてまとめてオブジェクトにする
-      numQuestion={quizPokeArray.length}
-      numNowQuestion={correctCount.length + 1}
-      //component もフォルダ分け
-    />
+      quizImgUrl={quizImgUrl}
+    >
+      <h1 className="text-red-600">
+        {numNowQuestion}/{numAllQuestion}問目
+      </h1>
+    </ShuffleCard>
   ) : (
     <div className="text-center mt-48">
       <Button
