@@ -1,10 +1,17 @@
 import { Button } from "@mantine/core";
 import { useDispatch } from "react-redux";
-import { triedQuizCount } from "../../slicer/slicer";
+import { triedQuizCount } from "../../slicer/triedQuizSlicer";
+import React from 'react'
 
-export const QuizFinish = ({ numCorrect, numQuestion }) => {
+type Props = {
+  numCorrect: number,
+  numQuestion: number
+}
+
+export const QuizFinish: React.FC<Props> = (
+  { numCorrect, numQuestion }) => {
   const dispatch = useDispatch();
-  const resultSave = (version) => {
+  const resultSave = () => {
     dispatch(triedQuizCount({ numCorrect, numQuestion }));
   };
 
@@ -16,7 +23,16 @@ export const QuizFinish = ({ numCorrect, numQuestion }) => {
       </p>
       <Button
         className="h-28 text-5xl rounded-full px-11"
-        onClick={() => resultSave("red")}
+        onClick={() => resultSave()}
+        variant="gradient"
+        gradient={{ from: "yellow", to: "red" }}
+        style={{ marginBottom: 30 }}
+      >
+        結果を保存
+      </Button>
+      <Button
+        className="h-28 text-5xl rounded-full px-11"
+        onClick={() => window.location.reload()}
         variant="gradient"
         gradient={{ from: "yellow", to: "red" }}
         style={{ marginBottom: 30 }}

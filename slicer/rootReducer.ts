@@ -1,5 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { gotReducer, triedQuizReducer } from "./slicer";
+import { gotReducer } from "./gotPokemonSlicer";
+import { triedQuizReducer } from "./triedQuizSlicer";
 
 const rootReducer = combineReducers({
   got: gotReducer,

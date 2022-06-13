@@ -1,15 +1,23 @@
 import { Button } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { get, goodbye } from "../../slicer/slicer";
-export const GetOrGoodby = ({ index }) => {
-  const got = useSelector((state) => state.got);
+import { get, goodbye } from "../../slicer/gotPokemonSlicer";
+import React from 'react'
+import { storeState } from "../../slicer/store";
+
+type Props = {
+  index: number
+}
+
+export const GetOrGoodby: React.FC<Props> = ({ index }) => {
+  const got = useSelector((state: storeState) => state.got);
   const dispatch = useDispatch();
 
-  const PokemonGet = (index) => {
+
+  const PokemonGet = (index: number) => {
     dispatch(get(index));
   };
 
-  const PokeGoodby = (e) => {
+  const PokeGoodby = (index: number) => {
     dispatch(goodbye(index));
   };
 
@@ -17,7 +25,7 @@ export const GetOrGoodby = ({ index }) => {
     <Button
       className="bg-amber-900"
       value={index}
-      onClick={(e) => PokemonGet(index)}
+      onClick={() => PokemonGet(index)}
       variant="light"
       color="blue"
       fullWidth
@@ -28,7 +36,7 @@ export const GetOrGoodby = ({ index }) => {
   ) : (
     <Button
       value={index}
-      onClick={(e) => PokeGoodby(index)}
+      onClick={() => PokeGoodby(index)}
       variant="light"
       color="blue"
       fullWidth

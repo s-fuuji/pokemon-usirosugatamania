@@ -1,10 +1,11 @@
-import { PokeCard } from "../../../components/PokeCard";
+import { PokeCard } from "../../../components/util/PokeCard";
 import { usePokeSWR } from "../../../hooks/usePokeSwr";
 import { useRouter } from "next/router";
-
-const PokeSingle = function () {
+import { NextPage } from "next/types";
+import React from 'react'
+const PokeSingle: NextPage = function () {
   const { poke, pokeError } = usePokeSWR();
-  const id = useRouter().query.id;
+  const id = Number(useRouter().query.id);
   const indexId = Number(id) + 1;
   const pokeid = poke ? poke[id] : null;
 
@@ -12,13 +13,13 @@ const PokeSingle = function () {
     <>
       <div className="flex justify-center">
         <PokeCard
-          imgurl={pokeid?.sprites.back_default}
+          imgUrl={pokeid?.sprites.back_default}
           link="/"
           index={indexId}
         />
         {pokeid?.sprites.back_female ? (
           <PokeCard
-            imgurl={pokeid?.sprites.back_female}
+            imgUrl={pokeid?.sprites.back_female}
             link="/"
             index={indexId}
           />

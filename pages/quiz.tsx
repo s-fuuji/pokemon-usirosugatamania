@@ -3,31 +3,49 @@ import { useState } from "react";
 import { QuizFinish } from "../components/quiz/QuizFinish";
 import { ShuffleCard } from "../components/quiz/ShuffleCard";
 import { usePokeSWR } from "../hooks/usePokeSwr";
+import React from 'react'
+import { NextPage } from "next/types";
+import { quizImgUrl } from "../components/types/type";
 
-export const Quiz = () => {
+type cleared = {
+  correctCount: string[];
+  quizCleared: boolean
+}
+
+type randomQuestion = {
+  selectPokeIndex: number;
+  quizImgUrl: quizImgUrl
+  prevQuizPokeArray: number[];
+
+}
+
+export const Quiz: NextPage = () => {
   const { poke, pokeError } = usePokeSWR();
-  const [cleared, setCleared] = useState({
+  const [cleared, setCleared] = useState<cleared>({
     correctCount: [],
     quizCleared: false,
   });
 
-  const [randomQuestion, setRandomQuestion] = useState({
+  const [randomQuestion, setRandomQuestion] = useState<randomQuestion>({
     selectPokeIndex: -1,
-    quizImgUrl: "",
-    prevQuizPokeArray: [],
+    quizImgUrl: {
+      maleUrl: "",
+      femaleUrl: "",
+    },
+    prevQuizPokeArray: [0],
   });
 
   const { selectPokeIndex, quizImgUrl, prevQuizPokeArray } = randomQuestion;
 
-  const quizPokeArray = poke?.filter((p) => p.sprites.back_female !== null);
+  const quizPokeArray = poke ? poke.filter((p: any) => p.sprites.back_female !== null) : [0]
   const numAllQuestion = quizPokeArray?.length;
-  const numNowQuestion = cleared.correctCount.length;
-  const numCorrect = cleared.correctCount.filter((s) => s === 1).length;
+  const numNowQuestion = cleared.correctCount.length + 1;
+  const numCorrect = cleared.correctCount.filter((s) => s === "correct").length;
 
   const Randomizer = () => {
     const newQuizPokeArray =
       selectPokeIndex >= 0
-        ? prevQuizPokeArray.filter((q, i) => i !== selectPokeIndex)
+        ? prevQuizPokeArray?.filter((q, i) => i !== selectPokeIndex)
         : quizPokeArray;
 
     const selectPokeNum = Math.floor(Math.random() * newQuizPokeArray?.length);
@@ -43,23 +61,24 @@ export const Quiz = () => {
   };
 
   const CorrectAnswer = () => {
-    setCleared({ ...cleared, quizCleared: false });
-    console.log(cleared);
+    setCleared({ ...cleared, correctCount: [...cleared.correctCount, "correct"] });
     prevQuizPokeArray.length !== 1
       ? Randomizer()
-      : setCleared({ ...cleared, quizCleared: false });
+      : setCleared({ ...cleared, quizCleared: true });
   };
 
   const InCorrectAnswer = () => {
-    setCleared({ correctCount: [...cleared.correctCount, 0], ...cleared });
+    setCleared({ ...cleared, correctCount: [...cleared.correctCount, "inCorrect"] })
     prevQuizPokeArray.length !== 1
       ? Randomizer()
-      : setCleared({ ...cleared, quizCleared: false });
+      : setCleared({ ...cleared, quizCleared: true });
   };
+
+
 
   return cleared.quizCleared ? (
     <QuizFinish numCorrect={numCorrect} numQuestion={numAllQuestion} />
-  ) : quizImgUrl !== "" ? (
+  ) : quizImgUrl.maleUrl !== "" ? (
     <ShuffleCard
       CorrectAnswer={CorrectAnswer}
       InCorrectAnswer={InCorrectAnswer}

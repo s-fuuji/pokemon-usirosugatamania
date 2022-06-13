@@ -1,11 +1,13 @@
 import Head from "next/head";
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
-import { Header } from "../components/layout/header";
-import { store } from "../slicer/store";
+import { Header } from "../components/layout/Header";
+import { store } from "../slicer/store"
 import { Provider } from "react-redux";
+import { AppProps } from "next/dist/shared/lib/router/router";
+import React from 'react'
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }:AppProps) {
   return (
     <div className="bg-quiz-back min-h-screen">
       <Head>

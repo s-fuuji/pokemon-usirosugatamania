@@ -1,6 +1,15 @@
 import { QuizCard } from "./QuizCard";
+import React, { ReactNode } from 'react'
+import { quizImgUrl } from "../types/type";
 
-export const ShuffleCard = ({
+type Props = {
+  CorrectAnswer: VoidFunction,
+  InCorrectAnswer: VoidFunction,
+  quizImgUrl: quizImgUrl
+  children: ReactNode
+}
+
+export const ShuffleCard: React.FC<Props> = ({
   CorrectAnswer,
   InCorrectAnswer,
   quizImgUrl,
@@ -13,12 +22,12 @@ export const ShuffleCard = ({
   return (
     <div className="flex justify-center items-center">
       <QuizCard
-        imgurl={rCorrect ? maleUrl : femaleUrl}
+        imgUrl={rCorrect ? maleUrl : femaleUrl}
         onClick={rCorrect ? InCorrectAnswer : CorrectAnswer}
       />
       {children}
       <QuizCard
-        imgurl={rCorrect ? femaleUrl : maleUrl}
+        imgUrl={rCorrect ? femaleUrl : maleUrl}
         onClick={rCorrect ? CorrectAnswer : InCorrectAnswer}
       />
     </div>
