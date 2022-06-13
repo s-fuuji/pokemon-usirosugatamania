@@ -6,8 +6,12 @@ import { store } from "../slicer/store"
 import { Provider } from "react-redux";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import React from 'react'
+import { PersistGate } from "redux-persist/integration/react";
+import persistStore from "redux-persist/lib/persistStore";
 
-function MyApp({ Component, pageProps }:AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
+
+  let persistor = persistStore(store);
   return (
     <div className="bg-quiz-back min-h-screen">
       <Head>
@@ -15,16 +19,18 @@ function MyApp({ Component, pageProps }:AppProps) {
       </Head>
 
       <Provider store={store}>
-        <MantineProvider
-          theme={{ fontFamily: "Open Sans" }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <Header />
-          <main className="pt-24">
-            <Component {...pageProps} />
-          </main>
-        </MantineProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <MantineProvider
+            theme={{ fontFamily: "Open Sans" }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <Header />
+            <main className="pt-24">
+              <Component {...pageProps} />
+            </main>
+          </MantineProvider>
+        </PersistGate>
       </Provider>
     </div>
   );
