@@ -20,7 +20,7 @@ type randomQuestion = {
 }
 
 export const Quiz: NextPage = () => {
-  const { poke, pokeError } = usePokeSWR();
+  const { pokemonList, pokemonListError } = usePokeSWR();
   const [cleared, setCleared] = useState<cleared>({
     correctCount: [],
     quizCleared: false,
@@ -37,7 +37,7 @@ export const Quiz: NextPage = () => {
 
   const { selectPokeIndex, quizImgUrl, prevQuizPokeArray } = randomQuestion;
 
-  const quizPokeArray = poke ? poke.filter((p: any) => p.sprites.back_female !== null) : [0]
+  const quizPokeArray = pokemonList ? pokemonList.filter((p: any) => p.sprites.back_female !== null) : [0]
   const numAllQuestion = quizPokeArray?.length;
   const numNowQuestion = cleared.correctCount.length + 1;
   const numCorrect = cleared.correctCount.filter((s) => s === "correct").length;

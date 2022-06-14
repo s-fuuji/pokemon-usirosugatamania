@@ -9,16 +9,16 @@ type Props = {
   imgUrl: string,
   link: string,
   index: number,
-  serchPokemon: string
+  serchPokemon?: string
 }
 
 export const PokeCard: React.FC<Props> = ({ imgUrl, link, index, serchPokemon }) => {
-  const { data: pokeSpecies, error: spexiesError } = useSWR(
-    index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
+  const { data: pokemonListSpecies, error: spexiesError } = useSWR(
+    index ? `https://pokemonListapi.co/api/v2/pokemonListmon-species/${index}/` : null,
     fetcher
   );
 
-  const checkSerchPokemon = pokeSpecies?.names[0].name.indexOf(
+  const checkSerchPokemon = pokemonListSpecies?.names[0].name.indexOf(
     serchPokemon)
 
 
@@ -40,13 +40,13 @@ export const PokeCard: React.FC<Props> = ({ imgUrl, link, index, serchPokemon })
           </Link>
         </Card.Section>
         <Group position="apart" style={{ marginBottom: 5, marginTop: 6 }}>
-          <Text weight={500}>{pokeSpecies?.names[0].name}</Text>
+          <Text weight={500}>{pokemonListSpecies?.names[0].name}</Text>
           <Badge color="pink" variant="light">
             GET IT!
           </Badge>
         </Group>
         <Text size="sm" style={{ color: "black", lineHeight: 1.5 }}>
-          {pokeSpecies?.flavor_text_entries[22].flavor_text}
+          {pokemonListSpecies?.flavor_text_entries[22].flavor_text}
         </Text>
         <GetOrGoodby index={index} />
       </Card>

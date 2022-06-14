@@ -19,18 +19,18 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
 
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <MantineProvider
-            theme={{ fontFamily: "Open Sans" }}
-            withGlobalStyles
-            withNormalizeCSS
-          >
-            <Header />
-            <main className="pt-24">
-              <Component {...pageProps} />
-            </main>
-          </MantineProvider>
-        </PersistGate>
+
+        <MantineProvider
+          theme={{ fontFamily: "Open Sans" }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <Header />
+          <main className="pt-24">
+            <Component {...pageProps} />
+          </main>
+        </MantineProvider>
+
       </Provider>
     </div>
   );
