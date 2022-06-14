@@ -7,7 +7,7 @@ import { storeState } from "../slicer/store";
 
 const Battle: NextPage = () => {
     const [rivalPoke, setRivalPoke] = useState([])
-    const [myBattleParty, setMyBattleParty] = useState([])
+    const [myBattleParty, setMyBattleParty]: any[] = useState([])
     const { pokemonList, pokemonListError } = usePokeSWR();
     const got = useSelector((state: storeState) => state.got)
 
@@ -21,19 +21,24 @@ const Battle: NextPage = () => {
 
 
 
-    const myPartyChange = (e) => {
-        setMyBattleParty([...myBattleParty, e.target.value])
+    const myPartyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMyBattleParty(!myBattleParty.includes(e.target.value) ?
+            [...myBattleParty, e.target.value] :
+            myBattleParty.filter((menber: string) => {
+                return menber !== e.target.value
+            }))
     }
 
     return (
         <div className="text-center">
             <div className="flex justify-center">
                 {pokemonList ? got?.map((gotPokeIndex: number, index: number) => {
-                    return <label className="flex-col">
+                    return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col">
                         <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-10" />
                         <input
+                            id={`id_${index}`}
                             type="checkbox"
-                            checked={true}
+
                             onChange={myPartyChange}
                             value={gotPokeIndex}
                         />
