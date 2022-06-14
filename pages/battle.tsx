@@ -1,15 +1,29 @@
 import { Button, Image } from "@mantine/core";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { isMemberName } from "typescript";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
 const Battle: NextPage = () => {
     const [rivalPoke, setRivalPoke] = useState([])
-    const [myBattleParty, setMyBattleParty]: any[] = useState([])
-    const { pokemonList, pokemonListError } = usePokeSWR();
+    const [isCheckDisabled, setIsCheckDisabled] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(false)
     const got = useSelector((state: storeState) => state.got)
+    const [myBattleParty, setMyBattleParty]: any[] = useState(
+        got.map((got: any) => {
+            return ({
+                pokeIndex: got,
+                checked: false,
+            })
+        })
+    )
+    const { pokemonList, pokemonListError } = usePokeSWR();
+
+
+
+
 
     const pokemonBattle = () => {
         const rivalPartyArray = [...Array(6)].map(() => {
@@ -19,15 +33,22 @@ const Battle: NextPage = () => {
 
     }
 
+    useEffect(() => {
+        myBattleParty.filter(member => member.checked).length === 3 ?
+            setIsDisabled(true) : setIsDisabled(false)
+    }, [myBattleParty])
 
 
-    const myPartyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMyBattleParty(!myBattleParty.includes(e.target.value) ?
-            [...myBattleParty, e.target.value] :
-            myBattleParty.filter((menber: string) => {
-                return menber !== e.target.value
-            }))
+    const myPartyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const toggleParty = myBattleParty.map((member: any, i: number) => {
+            return i !== index ? member : { ...member, checked: !member.checked }
+        }
+        )
+        setMyBattleParty(toggleParty)
     }
+
+
+
 
     return (
         <div className="text-center">
@@ -38,9 +59,9 @@ const Battle: NextPage = () => {
                         <input
                             id={`id_${index}`}
                             type="checkbox"
+                            disabled={!myBattleParty[index].checked ? isDisabled : false}
+                            onChange={(e) => myPartyChange(e, index)}
 
-                            onChange={myPartyChange}
-                            value={gotPokeIndex}
                         />
 
                     </label>
