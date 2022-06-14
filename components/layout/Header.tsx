@@ -35,6 +35,15 @@ export const Header: React.FC = () => {
             <a>クイズ</a>
           </Button>
         </Link>
+        <Link href="/battle">
+          <Button
+            variant="gradient"
+            gradient={{ from: "orange", to: "red" }}
+            style={{ marginBottom: 30 }}
+          >
+            <a>ポケモンバトル</a>
+          </Button>
+        </Link>
         <ul className="flex gap-3 ">
           <li>初代：{triedQuiz.red}</li>
           <li>金銀：{triedQuiz.gold}</li>
