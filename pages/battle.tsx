@@ -1,4 +1,4 @@
-import { Button, Image } from "@mantine/core";
+import { Button, Checkbox, Divider, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -29,7 +29,7 @@ const Battle: NextPage = () => {
 
 
     const pokemonBattle = () => {
-        setIsBattle(true)
+
     }
 
     useEffect(() => {
@@ -53,55 +53,83 @@ const Battle: NextPage = () => {
         )
         const rivalBattleParty = randomNumber(0, 6, 3);
         const newPartyStatus = {
-            "player": checkedMyPokemon.map((member) => { return { "id": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
-            "rival": rivalBattleParty.map((member) => { return { "id": pokemonList[member]?.sprites.back_default, "power": 10 } })
+            "player": checkedMyPokemon.map((member) => { return { "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
+            "rival": rivalBattleParty.map((member) => { return { "imgUrl": pokemonList[member]?.sprites.back_default, "power": 10 } })
         }
         setPartyStatus(newPartyStatus);
+        setIsBattle(true)
     }
 
+    const selectFighter = () => {
+
+    }
 
     return (
-        <div className="text-center">
-            <div className="flex justify-center">
-                {rivalParty?.map((rivalPokeIndex: any) => {
-                    return <Image key={Math.random()}
-                        src={pokemonList ? pokemonList[rivalPokeIndex].sprites.back_default : null}
-                        className="rounded-full w-10" />
-                })}
+        <div >
+            {!isBattle ? <div className="text-center">
+                <div className="flex justify-center">
+                    {rivalParty?.map((rivalPokeIndex: any) => {
+                        return <Image className="w-28" key={Math.random()}
+                            src={pokemonList ? pokemonList[rivalPokeIndex].sprites.back_default : null}
+                            className="rounded-full w-10" />
+                    })}
+                </div>
+                <p className="text-red-500 text-4xl">VS</p>
+
+                <div className="flex justify-center">
+                    {pokemonList ? got?.map((gotPokeIndex: number, index: number) => {
+                        return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col">
+                            <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-10" />
+                            <Checkbox
+                                id={`id_${index}`}
+                                disabled={!myBattleParty[index].checked ? isDisabled : false}
+                                onChange={(e) => myPartyChange(e, index)}
+                            />
+                        </label>
+                    }) : null}
+                </div>
             </div>
-            <p className="text-red-500 text-4xl">VS</p>
+                :
+                <div className="flex justify-around">
+                    <div>
+                        {partyStatus.player.map((member: any, index: number) => {
+                            return <label htmlFor={`battleId_${index}`} key={`battleKey_${index}`} className="flex items-center">
+                                <Image src={member.imgUrl} className="rounded-full w-44" />
+                                <Checkbox
+                                    size="xl"
+                                    id={`battleId_${index}`}
+                                    disabled={false}
+                                    onChange={selectFighter}
+                                />
+                            </label>
+                        })}
+                    </div>
+                    <div>
+                        {partyStatus.rival.map((member: any, index: number) => {
+                            return <Image src={member.imgUrl} className="rounded-full w-44" />
+                        })}
+                    </div>
+                </div>
+            }
 
-            <div className="flex justify-center">
-                {pokemonList ? got?.map((gotPokeIndex: number, index: number) => {
-                    return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col">
-                        <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-10" />
-                        <input
-                            id={`id_${index}`}
-                            type="checkbox"
-                            disabled={!myBattleParty[index].checked ? isDisabled : false}
-                            onChange={(e) => myPartyChange(e, index)}
-                        />
-                    </label>
-                }) : null}
+            <div className="text-center">
+                {!isDisabled ?
+                    <Button
+                        onClick={pokemonBattle}
+                        variant="gradient"
+                        gradient={{ from: "orange", to: "red" }}
+                        style={{ marginBottom: 30 }}
+                    >
+                        バトルの準備
+                    </Button> : <Button
+                        onClick={battleStart}
+                        variant="gradient"
+                        gradient={{ from: "orange", to: "red" }}
+                        style={{ marginBottom: 30 }}
+                    >
+                        バトル開始
+                    </Button>}
             </div>
-
-
-            {!isDisabled ?
-                <Button
-                    onClick={pokemonBattle}
-                    variant="gradient"
-                    gradient={{ from: "orange", to: "red" }}
-                    style={{ marginBottom: 30 }}
-                >
-                    バトルの準備
-                </Button> : <Button
-                    onClick={battleStart}
-                    variant="gradient"
-                    gradient={{ from: "orange", to: "red" }}
-                    style={{ marginBottom: 30 }}
-                >
-                    バトル開始
-                </Button>}
         </div>
     )
 }
