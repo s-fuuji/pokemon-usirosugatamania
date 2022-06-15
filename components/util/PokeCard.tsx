@@ -14,7 +14,7 @@ type Props = {
 
 export const PokeCard: React.FC<Props> = ({ imgUrl, link, index, serchPokemon }) => {
   const { data: pokemonListSpecies, error: spexiesError } = useSWR(
-    index ? `https://pokemonListapi.co/api/v2/pokemonListmon-species/${index}/` : null,
+    index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
     fetcher
   );
 
