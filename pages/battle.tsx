@@ -2,7 +2,10 @@ import { Button, Checkbox, Divider, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { DiceRollEffect } from "../components/pokemonBattle/DiceRollEffect";
+import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
 import { randomNumber } from "../components/pokemonBattle/RandomNumber";
+import { tripleDice } from "../components/pokemonBattle/TripleDice";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
@@ -10,9 +13,10 @@ const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
     const [isDisabled, setIsDisabled] = useState(false)
     const [isBattle, setIsBattle] = useState(false)
+    const [diceCount, setDiceCount] = useState({})
     const got = useSelector((state: storeState) => state.got)
     const { pokemonList, pokemonListError } = usePokeSWR();
-
+    const [partyStatus, setPartyStatus] = useState<any>()
     const [myBattleParty, setMyBattleParty] = useState<any[]>(
         got.map((got: any) => {
             return ({
@@ -25,7 +29,7 @@ const Battle: NextPage = () => {
         { hp: 50, timeLiset: 3 },
         { hp: 50, timeLiset: 3 }
     ])
-    const [partyStatus, setPartyStatus] = useState<any>()
+
 
 
     const pokemonBattle = () => {
@@ -53,8 +57,8 @@ const Battle: NextPage = () => {
         )
         const rivalBattleParty = randomNumber(0, 6, 3);
         const newPartyStatus = {
-            "player": checkedMyPokemon.map((member) => { return { "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
-            "rival": rivalBattleParty.map((member) => { return { "imgUrl": pokemonList[member]?.sprites.back_default, "power": 10 } })
+            "player": checkedMyPokemon.map((member, index) => { return { id: index, "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
+            "rival": rivalBattleParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member]?.sprites.back_default, "power": 10 } })
         }
         setPartyStatus(newPartyStatus);
         setIsBattle(true)
@@ -64,22 +68,37 @@ const Battle: NextPage = () => {
 
     }
 
+
+
+    const powerUp = (powerUpIndex) => {
+        const newPartyStatus = {
+            ...partyStatus, "player": [...partyStatus.player, {
+                ...partyStatus.player[powerUpIndex],
+                "power": partyStatus.player[powerUpIndex].power + 1
+            }]
+        }
+        setPartyStatus(newPartyStatus)
+    }
+
+
+
+
     return (
         <div >
             {!isBattle ? <div className="text-center">
                 <div className="flex justify-center">
                     {rivalParty?.map((rivalPokeIndex: any) => {
-                        return <Image className="w-28" key={Math.random()}
+                        return <Image key={Math.random()}
                             src={pokemonList ? pokemonList[rivalPokeIndex].sprites.back_default : null}
-                            className="rounded-full w-10" />
+                            className="rounded-full w-28" />
                     })}
                 </div>
                 <p className="text-red-500 text-4xl">VS</p>
 
                 <div className="flex justify-center">
                     {pokemonList ? got?.map((gotPokeIndex: number, index: number) => {
-                        return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col">
-                            <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-10" />
+                        return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col items-center">
+                            <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-28" />
                             <Checkbox
                                 id={`id_${index}`}
                                 disabled={!myBattleParty[index].checked ? isDisabled : false}
@@ -93,17 +112,24 @@ const Battle: NextPage = () => {
                 <div className="flex justify-around">
                     <div>
                         {partyStatus.player.map((member: any, index: number) => {
-                            return <label htmlFor={`battleId_${index}`} key={`battleKey_${index}`} className="flex items-center">
-                                <Image src={member.imgUrl} className="rounded-full w-44" />
-                                <Checkbox
-                                    size="xl"
-                                    id={`battleId_${index}`}
-                                    disabled={false}
-                                    onChange={selectFighter}
-                                />
-                            </label>
+                            return <div className="flex items-center">
+                                <Button onClick={() => powerUp(index)} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                                    test
+                                </Button>
+                                <div>{member.power}</div>
+                                <label htmlFor={`battleId_${index}`} key={`battleKey_${index}`} >
+                                    <Image src={member.imgUrl} className="rounded-full w-44" />
+                                    <Checkbox
+                                        size="xl"
+                                        id={`battleId_${index}`}
+                                        disabled={false}
+                                        onChange={selectFighter}
+                                    />
+                                </label>
+                            </div>
                         })}
                     </div>
+
                     <div>
                         {partyStatus.rival.map((member: any, index: number) => {
                             return <Image src={member.imgUrl} className="rounded-full w-44" />
@@ -130,6 +156,8 @@ const Battle: NextPage = () => {
                         バトル開始
                     </Button>}
             </div>
+
+            <DiceRollPhase />
         </div>
     )
 }
