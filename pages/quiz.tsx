@@ -9,12 +9,12 @@ import { quizImgUrl } from "../components/types/type";
 
 type cleared = {
   correctCount: string[];
-  quizCleared: boolean
+  quizCleared: boolean;
 }
 
 type randomQuestion = {
   selectPokeIndex: number;
-  quizImgUrl: quizImgUrl
+  quizImgUrl: quizImgUrl;
   prevQuizPokeArray: number[];
 
 }

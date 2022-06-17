@@ -11,7 +11,7 @@ type Props = {
 export const FilteredPoke: React.FC<Props> = React.memo(
   ({ isAllPokemon, serchPokemon }) => {
     const { pokemonList, pokemonListError } = usePokeSWR();
-    //console.log(serchPokemon);
+
 
 
     const gridCard = (pokemonList: any, index: number) => {

@@ -2,22 +2,20 @@ import { Button, Checkbox, Divider, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { DiceRollEffect } from "../components/pokemonBattle/DiceRollEffect";
 import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
 import { randomNumber } from "../components/pokemonBattle/RandomNumber";
-import { tripleDice } from "../components/pokemonBattle/TripleDice";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
 const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
+    const [isStatusUpPhase, setIsStatusUpPhase] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [isBattle, setIsBattle] = useState(false)
-    const [diceCount, setDiceCount] = useState({})
     const got = useSelector((state: storeState) => state.got)
     const { pokemonList, pokemonListError } = usePokeSWR();
     const [partyStatus, setPartyStatus] = useState<any>()
-    const [myBattleParty, setMyBattleParty] = useState<any[]>(
+    const [myBattleParty, setMyBattleParty] = useState(
         got.map((got: any) => {
             return ({
                 pokeIndex: got,
@@ -71,6 +69,7 @@ const Battle: NextPage = () => {
 
 
     const powerUp = (powerUpIndex) => {
+
         const newPartyStatus = {
             ...partyStatus, "player": [...partyStatus.player, {
                 ...partyStatus.player[powerUpIndex],
@@ -157,7 +156,7 @@ const Battle: NextPage = () => {
                     </Button>}
             </div>
 
-            <DiceRollPhase />
+            <DiceRollPhase setIsStatusUpPhase={setIsStatusUpPhase} />
         </div>
     )
 }
