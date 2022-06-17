@@ -16,8 +16,9 @@ const Battle: NextPage = () => {
     const { pokemonList, pokemonListError } = usePokeSWR();
     const [partyStatus, setPartyStatus] = useState<any>()
     const [myBattleParty, setMyBattleParty] = useState(
-        got.map((got: any) => {
+        got.map((got: any, index: number) => {
             return ({
+                "id": index + 1,
                 pokeIndex: got,
                 checked: false,
             })
@@ -28,6 +29,7 @@ const Battle: NextPage = () => {
         { hp: 50, timeLiset: 3 }
     ])
 
+    console.log(myBattleParty);
 
 
     const pokemonBattle = () => {
