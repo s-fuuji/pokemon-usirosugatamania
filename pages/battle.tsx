@@ -7,18 +7,25 @@ import { randomNumber } from "../components/pokemonBattle/RandomNumber";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
+export type diceCount = {
+    threeDice: number[];
+    totalDice: number;
+    totalDiceLimit: number;
+}
+
 const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
     const [isStatusUpPhase, setIsStatusUpPhase] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [isBattle, setIsBattle] = useState(false)
+    const [diceCount, setDiceCount] = useState<diceCount>({ threeDice: [0, 0, 0], totalDice: 0, totalDiceLimit: 0 });
     const got = useSelector((state: storeState) => state.got)
     const { pokemonList, pokemonListError } = usePokeSWR();
     const [partyStatus, setPartyStatus] = useState<any>()
     const [myBattleParty, setMyBattleParty] = useState(
         got.map((got: any, index: number) => {
             return ({
-                "id": index + 1,
+                "id": index,
                 pokeIndex: got,
                 checked: false,
             })
@@ -29,7 +36,7 @@ const Battle: NextPage = () => {
         { hp: 50, timeLiset: 3 }
     ])
 
-    console.log(myBattleParty);
+
 
 
     const pokemonBattle = () => {
@@ -52,12 +59,12 @@ const Battle: NextPage = () => {
     /*ここまでが自分の手持ちの選択をする処理 */
 
     const battleStart = () => {
-        const checkedMyPokemon = myBattleParty.filter(
+        const checkedMyParty = myBattleParty.filter(
             member => member.checked
         )
         const rivalBattleParty = randomNumber(0, 6, 3);
         const newPartyStatus = {
-            "player": checkedMyPokemon.map((member, index) => { return { id: index, "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
+            "player": checkedMyParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
             "rival": rivalBattleParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member]?.sprites.back_default, "power": 10 } })
         }
         setPartyStatus(newPartyStatus);
@@ -70,16 +77,28 @@ const Battle: NextPage = () => {
 
 
 
-    const powerUp = (powerUpIndex) => {
+    const powerUp = (powerUpIndex: number, up?: string) => {
 
-        const newPartyStatus = {
-            ...partyStatus, "player": [...partyStatus.player, {
-                ...partyStatus.player[powerUpIndex],
-                "power": partyStatus.player[powerUpIndex].power + 1
-            }]
+        console.log(diceCount.totalDice);
+
+        if (up && diceCount.totalDice > 0 || !up && diceCount.totalDice < diceCount.totalDiceLimit) {
+            const powerUpPokemon = partyStatus.player.map(member => {
+                return member.id === powerUpIndex ? { ...member, "power": member.power > 0 ? (member.power(up ? +1 : -1)) : member.power } : member;
+            });
+
+            const newPartyStatus = {
+                ...partyStatus, "player": powerUpPokemon
+            };
+            setDiceCount({ ...diceCount, totalDice: diceCount.totalDice + (up ? -1 : 1) })
+            setPartyStatus(newPartyStatus)
+            console.log(diceCount);
+
+        } else {
+            console.log("null");
         }
-        setPartyStatus(newPartyStatus)
     }
+
+
 
 
 
@@ -114,10 +133,16 @@ const Battle: NextPage = () => {
                     <div>
                         {partyStatus.player.map((member: any, index: number) => {
                             return <div className="flex items-center">
-                                <Button onClick={() => powerUp(index)} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                                    test
+                                <Button onClick={() => powerUp(index, "up")} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                                    +
                                 </Button>
-                                <div>{member.power}</div>
+                                <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                                    {member.power}
+                                </Button>
+                                <Button onClick={() => powerUp(index)} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                                    -
+                                </Button>
+
                                 <label htmlFor={`battleId_${index}`} key={`battleKey_${index}`} >
                                     <Image src={member.imgUrl} className="rounded-full w-44" />
                                     <Checkbox
@@ -158,7 +183,7 @@ const Battle: NextPage = () => {
                     </Button>}
             </div>
 
-            <DiceRollPhase setIsStatusUpPhase={setIsStatusUpPhase} />
+            <DiceRollPhase diceCount={diceCount} setDiceCount={setDiceCount} setIsStatusUpPhase={setIsStatusUpPhase} />
         </div>
     )
 }

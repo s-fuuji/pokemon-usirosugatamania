@@ -8,7 +8,7 @@ export const DiceRollEffect = () => {
     const end = () => { clearInterval(start) }
     setTimeout(end, 2000);
 
-    console.log(count);
+
 
 
     return <div><Paper shadow="xs" p="md">

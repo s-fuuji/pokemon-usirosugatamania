@@ -1,26 +1,31 @@
 import { Button, Paper, Text } from "@mantine/core"
 import { Dispatch, SetStateAction, useState } from "react";
+import { diceCount } from "../../pages/battle";
 import { DiceRollEffect } from "./DiceRollEffect";
-import { tripleDice } from "./TripleDice";
+import { TripleDice } from "./TripleDice";
+type setBoolean = Dispatch<SetStateAction<boolean>>
+type setNumberArray = Dispatch<SetStateAction<number[]>>
 
 type Props = {
-    setIsStatusUpPhase: Dispatch<SetStateAction<boolean>>
+    setIsStatusUpPhase: setBoolean;
+    diceCount: diceCount;
+    setDiceCount: setNumberArray
 }
 
 
-type end = Dispatch<SetStateAction<boolean>>;
-type start = Dispatch<SetStateAction<boolean>>;
+type end = setBoolean
+type start = setBoolean;
 
 
-export const DiceRollPhase: React.FC<Props> = ({ setIsStatusUpPhase }) => {
+export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setIsStatusUpPhase }) => {
     const [isDicePhase, setIsDicePhase] = useState(false);
-    const [diceCount, setDiceCount] = useState([0, 0, 0]);
+
     const phaseChange = (end: end, start: start) => {
         end(false);
         start(true);
     }
     const diceEffectStart = () => {
-        tripleDice(setDiceCount)
+        TripleDice(setDiceCount)
         setIsDicePhase(true);
         setIsStatusUpPhase(false)
         setTimeout(() => { phaseChange(setIsDicePhase, setIsStatusUpPhase) }, 2000)
@@ -29,11 +34,14 @@ export const DiceRollPhase: React.FC<Props> = ({ setIsStatusUpPhase }) => {
 
     return <div className="text-center">
         {!isDicePhase ? <div><div className="flex justify-center">
-            {diceCount.map((count: number) => {
+            {diceCount.threeDice.map((count: number) => {
                 return <Paper shadow="xs" p="md">
                     <Text>{count}</Text>
                 </Paper>
             })}
+            <Paper className="ml-3" shadow="xs" p="md">
+                <Text>{diceCount.totalDice}</Text>
+            </Paper>
         </div>
             <Button onClick={diceEffectStart}>サイコロを振る</Button></div>
             : <div className="flex justify-center">
