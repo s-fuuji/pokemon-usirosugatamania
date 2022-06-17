@@ -6,7 +6,7 @@ export const TripleDice = (setAny: any) => {
     const dice2 = diceRoll();
     const dice3 = diceRoll();
     const totalDice = dice1 + dice2 + dice3;
-    const newDice = { threeDice: [dice1, dice2, dice3], totalDice, totalDiceLimit: totalDice }
+    const newDice = { threeDice: [dice1, dice2, dice3], totalDice }
 
 
     setAny(newDice)

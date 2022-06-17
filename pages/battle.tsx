@@ -1,4 +1,4 @@
-import { Button, Checkbox, Divider, Image } from "@mantine/core";
+import { Button, Checkbox, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -21,6 +21,7 @@ type PartyStatus = {
 const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
     const [isStatusUpPhase, setIsStatusUpPhase] = useState(false)
+    const [isBattlePhase, setIsBattlePhase] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [isBattle, setIsBattle] = useState(false)
     const [diceCount, setDiceCount] = useState<diceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
@@ -30,7 +31,7 @@ const Battle: NextPage = () => {
     const [myBattleParty, setMyBattleParty] = useState(
         got.map((got: any, index: number) => {
             return ({
-                "id": index,
+                id: index,
                 pokeIndex: got,
                 checked: false,
             })
@@ -40,7 +41,10 @@ const Battle: NextPage = () => {
         { hp: 50, timeLiset: 3 },
         { hp: 50, timeLiset: 3 }
     ])
+    const [fighterOrder, setFighterOrder] = useState(
+        [...Array(3)].map((notUse, index) => { return { id: index, order: 0, checked: false } })
 
+    )
 
 
 
@@ -76,12 +80,21 @@ const Battle: NextPage = () => {
         setIsBattle(true)
     }
 
-    const selectFighter = () => {
+    const selectFighter = (order: number) => {
+        const orderIndex = fighterOrder.filter(fighter => fighter.checked).length;
 
+        const newFighterOrder = fighterOrder.map(fighter => {
+            return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked } : fighter
+        })
+        setFighterOrder(newFighterOrder);
+        orderIndex >= 2 && setIsBattlePhase(true)
     }
 
+    const orderLiset = () => {
+        setFighterOrder([...Array(3)].map((notUse, index) => { return { id: index, order: 0, checked: false } }));
+        setIsBattlePhase(false);
 
-
+    }
     const powerUp = (powerUpIndex: number, up?: string) => {
 
         if (up && diceCount.totalDice > 0 || !up && partyStatus.player[powerUpIndex].power > 0) {
@@ -94,7 +107,7 @@ const Battle: NextPage = () => {
             };
             setDiceCount({ ...diceCount, totalDice: diceCount.totalDice + (up ? -1 : 1) })
             setPartyStatus(newPartyStatus)
-            console.log(diceCount);
+
 
         } else {
             console.log("null");
@@ -102,6 +115,8 @@ const Battle: NextPage = () => {
     }
 
 
+
+    console.log(fighterOrder);
 
 
 
@@ -146,15 +161,19 @@ const Battle: NextPage = () => {
                                     -
                                 </Button>
 
-                                <label htmlFor={`battleId_${index}`} key={`battleKey_${index}`} >
+                                <label className="flex" htmlFor={`battleId_${index}`} key={`battleKey_${index}`} >
                                     <Image src={member.imgUrl} className="rounded-full w-44" />
                                     <Checkbox
                                         size="xl"
                                         id={`battleId_${index}`}
-                                        disabled={false}
-                                        onChange={selectFighter}
+                                        disabled={isBattlePhase}
+                                        onChange={() => selectFighter(index)}
+                                        checked={fighterOrder[index]?.checked}
                                     />
                                 </label>
+                                <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                                    順番をリセット
+                                </Button>
                             </div>
                         })}
                     </div>
