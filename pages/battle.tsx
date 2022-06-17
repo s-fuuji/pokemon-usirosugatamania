@@ -10,7 +10,12 @@ import { storeState } from "../slicer/store";
 export type diceCount = {
     threeDice: number[];
     totalDice: number;
-    totalDiceLimit: number;
+}
+
+
+type PartyStatus = {
+    "player": [{ id: number; "imgUrl": string | undefined; "power": number }],
+    "rival": [{ id: number; "imgUrl": string | undefined; "power": number }]
 }
 
 const Battle: NextPage = () => {
@@ -18,10 +23,10 @@ const Battle: NextPage = () => {
     const [isStatusUpPhase, setIsStatusUpPhase] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [isBattle, setIsBattle] = useState(false)
-    const [diceCount, setDiceCount] = useState<diceCount>({ threeDice: [0, 0, 0], totalDice: 0, totalDiceLimit: 0 });
+    const [diceCount, setDiceCount] = useState<diceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const got = useSelector((state: storeState) => state.got)
     const { pokemonList, pokemonListError } = usePokeSWR();
-    const [partyStatus, setPartyStatus] = useState<any>()
+    const [partyStatus, setPartyStatus] = useState()
     const [myBattleParty, setMyBattleParty] = useState(
         got.map((got: any, index: number) => {
             return ({
@@ -79,11 +84,9 @@ const Battle: NextPage = () => {
 
     const powerUp = (powerUpIndex: number, up?: string) => {
 
-        console.log(diceCount.totalDice);
-
-        if (up && diceCount.totalDice > 0 || !up && diceCount.totalDice < diceCount.totalDiceLimit) {
+        if (up && diceCount.totalDice > 0 || !up && partyStatus.player[powerUpIndex].power > 0) {
             const powerUpPokemon = partyStatus.player.map(member => {
-                return member.id === powerUpIndex ? { ...member, "power": member.power > 0 ? (member.power(up ? +1 : -1)) : member.power } : member;
+                return member.id === powerUpIndex ? { ...member, "power": member.power + (up ? +1 : -1) } : member;
             });
 
             const newPartyStatus = {
