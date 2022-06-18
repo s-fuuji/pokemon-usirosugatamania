@@ -1,34 +1,37 @@
-import { Button, Checkbox, Image } from "@mantine/core";
+import { Button, Checkbox, Divider, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { BattleField } from "../components/pokemonBattle/BattleField";
 import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
 import { randomNumber } from "../components/pokemonBattle/RandomNumber";
+import { SelectPokePhase } from "../components/pokemonBattle/SelectPokePhase";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
-export type diceCount = {
+export type DiceCount = {
     threeDice: number[];
     totalDice: number;
 }
 
-
-type PartyStatus = {
-    "player": [{ id: number; "imgUrl": string | undefined; "power": number }],
-    "rival": [{ id: number; "imgUrl": string | undefined; "power": number }]
+export type FighterOrder = {
+    id: number;
+    order: number;
+    checked: boolean
 }
 
 const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
     const [isStatusUpPhase, setIsStatusUpPhase] = useState(false)
     const [isBattlePhase, setIsBattlePhase] = useState(false)
-    const [isDisabled, setIsDisabled] = useState(false)
+
     const [isBattle, setIsBattle] = useState(false)
-    const [diceCount, setDiceCount] = useState<diceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
+    const [diceCount, setDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
+    const [rivalDiceCount, setRivalDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 })
     const got = useSelector((state: storeState) => state.got)
     const { pokemonList, pokemonListError } = usePokeSWR();
     const [partyStatus, setPartyStatus] = useState()
-    const [myBattleParty, setMyBattleParty] = useState(
+    const [myBattleParty, setMyBattleParty] = useState<FighterOrder[]>(
         got.map((got: any, index: number) => {
             return ({
                 id: index,
@@ -48,164 +51,88 @@ const Battle: NextPage = () => {
 
 
 
-    const pokemonBattle = () => {
-
-    }
-
-    useEffect(() => {
-        myBattleParty.filter(member => member.checked).length === 3 ?
-            setIsDisabled(true) : setIsDisabled(false)
-    }, [myBattleParty])
 
 
-    const myPartyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-        const toggleParty = myBattleParty.map((member: any, i: number) => {
-            return i !== index ? member : { ...member, checked: !member.checked }
-        }
-        )
-        setMyBattleParty(toggleParty)
-    }
-    /*ここまでが自分の手持ちの選択をする処理 */
-
-    const battleStart = () => {
-        const checkedMyParty = myBattleParty.filter(
-            member => member.checked
-        )
-        const rivalBattleParty = randomNumber(0, 6, 3);
-        const newPartyStatus = {
-            "player": checkedMyParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
-            "rival": rivalBattleParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member]?.sprites.back_default, "power": 10 } })
-        }
-        setPartyStatus(newPartyStatus);
-        setIsBattle(true)
-    }
-
-    const selectFighter = (order: number) => {
-        const orderIndex = fighterOrder.filter(fighter => fighter.checked).length;
-
-        const newFighterOrder = fighterOrder.map(fighter => {
-            return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked } : fighter
-        })
-        setFighterOrder(newFighterOrder);
-        orderIndex >= 2 && setIsBattlePhase(true)
-    }
-
-    const orderLiset = () => {
-        setFighterOrder([...Array(3)].map((notUse, index) => { return { id: index, order: 0, checked: false } }));
-        setIsBattlePhase(false);
-
-    }
-    const powerUp = (powerUpIndex: number, up?: string) => {
-
-        if (up && diceCount.totalDice > 0 || !up && partyStatus.player[powerUpIndex].power > 0) {
-            const powerUpPokemon = partyStatus.player.map(member => {
-                return member.id === powerUpIndex ? { ...member, "power": member.power + (up ? +1 : -1) } : member;
-            });
-
-            const newPartyStatus = {
-                ...partyStatus, "player": powerUpPokemon
-            };
-            setDiceCount({ ...diceCount, totalDice: diceCount.totalDice + (up ? -1 : 1) })
-            setPartyStatus(newPartyStatus)
-
-
-        } else {
-            console.log("null");
-        }
-    }
-
-
-
-    console.log(fighterOrder);
-
-
+    /* const startFight = () => {
+ 
+         const fighterSort = () => {
+             const newFighterOrder = fighterOrder.sort((fighterA, fighterB) => {
+                 if (fighterA.order < fighterB.order) return -1;
+                 if (fighterA.order > fighterB.order) return 1;
+                 return 0;
+             })
+             setFighterOrder(newFighterOrder)
+         }
+ 
+         const fighting = async () => {
+              const log = (num) => {
+                  return new Promise(resolve => {
+  
+  
+                      setTimeout(() => {
+                          console.log(num);
+                          resolve();
+                      }, 1000)
+                  });
+              }
+  
+  
+              await log(3);
+              await log(2);
+              await log(1);
+          }
+ 
+       }  } */
 
 
     return (
         <div >
-            {!isBattle ? <div className="text-center">
-                <div className="flex justify-center">
-                    {rivalParty?.map((rivalPokeIndex: any) => {
-                        return <Image key={Math.random()}
-                            src={pokemonList ? pokemonList[rivalPokeIndex].sprites.back_default : null}
-                            className="rounded-full w-28" />
-                    })}
-                </div>
-                <p className="text-red-500 text-4xl">VS</p>
-
-                <div className="flex justify-center">
-                    {pokemonList ? got?.map((gotPokeIndex: number, index: number) => {
-                        return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col items-center">
-                            <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-28" />
-                            <Checkbox
-                                id={`id_${index}`}
-                                disabled={!myBattleParty[index].checked ? isDisabled : false}
-                                onChange={(e) => myPartyChange(e, index)}
-                            />
-                        </label>
-                    }) : null}
-                </div>
-            </div>
+            {!isBattle ?
+                <SelectPokePhase
+                    rivalParty={rivalParty}
+                    pokemonList={pokemonList}
+                    myBattleParty={myBattleParty}
+                    setIsBattle={setIsBattle}
+                    setPartyStatus={setPartyStatus}
+                    setMyBattleParty={setMyBattleParty}
+                />
                 :
-                <div className="flex justify-around">
-                    <div>
-                        {partyStatus.player.map((member: any, index: number) => {
-                            return <div className="flex items-center">
-                                <Button onClick={() => powerUp(index, "up")} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                                    +
-                                </Button>
-                                <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                                    {member.power}
-                                </Button>
-                                <Button onClick={() => powerUp(index)} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                                    -
-                                </Button>
-
-                                <label className="flex" htmlFor={`battleId_${index}`} key={`battleKey_${index}`} >
-                                    <Image src={member.imgUrl} className="rounded-full w-44" />
-                                    <Checkbox
-                                        size="xl"
-                                        id={`battleId_${index}`}
-                                        disabled={isBattlePhase}
-                                        onChange={() => selectFighter(index)}
-                                        checked={fighterOrder[index]?.checked}
-                                    />
-                                </label>
-                                <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                                    順番をリセット
-                                </Button>
-                            </div>
-                        })}
-                    </div>
-
-                    <div>
-                        {partyStatus.rival.map((member: any, index: number) => {
-                            return <Image src={member.imgUrl} className="rounded-full w-44" />
-                        })}
-                    </div>
+                <div>
+                    <BattleField
+                        fighterOrder={fighterOrder}
+                        setFighterOrder={setFighterOrder}
+                        isBattlePhase={isBattlePhase}
+                        setIsBattlePhase={setIsBattlePhase}
+                        diceCount={diceCount}
+                        setDiceCount={setDiceCount}
+                        rivalDiceCount={rivalDiceCount}
+                        setRivalDiceCount={setRivalDiceCount}
+                        partyStatus={partyStatus}
+                        setPartyStatus={setPartyStatus} />
+                    <DiceRollPhase
+                        diceCount={diceCount}
+                        setDiceCount={setDiceCount}
+                        rivalDiceCount={rivalDiceCount}
+                        setRivalDiceCount={setRivalDiceCount}
+                        setIsStatusUpPhase={setIsStatusUpPhase} />
                 </div>
             }
 
-            <div className="text-center">
-                {!isDisabled ?
+            <div>
+                {isBattlePhase ?
                     <Button
-                        onClick={pokemonBattle}
+
                         variant="gradient"
                         gradient={{ from: "orange", to: "red" }}
                         style={{ marginBottom: 30 }}
                     >
-                        バトルの準備
-                    </Button> : <Button
-                        onClick={battleStart}
-                        variant="gradient"
-                        gradient={{ from: "orange", to: "red" }}
-                        style={{ marginBottom: 30 }}
-                    >
-                        バトル開始
-                    </Button>}
+                        バトルスタート
+                    </Button>
+                    : <div>
+                    </div>}
             </div>
 
-            <DiceRollPhase diceCount={diceCount} setDiceCount={setDiceCount} setIsStatusUpPhase={setIsStatusUpPhase} />
+
         </div>
     )
 }
