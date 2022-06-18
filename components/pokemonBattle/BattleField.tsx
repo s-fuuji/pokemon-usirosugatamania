@@ -17,25 +17,25 @@ type Props = {
 
 export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setIsBattlePhase, diceCount, setDiceCount, rivalDiceCount, setRivalDiceCount, partyStatus, setPartyStatus }) => {
 
-    console.log(rivalDiceCount);
+
 
     const rivalStatusUp = () => {
-        console.log(partyStatus);
-        console.log(rivalDiceCount);
-
+        let newRivalPartyStatus = partyStatus.rival
         for (let i = rivalDiceCount.totalDice; i > 0; i--) {
-            setRivalDiceCount({ ...rivalDiceCount, totalDice: rivalDiceCount.totalDice - 1 });
-            const powerUpIndex = randomNumber(0, 2, 1);
-            const newRivalPartyStatus = partyStatus.rival.map(rival => { return rival.id === powerUpIndex ? { ...rival, power: rival.power + 1 } : rival });
-            setPartyStatus({ ...partyStatus, rival: newRivalPartyStatus });
+            const powerUpIndex = randomNumber(0, 2, 1)[0];
+            const newRivalPartyStatuss = newRivalPartyStatus.map(rival => {
+                return rival.id === powerUpIndex ? { ...rival, power: rival.power + 1 } : rival
+            });
+            newRivalPartyStatus = newRivalPartyStatuss
         }
-
+        setPartyStatus(prev => {
+            return { ...prev, rival: newRivalPartyStatus }
+        })
     }
 
 
     const selectFighter = (order: number) => {
         const orderIndex = fighterOrder.filter(fighter => fighter.checked).length;
-
         const newFighterOrder = fighterOrder.map(fighter => {
             return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked } : fighter
         })

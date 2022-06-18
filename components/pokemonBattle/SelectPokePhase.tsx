@@ -16,7 +16,7 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsB
             setIsDisabled(true) : setIsDisabled(false)
     }, [myBattleParty])
 
-    console.log(myBattleParty);
+
 
 
 
