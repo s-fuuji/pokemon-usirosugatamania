@@ -1,11 +1,13 @@
-import { Button, Checkbox, Divider, Image } from "@mantine/core";
+import { Button, Checkbox, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { BattleField } from "../components/pokemonBattle/BattleField";
+import { BattleField, BattleFieldLayout } from "../components/pokemonBattle/BattleFieldLayout";
 import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
+import { FightingPhase } from "../components/pokemonBattle/FightingPhase";
 import { randomNumber } from "../components/pokemonBattle/RandomNumber";
 import { SelectPokePhase } from "../components/pokemonBattle/SelectPokePhase";
+import { StatusUpPhase } from "../components/pokemonBattle/StatusUpPhase";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
@@ -24,7 +26,10 @@ const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
     const [isStatusUpPhase, setIsStatusUpPhase] = useState(false)
     const [isBattlePhase, setIsBattlePhase] = useState(false)
-
+    const [fight, setFight] = useState(false)
+    const [playersStatus, setPlayersStatus] = useState({
+        playerHp: 50, rivalHp: 50
+    })
     const [isBattle, setIsBattle] = useState(false)
     const [diceCount, setDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const [rivalDiceCount, setRivalDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 })
@@ -40,21 +45,11 @@ const Battle: NextPage = () => {
             })
         })
     )
-    const [playerStatus, setPlayerStatus] = useState([
-        { hp: 50, timeLiset: 3 },
-        { hp: 50, timeLiset: 3 }
-    ])
+
     const [fighterOrder, setFighterOrder] = useState(
         [...Array(3)].map((notUse, index) => { return { id: index, order: 0, checked: false } })
 
     )
-
-
-
-
-
-
-
 
     return (
         <div >
@@ -69,41 +64,32 @@ const Battle: NextPage = () => {
                 />
                 :
                 <div>
-                    <BattleField
-                        fighterOrder={fighterOrder}
-                        setFighterOrder={setFighterOrder}
-                        isBattlePhase={isBattlePhase}
-                        setIsBattlePhase={setIsBattlePhase}
+                    <BattleFieldLayout
+                        playersStatus={playersStatus}
+                        diceCount={diceCount}
+                        rivalDiceCount={rivalDiceCount}
+                    />
+
+                    <StatusUpPhase
                         diceCount={diceCount}
                         setDiceCount={setDiceCount}
-                        rivalDiceCount={rivalDiceCount}
-                        setRivalDiceCount={setRivalDiceCount}
                         partyStatus={partyStatus}
-                        setPartyStatus={setPartyStatus} />
+                        setPartyStatus={setPartyStatus}
+                        setIsBattlePhase={setIsBattlePhase}
+                        rivalDiceCount={rivalDiceCount}
+                        setFight={setFight}
+                    >
+                        {fight && <FightingPhase playersStatus={playersStatus} setPlayersStatus={setPlayersStatus} partyStatus={partyStatus} />}
+                    </StatusUpPhase>
+
                     <DiceRollPhase
                         diceCount={diceCount}
                         setDiceCount={setDiceCount}
-                        rivalDiceCount={rivalDiceCount}
                         setRivalDiceCount={setRivalDiceCount}
+                        isStatusUpPhase={isStatusUpPhase}
                         setIsStatusUpPhase={setIsStatusUpPhase} />
                 </div>
             }
-
-            <div>
-                {isBattlePhase ?
-                    <Button
-
-                        variant="gradient"
-                        gradient={{ from: "orange", to: "red" }}
-                        style={{ marginBottom: 30 }}
-                    >
-                        バトルスタート
-                    </Button>
-                    : <div>
-                    </div>}
-            </div>
-
-
         </div>
     )
 }

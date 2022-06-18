@@ -2,7 +2,7 @@ import { Button, Image } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 
-export const Fighting = ({ partyStatus }) => {
+export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus }) => {
     const [order, setOrder] = useState(0);
     const [rivalOrder, setRivalOrder] = useState(0)
 
@@ -26,32 +26,43 @@ export const Fighting = ({ partyStatus }) => {
     })
     const [myDamage, setMydamage] = useState(newMyDamage)
 
+    const hitPointCheck = () => {
+        const newPlayersStatus = myDamage.reduce((prev, current) => {
+            console.log(prev.playerHp);
 
-
-
-    console.log(myDamage);
+            return current >= 0 ? { playerHp: prev.playerHp, rivalHp: prev.rivalHp - current } :
+                { playerHp: prev.playerHp + current, rivalHp: prev.rivalHp }
+        }, playersStatus)
+        setPlayersStatus(newPlayersStatus)
+    }
 
     useEffect((() => {
         setTimeout(() => { setOrder(1) }, 2000);
         setTimeout(() => { setOrder(2) }, 4000);
+        hitPointCheck();
     }), [])
 
     return (
-        <div className="h-56 block">
-            <div className="mt-36 -ml-80"></div>
+        <div className="">
             {order === 0 && <div className="flex items-center">
                 <Image src={myFighters[0].imgUrl} className="rounded-full w-44" />
-                <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>{myDamage[0]}ダメージ </Button>
+                <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
+                    {myDamage[0] >= 0 ? `相手に-${myDamage[0]}ダメージ！` : `自分に${myDamage[0]}ダメージ！`}
+                </Button>
                 <Image src={rivalFighters[0].imgUrl} className="rounded-full w-44" />
             </div>}
             {order === 1 && <div className="flex items-center">
                 <Image src={myFighters[1].imgUrl} className="rounded-full w-44" />
-                <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>{myDamage[1]}ダメージ</Button>
+                <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
+                    {myDamage[1] >= 0 ? `相手に-${myDamage[1]}ダメージ！` : `自分に${myDamage[1]}ダメージ！`}
+                </Button>
                 <Image src={rivalFighters[1].imgUrl} className="rounded-full w-44" />
             </div>}
             {order === 2 && <div className="flex items-center">
                 <Image src={myFighters[2].imgUrl} className="rounded-full w-44" />
-                <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>{myDamage[2]}ダメージ</Button>
+                <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
+                    {myDamage[2] >= 0 ? `相手に-${myDamage[2]}ダメージ！` : `自分に${myDamage[2]}ダメージ！`}
+                </Button>
                 <Image src={rivalFighters[2].imgUrl} className="rounded-full w-44" />
             </div>}
         </div>

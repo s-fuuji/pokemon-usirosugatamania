@@ -1,24 +1,25 @@
 import { Button, Paper, Text } from "@mantine/core"
 import { Dispatch, SetStateAction, useState } from "react";
-import { DiceCount } from "../../pages/battle";
 import { DiceRollEffect } from "./DiceRollEffect";
 import { TripleDice } from "./TripleDice";
-type setBoolean = Dispatch<SetStateAction<boolean>>
-type setNumberArray = Dispatch<SetStateAction<number[]>>
+
 
 type Props = {
-    setIsStatusUpPhase: setBoolean;
-    diceCount: DiceCount;
-    setDiceCount: setNumberArray
+    isStatusUpPhase: any;
+    setIsStatusUpPhase: any;
+    diceCount: any;
+    setDiceCount: any;
+    setRivalDiceCount: any;
 }
 
+export type setBoolean = Dispatch<SetStateAction<boolean>>
 
 type end = setBoolean
 type start = setBoolean;
 
 
-export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, rivalDiceCount, setRivalDiceCount, setIsStatusUpPhase }) => {
-    const [isDicePhase, setIsDicePhase] = useState(false);
+export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRivalDiceCount, setIsStatusUpPhase, isStatusUpPhase }) => {
+    const [isDiceRollPhase, setIsDiceRollPhasePhase] = useState(false);
 
 
 
@@ -30,27 +31,33 @@ export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, rivalD
     const diceEffectStart = () => {
         TripleDice(setDiceCount);
         TripleDice(setRivalDiceCount);
-        phaseChange(setIsStatusUpPhase, setIsDicePhase);
-        setTimeout(() => { phaseChange(setIsDicePhase, setIsStatusUpPhase) }, 2000);
+        phaseChange(setIsStatusUpPhase, setIsDiceRollPhasePhase);
+        setTimeout(() => { phaseChange(setIsDiceRollPhasePhase, setIsStatusUpPhase) }, 2000);
     }
 
 
     return <div className="text-center">
-        {!isDicePhase ? <div><div className="flex justify-center">
-            {diceCount.threeDice.map((count: number) => {
-                return <Paper shadow="xs" p="md">
-                    <Text>{count}</Text>
+        {!isDiceRollPhase ? <div>
+            <div className="flex justify-center">
+                {diceCount.threeDice.map((count: number) => {
+                    return <Paper shadow="xs" p="md">
+                        <Text>{count}</Text>
+                    </Paper>
+                })}
+                <Paper className="ml-3" shadow="xs" p="md">
+                    <Text>{diceCount.totalDice}</Text>
                 </Paper>
-            })}
-            <Paper className="ml-3" shadow="xs" p="md">
-                <Text>{diceCount.totalDice}</Text>
-            </Paper>
+            </div>
+            {!isStatusUpPhase && <Button onClick={diceEffectStart}>サイコロを振る</Button>}
         </div>
-            <Button onClick={diceEffectStart}>サイコロを振る</Button></div>
-            : <div className="flex justify-center">
-                <DiceRollEffect />
-                <DiceRollEffect />
-                <DiceRollEffect />
-            </div>}
+            :
+            <div>
+                <div className="flex justify-center">
+                    <DiceRollEffect />
+                    <DiceRollEffect />
+                    <DiceRollEffect />
+                </div>
+            </div>
+        }
     </div>
 }
