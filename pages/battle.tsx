@@ -53,36 +53,7 @@ const Battle: NextPage = () => {
 
 
 
-    /* const startFight = () => {
- 
-         const fighterSort = () => {
-             const newFighterOrder = fighterOrder.sort((fighterA, fighterB) => {
-                 if (fighterA.order < fighterB.order) return -1;
-                 if (fighterA.order > fighterB.order) return 1;
-                 return 0;
-             })
-             setFighterOrder(newFighterOrder)
-         }
- 
-         const fighting = async () => {
-              const log = (num) => {
-                  return new Promise(resolve => {
-  
-  
-                      setTimeout(() => {
-                          console.log(num);
-                          resolve();
-                      }, 1000)
-                  });
-              }
-  
-  
-              await log(3);
-              await log(2);
-              await log(1);
-          }
- 
-       }  } */
+
 
 
     return (

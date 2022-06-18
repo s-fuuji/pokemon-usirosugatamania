@@ -30,8 +30,7 @@ export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, rivalD
     const diceEffectStart = () => {
         TripleDice(setDiceCount);
         TripleDice(setRivalDiceCount);
-        setIsDicePhase(true);
-        setIsStatusUpPhase(false)
+        phaseChange(setIsStatusUpPhase, setIsDicePhase);
         setTimeout(() => { phaseChange(setIsDicePhase, setIsStatusUpPhase) }, 2000);
     }
 

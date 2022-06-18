@@ -1,5 +1,7 @@
 import { Button, Checkbox, Image } from "@mantine/core"
+import { useEffect, useState } from "react";
 import { FighterOrder } from "../../pages/battle";
+import { Fighting } from "./Fighting";
 import { randomNumber } from "./RandomNumber";
 
 type Props = {
@@ -16,7 +18,7 @@ type Props = {
 
 
 export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setIsBattlePhase, diceCount, setDiceCount, rivalDiceCount, setRivalDiceCount, partyStatus, setPartyStatus }) => {
-
+    const [fight, setFight] = useState(false)
 
 
     const rivalStatusUp = () => {
@@ -35,16 +37,19 @@ export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setI
 
 
     const selectFighter = (order: number) => {
-        const orderIndex = fighterOrder.filter(fighter => fighter.checked).length;
-        const newFighterOrder = fighterOrder.map(fighter => {
-            return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked } : fighter
-        })
-        setFighterOrder(newFighterOrder);
-        orderIndex >= 2 && setIsBattlePhase(true)
+        const orderIndex = partyStatus.player.filter(fighter => fighter.checked).length;
+        const newPartyStatus = partyStatus.player.map(fighter => {
+            return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked, disabled: true } : fighter
+        });
+        setPartyStatus({ ...partyStatus, player: newPartyStatus });
+        orderIndex >= 3 && setIsBattlePhase(true)
+        console.log(partyStatus);
     }
 
+
     const orderLiset = () => {
-        setFighterOrder([...Array(3)].map((notUse, index) => { return { id: index, order: 0, checked: false } }));
+        const newPlayerPartyStatus = partyStatus.player.map((prev) => { return { ...prev, order: 0, checked: false } })
+        setPartyStatus({ ...partyStatus, player: newPlayerPartyStatus })
         setIsBattlePhase(false);
 
     }
@@ -65,13 +70,16 @@ export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setI
         }
     }
 
-
-
-
+    const startFight = () => {
+        setFight(true)
+    }
 
 
     return (
         <div className="flex justify-around">
+            <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                自分のパワー{diceCount.totalDice}
+            </Button>
             <div>
                 {partyStatus.player.map((member: any, index: number) => {
                     return <div className="flex items-center">
@@ -90,27 +98,40 @@ export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setI
                             <Checkbox
                                 size="xl"
                                 id={`battleId_${index}`}
-                                disabled={isBattlePhase}
+                                disabled={partyStatus.player[index].checked}
                                 onChange={() => selectFighter(index)}
-                                checked={fighterOrder[index]?.checked}
+                                checked={partyStatus.player[index].checked}
                             />
                         </label>
 
                     </div>
                 })}
             </div>
-            <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                順番をリセット
-            </Button>
-            <Button onClick={rivalStatusUp} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                test
-            </Button>
+            <div className="flex">
+                <div>
+                    <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                        順番をリセット
+                    </Button>
+                    <Button onClick={rivalStatusUp} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                        ライバルのステータス
+                    </Button>
+                </div>
+                <Button onClick={startFight} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                    戦闘開始
+                </Button>
+                {fight ? <Fighting partyStatus={partyStatus} /> : null}
+                <Image className="rounded-full w-44" />
+            </div>
+
 
             <div>
                 {partyStatus.rival.map((member: any, index: number) => {
                     return <Image src={member.imgUrl} className="rounded-full w-44" />
                 })}
             </div>
+            <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                ライバルのパワー{rivalDiceCount.totalDice}
+            </Button>
         </div>
     )
 }

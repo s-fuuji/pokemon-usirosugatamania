@@ -31,14 +31,14 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsB
     const battleStart = () => {
         const checkedMyParty = myBattleParty.filter(
             member => member.checked
-        )
+        );
         const rivalBattleParty = randomNumber(0, 6, 3);
         const newPartyStatus = {
-            "player": checkedMyParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member.pokeIndex]?.sprites.back_default, "power": 10 } }),
-            "rival": rivalBattleParty.map((member, index) => { return { id: index, "imgUrl": pokemonList[member]?.sprites.back_default, "power": 10 } })
-        }
+            "player": checkedMyParty.map((member, index) => { return { id: index, imgUrl: pokemonList[member.pokeIndex]?.sprites.back_default, power: 10, order: 0, checked: false, disabled: false } }),
+            "rival": rivalBattleParty.map((member, index) => { return { id: index, imgUrl: pokemonList[member]?.sprites.back_default, power: 10, order: 0, checked: false, disabled: false } })
+        };
         setPartyStatus(newPartyStatus);
-        setIsBattle(true)
+        setIsBattle(true);
     }
 
     return (
