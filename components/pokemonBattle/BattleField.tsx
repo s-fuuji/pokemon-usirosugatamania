@@ -116,20 +116,22 @@ export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setI
                     </div>
                 })}
             </div>
-            <div className="flex">
-                <div>
-                    <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                        順番をリセット
-                    </Button>
-                    <Button onClick={rivalStatusUp} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                        ライバルのステータス
+            <div className="flex-col">
+                <div className="flex">
+                    <div>
+                        <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                            順番をリセット
+                        </Button>
+                        <Button onClick={rivalStatusUp} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                            ライバルのステータス
+                        </Button>
+                    </div>
+                    <Button onClick={startFight} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
+                        戦闘開始
                     </Button>
                 </div>
-                <Button onClick={startFight} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                    戦闘開始
-                </Button>
-                {fight ? <Fighting partyStatus={partyStatus} /> : null}
-                <Image className="rounded-full w-44" />
+                {fight && <Fighting partyStatus={partyStatus} />}
+
             </div>
 
 

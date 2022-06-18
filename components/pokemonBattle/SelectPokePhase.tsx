@@ -47,7 +47,7 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsB
                 <div className="flex justify-center">
                     {rivalParty?.map((rivalPokeIndex: any) => {
                         return <Image key={Math.random()}
-                            src={pokemonList ? pokemonList[rivalPokeIndex].sprites.back_default : null}
+                            src={pokemonList && pokemonList[rivalPokeIndex].sprites.back_default}
                             className="rounded-full w-28" />
                     })}
                 </div>
@@ -55,8 +55,8 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsB
 
                 <div className="flex-col ">
                     <div className="flex justify-center">
-                        {pokemonList ? got?.map((gotPokeIndex: number, index: number) => {
-                            return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col items-center">
+                        {pokemonList && got?.map((gotPokeIndex: number, index: number) => {
+                            return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col items-center justify-center ">
                                 <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-28" />
                                 <Checkbox
                                     id={`id_${index}`}
@@ -64,7 +64,7 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsB
                                     onChange={() => myPartyChange(index)}
                                 />
                             </label>
-                        }) : null}
+                        })}
                     </div>
                     <div className="text-center mt-20">
                         {!isDisabled ?
