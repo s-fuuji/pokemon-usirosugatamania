@@ -12,7 +12,7 @@ export const Fighting = ({ partyStatus }) => {
     })
     const [pokemonChange, setPokemonChange] = useState(newFighterOrder);
 
-    console.log(pokemonChange);
+
 
     useEffect((() => {
         setTimeout(() => { setOrder(1) }, 2000);

@@ -25,15 +25,24 @@ export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setI
         let newRivalPartyStatus = partyStatus.rival
         for (let i = rivalDiceCount.totalDice; i > 0; i--) {
             const powerUpIndex = randomNumber(0, 2, 1)[0];
-            const newRivalPartyStatuss = newRivalPartyStatus.map(rival => {
+            const preRivalPartyStatus = newRivalPartyStatus.map(rival => {
                 return rival.id === powerUpIndex ? { ...rival, power: rival.power + 1 } : rival
             });
-            newRivalPartyStatus = newRivalPartyStatuss
+            newRivalPartyStatus = preRivalPartyStatus
         }
-        setPartyStatus(prev => {
-            return { ...prev, rival: newRivalPartyStatus }
+
+
+        const shuffleNumber = randomNumber(0, 2, 3);
+        newRivalPartyStatus = newRivalPartyStatus.map((prev, index: number) => {
+            return { ...prev, order: shuffleNumber[index] }
         })
+
+        setPartyStatus(
+            { ...partyStatus, rival: newRivalPartyStatus }
+        )
+        console.log(partyStatus);
     }
+
 
 
     const selectFighter = (order: number) => {
@@ -43,7 +52,7 @@ export const BattleField = ({ fighterOrder, setFighterOrder, isBattlePhase, setI
         });
         setPartyStatus({ ...partyStatus, player: newPartyStatus });
         orderIndex >= 3 && setIsBattlePhase(true)
-        console.log(partyStatus);
+
     }
 
 
