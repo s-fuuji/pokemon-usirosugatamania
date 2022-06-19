@@ -1,12 +1,35 @@
 import { Button, Checkbox, Image } from "@mantine/core";
-import { useEffect } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
+import { DiceCount, PartyStatus } from "../types/battlePage";
 import { PhaseChange } from "./PhaseChange";
 import { randomNumber } from "./RandomNumber";
 
+type Props = {
+    setDiceCount: Dispatch<SetStateAction<DiceCount>>;
+    setPartyStatus: Dispatch<SetStateAction<PartyStatus>>;
+    setIsBattlePhase: Dispatch<SetStateAction<boolean>>;
+    setIsFightPhase: Dispatch<SetStateAction<boolean>>;
+    setIsStatusUpPhase: Dispatch<SetStateAction<boolean>>;
+    isStatusUpPhase: boolean;
+    diceCount: DiceCount;
+    rivalDiceCount: DiceCount;
+    partyStatus: PartyStatus;
+    children: ReactNode;
+};
 
 
-export const StatusUpPhase = ({ diceCount, setDiceCount, partyStatus, setPartyStatus, isStatusUpPhase, setIsBattlePhase, rivalDiceCount, setIsFightPhase, setIsStatusUpPhase, children }) => {
-    const rivalPowerUp = () => {
+export const StatusUpPhase: React.FC<Props> = ({
+    diceCount,
+    setDiceCount,
+    partyStatus,
+    setPartyStatus,
+    isStatusUpPhase,
+    setIsBattlePhase,
+    rivalDiceCount,
+    setIsFightPhase,
+    setIsStatusUpPhase,
+    children }) => {
+    const rivalPowerUp = (): void => {
         let newRivalPartyStatus = partyStatus.rival;
         for (let i = rivalDiceCount.totalDice; i > 0; i--) {
             const powerUpIndex = randomNumber(0, 2, 1)[0];
@@ -26,7 +49,8 @@ export const StatusUpPhase = ({ diceCount, setDiceCount, partyStatus, setPartySt
         );
     };
 
-    const powerUp = (powerUpIndex: number, up?: string) => {
+
+    const powerUp = (powerUpIndex: number, up?: string): void => {
         if (up && diceCount.totalDice > 0 || !up && partyStatus.player[powerUpIndex].power > 0) {
             const powerUpPokemon = partyStatus.player.map(member => {
                 return member.id === powerUpIndex ? { ...member, power: member.power + (up ? +1 : -1) } : member;
@@ -42,28 +66,27 @@ export const StatusUpPhase = ({ diceCount, setDiceCount, partyStatus, setPartySt
     };
 
 
-    const selectFighter = (order: number) => {
+    const selectFighter = (order: number): void => {
         const orderIndex = partyStatus.player.filter(fighter => fighter.checked).length;
         const newPartyStatus = partyStatus.player.map(fighter => {
-            return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked, disabled: true } : fighter
+            return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked, disabled: true } : fighter;
         });
         setPartyStatus({ ...partyStatus, player: newPartyStatus });
         orderIndex >= 3 && setIsBattlePhase(true);
     };
 
-    const orderLiset = () => {
+    const orderLiset = (): void => {
         const newPlayerPartyStatus = partyStatus.player.map((prev) => { return { ...prev, order: 0, checked: false } });
         setPartyStatus({ ...partyStatus, player: newPlayerPartyStatus });
         setIsBattlePhase(false);
-
     };
 
     useEffect(() => {
         orderLiset();
-    }, [isStatusUpPhase])
+    }, [isStatusUpPhase]);
 
 
-    const startFight = () => {
+    const startFight = (): void => {
         rivalPowerUp();
         PhaseChange(setIsStatusUpPhase, setIsFightPhase);
     };

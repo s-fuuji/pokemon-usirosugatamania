@@ -1,4 +1,3 @@
-import { Button, Checkbox, Image } from "@mantine/core";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,49 +5,46 @@ import { BattleFieldLayout } from "../components/pokemonBattle/BattleFieldLayout
 import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
 import { EndPhase } from "../components/pokemonBattle/EndPhase";
 import { FightingPhase } from "../components/pokemonBattle/FightingPhase";
-import { PhaseChange } from "../components/pokemonBattle/PhaseChange";
 import { randomNumber } from "../components/pokemonBattle/RandomNumber";
 import { SelectPokePhase } from "../components/pokemonBattle/SelectPokePhase";
 import { StatusUpPhase } from "../components/pokemonBattle/StatusUpPhase";
+import { DiceCount, MyStaticParty, PartyStatus, PlayersStatus } from "../components/types/battlePage";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
-export type DiceCount = {
-    threeDice: number[];
-    totalDice: number;
-};
 
-export type FighterOrder = {
-    id: number;
-    order: number;
-    checked: boolean
-};
 
 const Battle: NextPage = () => {
-    const [rivalParty, setRivalParty] = useState(randomNumber(0, 6, 6))
-    const [isStatusUpPhase, setIsStatusUpPhase] = useState(false);
-    const [isDiceRollPhase, setIsDiceRollPhase] = useState(false);
-    const [isBattlePhase, setIsBattlePhase] = useState(false);
-    const [isFightPhase, setIsFightPhase] = useState(false);
-    const [isEndPhase, setIsEndPhase] = useState(false);
-    const [playersStatus, setPlayersStatus] = useState({
+    const [isSelectPokePhase, setIsSelectPokePhase] = useState<boolean>(true);
+    const [IsBattlePhase, setIsBattlePhase] = useState<boolean>(false);
+    const [isDiceRollPhase, setIsDiceRollPhase] = useState<boolean>(false);
+    const [isStatusUpPhase, setIsStatusUpPhase] = useState<boolean>(false);
+    const [isFightPhase, setIsFightPhase] = useState<boolean>(false);
+    const [isEndPhase, setIsEndPhase] = useState<boolean>(false);
+    const [playersStatus, setPlayersStatus] = useState<PlayersStatus>({
         playerHp: 50, rivalHp: 50
     });
-    const [isSelectPokePhase, setIsSelectPokePhase] = useState(true);
+    const [rivalParty, setRivalParty] = useState<number[]>(randomNumber(0, 6, 6));
     const [diceCount, setDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const [rivalDiceCount, setRivalDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
-    const got = useSelector((state: storeState) => state.got);
+    const got: number[] = useSelector((state: storeState) => state.got);
     const { pokemonList, pokemonListError } = usePokeSWR();
-    const [partyStatus, setPartyStatus] = useState();
-    const [myBattleParty, setMyBattleParty] = useState<FighterOrder[]>(
-        got.map((got: any, index: number) => {
+    const [partyStatus, setPartyStatus] = useState<PartyStatus>({
+        player: [],
+        rival: []
+    });
+    const [myBattleParty, setMyBattleParty] = useState<MyStaticParty>([]);
+
+    useEffect(() => {
+        const newMyBattleParty = got.map((got, index) => {
             return ({
                 id: index,
                 pokeIndex: got,
                 checked: false,
             });
-        })
-    );
+        });
+        setMyBattleParty(newMyBattleParty);
+    }, []);
 
     return (
         <div>

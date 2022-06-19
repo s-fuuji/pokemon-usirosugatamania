@@ -1,10 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type setBoolean = Dispatch<SetStateAction<boolean>>
-
-type end = setBoolean
-type start = setBoolean;
-export const PhaseChange = (end: end, start: start) => {
+export const PhaseChange = (end: Dispatch<SetStateAction<boolean>>, start: Dispatch<SetStateAction<boolean>>): void => {
     end(false);
     start(true);
 }

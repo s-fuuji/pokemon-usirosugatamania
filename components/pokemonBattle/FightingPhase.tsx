@@ -1,9 +1,24 @@
 import { Button, Image } from "@mantine/core";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
+import { PartyStatus, PlayersStatus } from "../types/battlePage";
 import { PhaseChange } from "./PhaseChange";
 
+type Props = {
+    setPlayersStatus: Dispatch<SetStateAction<boolean>>;
+    setIsFightPhase: Dispatch<SetStateAction<boolean>>;
+    setIsDiceRollPhase: Dispatch<SetStateAction<boolean>>;
+    setIsEndPhase: Dispatch<SetStateAction<boolean>>;
+    partyStatus: PartyStatus;
+    playersStatus: PlayersStatus;
+}
 
-export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus, setIsFightPhase, setIsDiceRollPhase, setIsEndPhase }) => {
+export const FightingPhase: FC<Props> = ({
+    partyStatus,
+    playersStatus,
+    setPlayersStatus,
+    setIsFightPhase,
+    setIsDiceRollPhase,
+    setIsEndPhase }) => {
     const [order, setOrder] = useState(0);
 
     const newMyFighters = [...partyStatus.player].sort((fighterA, fighterB) => {
@@ -43,6 +58,7 @@ export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus, se
         for (let i = 0; i < 3; i++) {
             setOrder(i);
             //hpチェック入れる
+
             await sleep(2000);
         }
     }

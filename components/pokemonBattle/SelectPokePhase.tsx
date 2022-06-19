@@ -1,33 +1,44 @@
-import { Button, Checkbox, Image } from "@mantine/core"
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { storeState } from "../../slicer/store"
-import { PhaseChange } from "./PhaseChange"
-import { randomNumber } from "./RandomNumber"
+import { Button, Checkbox, Image } from "@mantine/core";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { storeState } from "../../slicer/store";
+import { MyStaticParty, PartyStatus } from "../types/battlePage";
+import { PhaseChange } from "./PhaseChange";
+import { randomNumber } from "./RandomNumber";
 
-export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsSelectPokePhase, setPartyStatus, setMyBattleParty, setIsDiceRollPhase }) => {
-    const got = useSelector((state: storeState) => state.got)
-    const [isDisabled, setIsDisabled] = useState(false)
-    const pokemonBattle = () => {
+type Props = {
+    rivalParty: number[];
+    pokemonList: any[] | undefined;
+    myBattleParty: MyStaticParty;
+    setIsSelectPokePhase: Dispatch<SetStateAction<boolean>>;
+    setPartyStatus: Dispatch<SetStateAction<PartyStatus>>;
+    setMyBattleParty: Dispatch<SetStateAction<MyStaticParty>>;
+    setIsDiceRollPhase: Dispatch<SetStateAction<boolean>>;
+};
 
-    }
+export const SelectPokePhase: React.FC<Props> = ({
+    rivalParty,
+    pokemonList,
+    myBattleParty,
+    setIsSelectPokePhase,
+    setPartyStatus,
+    setMyBattleParty,
+    setIsDiceRollPhase
+}) => {
+    const got = useSelector((state: storeState) => state.got);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
-        myBattleParty.filter(member => member.checked).length === 3 ?
-            setIsDisabled(true) : setIsDisabled(false)
-    }, [myBattleParty])
-
-
-
-
+        if (myBattleParty.filter(member => member.checked).length === 3) { setIsDisabled(true) } else { setIsDisabled(false) };
+    }, [myBattleParty]);
 
     const myPartyChange = (index: number) => {
-        const toggleParty = myBattleParty.map((member: any, i: number) => {
+        const newMyBattleParty = myBattleParty.map((member: any, i: number) => {
             return i !== index ? member : { ...member, checked: !member.checked }
         }
-        )
-        setMyBattleParty(toggleParty)
-    }
+        );
+        setMyBattleParty(newMyBattleParty);
+    };
 
     const battleStart = () => {
         const checkedMyParty = myBattleParty.filter(
@@ -35,12 +46,12 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsS
         );
         const rivalBattleParty = randomNumber(0, 6, 3);
         const newPartyStatus = {
-            "player": checkedMyParty.map((member, index) => { return { id: index, imgUrl: pokemonList[member.pokeIndex]?.sprites.back_default, power: 10, order: 0, checked: false, disabled: false } }),
-            "rival": rivalBattleParty.map((member, index) => { return { id: index, imgUrl: pokemonList[member]?.sprites.back_default, power: 10, order: 0, checked: false, disabled: false } })
+            player: checkedMyParty.map((member, index) => { return { id: index, imgUrl: pokemonList && pokemonList[member.pokeIndex].sprites.back_default, power: 10, order: 0, checked: false, disabled: false } }),
+            rival: rivalBattleParty.map((member, index) => { return { id: index, imgUrl: pokemonList && pokemonList[member]?.sprites.back_default, power: 10, order: 0, checked: false, disabled: false } })
         };
         setPartyStatus(newPartyStatus);
-        PhaseChange(setIsSelectPokePhase, setIsDiceRollPhase)
-    }
+        PhaseChange(setIsSelectPokePhase, setIsDiceRollPhase);
+    };
 
     return (
         <div>
@@ -72,12 +83,11 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsS
                     <div className="text-center mt-20">
                         {!isDisabled ?
                             <Button
-                                onClick={pokemonBattle}
                                 variant="gradient"
                                 gradient={{ from: "orange", to: "red" }}
                                 style={{ marginBottom: 30 }}
                             >
-                                バトルの準備
+                                ポケモンを3匹選んでください
                             </Button> : <Button
                                 onClick={battleStart}
                                 variant="gradient"
