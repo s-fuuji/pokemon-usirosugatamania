@@ -50,14 +50,6 @@ const Battle: NextPage = () => {
         })
     );
 
-
-
-
-    const [fighterOrder, setFighterOrder] = useState(
-        [...Array(3)].map((notUse, index) => { return { id: index, order: 0, checked: false } })
-    );
-    console.log(isEndPhase);
-
     return (
         <div>
             {!isEndPhase ? isSelectPokePhase ?

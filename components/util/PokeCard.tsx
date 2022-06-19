@@ -50,5 +50,5 @@ export const PokeCard: React.FC<Props> = ({ imgUrl, link, index, serchPokemon })
         </Text>
         <GetOrGoodby index={index} />
       </Card>
-    ) : <div>ミス</div>
+    ) : null
 }

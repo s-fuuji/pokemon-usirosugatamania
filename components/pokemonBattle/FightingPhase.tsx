@@ -1,6 +1,5 @@
 import { Button, Image } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { textSpanContainsPosition } from "typescript";
+import { useEffect, useRef, useState } from "react";
 import { PhaseChange } from "./PhaseChange";
 
 
@@ -26,7 +25,7 @@ export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus, se
     });
     const [myDamage, setMydamage] = useState(newMyDamage);
 
-
+    const orderRef = useRef(order);
 
     const hitPointCheck = () => {
         const newPlayersStatus = myDamage.reduce((prev, current) => {
@@ -36,15 +35,35 @@ export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus, se
         setPlayersStatus(newPlayersStatus);
     };
 
+    const sleep = (milliseconds: number) => {
+        return new Promise((resolve) => setTimeout(resolve, milliseconds));
+    }
+
+    const asyncOrderCount = async () => {
+        for (let i = 0; i < 3; i++) {
+            setOrder(i);
+            //hpチェック入れる
+            await sleep(2000);
+        }
+    }
 
     useEffect(() => {
-        setTimeout(() => { setOrder(1) }, 2000);
-        setTimeout(() => { setOrder(2) }, 4000);
-        setTimeout(() => { PhaseChange(setIsFightPhase, setIsDiceRollPhase) }, 6000);
-        hitPointCheck();
+        asyncOrderCount();
     }, []);
 
-    (playersStatus.playerHp <= 0 || playersStatus.rivalHP <= 0) && PhaseChange(setIsFightPhase, setIsEndPhase);
+    useEffect(() => {
+        console.log(orderRef.current);
+        if (orderRef.current === 3) {
+            PhaseChange(setIsFightPhase, setIsDiceRollPhase);
+        }
+        //ちゃんとorder3になってダメージチェックを行った後に処理されるようにする
+    }, [order])
+
+
+
+
+
+    //(playersStatus.playerHp <= 0 || playersStatus.rivalHP <= 0) && PhaseChange(setIsFightPhase, setIsEndPhase);
 
     return (
         <div className="">

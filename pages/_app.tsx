@@ -13,20 +13,19 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   let persistor = persistStore(store);
   return (
-    <div className="bg-quiz-back min-h-screen">
+    <div>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
       <Provider store={store}>
-
         <MantineProvider
           theme={{ fontFamily: "Open Sans" }}
           withGlobalStyles
           withNormalizeCSS
         >
           <Header />
-          <main className="pt-24">
+          <main className="pt-24 px-4 bg-slate-600 min-h-screen">
             <Component {...pageProps} />
           </main>
         </MantineProvider>
