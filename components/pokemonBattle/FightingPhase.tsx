@@ -1,46 +1,50 @@
 import { Button, Image } from "@mantine/core";
 import { useEffect, useState } from "react";
+import { textSpanContainsPosition } from "typescript";
+import { PhaseChange } from "./PhaseChange";
 
 
-export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus }) => {
+export const FightingPhase = ({ partyStatus, playersStatus, setPlayersStatus, setIsFightPhase, setIsDiceRollPhase, setIsEndPhase }) => {
     const [order, setOrder] = useState(0);
-    const [rivalOrder, setRivalOrder] = useState(0)
 
-    const newMyFighters = partyStatus.player.sort((fighterA, fighterB) => {
+    const newMyFighters = [...partyStatus.player].sort((fighterA, fighterB) => {
         if (fighterA.order < fighterB.order) return -1;
         if (fighterA.order > fighterB.order) return 1;
         return 0;
-    })
+    });
 
-    const newRivalFighters = partyStatus.rival.sort((fighterA, fighterB) => {
+    const newRivalFighters = [...partyStatus.rival].sort((fighterA, fighterB) => {
         if (fighterA.order < fighterB.order) return -1;
         if (fighterA.order > fighterB.order) return 1;
         return 0;
-    })
-
+    });
 
     const [myFighters, setMyfighters] = useState(newMyFighters);
     const [rivalFighters, setRivalFighters] = useState(newRivalFighters);
     const newMyDamage = myFighters.map((prev, index) => {
         return prev.power - rivalFighters[index].power;
-    })
-    const [myDamage, setMydamage] = useState(newMyDamage)
+    });
+    const [myDamage, setMydamage] = useState(newMyDamage);
+
+
 
     const hitPointCheck = () => {
         const newPlayersStatus = myDamage.reduce((prev, current) => {
-            console.log(prev.playerHp);
-
             return current >= 0 ? { playerHp: prev.playerHp, rivalHp: prev.rivalHp - current } :
                 { playerHp: prev.playerHp + current, rivalHp: prev.rivalHp }
-        }, playersStatus)
-        setPlayersStatus(newPlayersStatus)
-    }
+        }, playersStatus);
+        setPlayersStatus(newPlayersStatus);
+    };
 
-    useEffect((() => {
+
+    useEffect(() => {
         setTimeout(() => { setOrder(1) }, 2000);
         setTimeout(() => { setOrder(2) }, 4000);
+        setTimeout(() => { PhaseChange(setIsFightPhase, setIsDiceRollPhase) }, 6000);
         hitPointCheck();
-    }), [])
+    }, []);
+
+    (playersStatus.playerHp <= 0 || playersStatus.rivalHP <= 0) && PhaseChange(setIsFightPhase, setIsEndPhase);
 
     return (
         <div className="">

@@ -11,7 +11,9 @@ export const DiceRollEffect = () => {
 
 
 
-    return <div><Paper shadow="xs" p="md">
-        <Text>{count}</Text>
-    </Paper></div>
+    return <div>
+        <Paper shadow="xs" p="md">
+            <Text>{count}</Text>
+        </Paper>
+    </div>
 }

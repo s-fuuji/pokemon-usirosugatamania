@@ -2,9 +2,10 @@ import { Button, Checkbox, Image } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { storeState } from "../../slicer/store"
+import { PhaseChange } from "./PhaseChange"
 import { randomNumber } from "./RandomNumber"
 
-export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsBattle, setPartyStatus, setMyBattleParty }) => {
+export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsSelectPokePhase, setPartyStatus, setMyBattleParty, setIsDiceRollPhase }) => {
     const got = useSelector((state: storeState) => state.got)
     const [isDisabled, setIsDisabled] = useState(false)
     const pokemonBattle = () => {
@@ -38,7 +39,7 @@ export const SelectPokePhase = ({ rivalParty, pokemonList, myBattleParty, setIsB
             "rival": rivalBattleParty.map((member, index) => { return { id: index, imgUrl: pokemonList[member]?.sprites.back_default, power: 10, order: 0, checked: false, disabled: false } })
         };
         setPartyStatus(newPartyStatus);
-        setIsBattle(true);
+        PhaseChange(setIsSelectPokePhase, setIsDiceRollPhase)
     }
 
     return (

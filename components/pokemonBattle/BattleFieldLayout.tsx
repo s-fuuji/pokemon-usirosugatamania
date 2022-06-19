@@ -1,8 +1,4 @@
-import { Button, Checkbox, Image } from "@mantine/core"
-import { useEffect, useState } from "react";
-import { FighterOrder } from "../../pages/battle";
-import { FightingPhase } from "./FightingPhase";
-import { randomNumber } from "./RandomNumber";
+import { Button } from "@mantine/core"
 
 type Props = {
     diceCount: any;
@@ -23,7 +19,7 @@ export const BattleFieldLayout = ({ diceCount, rivalDiceCount, playersStatus }) 
 
 
             <div className="flex">
-                <Button className="ml-48" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 35 }}>
+                <Button className="ml-14" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 35 }}>
                     プレイヤーのHP:{playersStatus.playerHp}
                 </Button>
                 <Button className="" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 35 }}>

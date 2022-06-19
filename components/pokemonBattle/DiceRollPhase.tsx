@@ -1,6 +1,7 @@
 import { Button, Paper, Text } from "@mantine/core"
 import { Dispatch, SetStateAction, useState } from "react";
 import { DiceRollEffect } from "./DiceRollEffect";
+import { PhaseChange } from "./PhaseChange";
 import { TripleDice } from "./TripleDice";
 
 
@@ -10,34 +11,32 @@ type Props = {
     diceCount: any;
     setDiceCount: any;
     setRivalDiceCount: any;
+    isDiceRollPhase: any;
+    setIsDiceRollPhase: any;
 }
 
-export type setBoolean = Dispatch<SetStateAction<boolean>>
 
-type end = setBoolean
-type start = setBoolean;
-
-
-export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRivalDiceCount, setIsStatusUpPhase, isStatusUpPhase }) => {
-    const [isDiceRollPhase, setIsDiceRollPhasePhase] = useState(false);
-
-
-
-
-    const phaseChange = (end: end, start: start) => {
-        end(false);
-        start(true);
-    }
+export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRivalDiceCount, setIsStatusUpPhase, isStatusUpPhase, isDiceRollPhase, setIsDiceRollPhase }) => {
+    const [isDiceRollEffect, setIsDiceRollEffect] = useState(false)
     const diceEffectStart = () => {
         TripleDice(setDiceCount);
         TripleDice(setRivalDiceCount);
-        phaseChange(setIsStatusUpPhase, setIsDiceRollPhasePhase);
-        setTimeout(() => { phaseChange(setIsDiceRollPhasePhase, setIsStatusUpPhase) }, 2000);
+        PhaseChange(setIsDiceRollPhase, setIsDiceRollEffect);
+        setTimeout(() => { PhaseChange(setIsDiceRollEffect, setIsStatusUpPhase) }, 1000);
     }
 
 
     return <div className="text-center">
-        {!isDiceRollPhase ? <div>
+        {isDiceRollEffect ?
+            <div className="flex justify-center">
+                <DiceRollEffect />
+                <DiceRollEffect />
+                <DiceRollEffect />
+                <div className="ml-3" shadow="xs" p="md">
+                    <DiceRollEffect />
+                </div>
+            </div>
+            :
             <div className="flex justify-center">
                 {diceCount.threeDice.map((count: number) => {
                     return <Paper shadow="xs" p="md">
@@ -48,16 +47,7 @@ export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRiv
                     <Text>{diceCount.totalDice}</Text>
                 </Paper>
             </div>
-            {!isStatusUpPhase && <Button onClick={diceEffectStart}>サイコロを振る</Button>}
-        </div>
-            :
-            <div>
-                <div className="flex justify-center">
-                    <DiceRollEffect />
-                    <DiceRollEffect />
-                    <DiceRollEffect />
-                </div>
-            </div>
         }
+        {isDiceRollPhase && <Button onClick={diceEffectStart}>サイコロを振る</Button>}
     </div>
 }
