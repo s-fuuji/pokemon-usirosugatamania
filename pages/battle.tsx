@@ -46,6 +46,9 @@ const Battle: NextPage = () => {
         setMyBattleParty(newMyBattleParty);
     }, []);
 
+
+
+
     return (
         <div>
             {!isEndPhase ? isSelectPokePhase ?

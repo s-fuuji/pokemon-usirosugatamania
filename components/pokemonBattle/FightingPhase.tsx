@@ -4,7 +4,7 @@ import { PartyStatus, PlayersStatus } from "../types/battlePage";
 import { PhaseChange } from "./PhaseChange";
 
 type Props = {
-    setPlayersStatus: Dispatch<SetStateAction<boolean>>;
+    setPlayersStatus: Dispatch<SetStateAction<PlayersStatus>>;
     setIsFightPhase: Dispatch<SetStateAction<boolean>>;
     setIsDiceRollPhase: Dispatch<SetStateAction<boolean>>;
     setIsEndPhase: Dispatch<SetStateAction<boolean>>;
@@ -40,14 +40,14 @@ export const FightingPhase: FC<Props> = ({
     });
     const [myDamage, setMydamage] = useState(newMyDamage);
 
-    const orderRef = useRef(order);
 
-    const hitPointCheck = () => {
-        const newPlayersStatus = myDamage.reduce((prev, current) => {
-            return current >= 0 ? { playerHp: prev.playerHp, rivalHp: prev.rivalHp - current } :
-                { playerHp: prev.playerHp + current, rivalHp: prev.rivalHp }
-        }, playersStatus);
-        setPlayersStatus(newPlayersStatus);
+
+    const hitPointCheck = (i: number) => {
+        setOrder(i);
+        setPlayersStatus((prevPlayersStatus) => {
+            return myDamage[i] >= 0 ? { playerHp: prevPlayersStatus.playerHp, rivalHp: prevPlayersStatus.rivalHp - myDamage[i] } :
+                { playerHp: prevPlayersStatus.playerHp + myDamage[i], rivalHp: prevPlayersStatus.rivalHp };
+        });
     };
 
     const sleep = (milliseconds: number) => {
@@ -56,30 +56,33 @@ export const FightingPhase: FC<Props> = ({
 
     const asyncOrderCount = async () => {
         for (let i = 0; i < 3; i++) {
-            setOrder(i);
-            //hpチェック入れる
-
+            hitPointCheck(i);
             await sleep(2000);
         }
+        PhaseChange(setIsFightPhase, setIsDiceRollPhase);
     }
+
 
     useEffect(() => {
         asyncOrderCount();
     }, []);
 
+    const asyncIsEndPhase = async () => {
+        await sleep(4000);
+        (playersStatus.playerHp <= 0 || playersStatus.rivalHp <= 0) && PhaseChange(setIsFightPhase, setIsEndPhase);
+    }
+
     useEffect(() => {
-        console.log(orderRef.current);
-        if (orderRef.current === 3) {
-            PhaseChange(setIsFightPhase, setIsDiceRollPhase);
-        }
-        //ちゃんとorder3になってダメージチェックを行った後に処理されるようにする
-    }, [order])
+        asyncIsEndPhase();
+    }, [playersStatus])
 
 
 
 
 
-    //(playersStatus.playerHp <= 0 || playersStatus.rivalHP <= 0) && PhaseChange(setIsFightPhase, setIsEndPhase);
+
+
+    //
 
     return (
         <div className="">
