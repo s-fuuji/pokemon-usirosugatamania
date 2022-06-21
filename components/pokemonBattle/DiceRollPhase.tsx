@@ -32,14 +32,14 @@ export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRiv
                 <DiceRollEffect />
                 <DiceRollEffect />
                 <DiceRollEffect />
-                <div className="ml-3" shadow="xs" p="md">
+                <div className="ml-3" >
                     <DiceRollEffect />
                 </div>
             </div>
             :
             <div className="flex justify-center">
-                {diceCount.threeDice.map((count: number) => {
-                    return <Paper shadow="xs" p="md">
+                {diceCount.threeDice.map((count: number, index: number) => {
+                    return <Paper key={index} shadow="xs" p="md">
                         <Text>{count}</Text>
                     </Paper>
                 })}

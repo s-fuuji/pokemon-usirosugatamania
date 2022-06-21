@@ -8,19 +8,21 @@ type Props = {
   serchPokemon: string;
 };
 
-export const FilteredPoke: FC<Props> = React.memo(
+export const FilteredPoke: FC<Props> =
   ({ isAllPokemon, serchPokemon }) => {
-    const { pokemonList, pokemonListError } = usePokeSWR();
+    const { pokemonList, error } = usePokeSWR();
+
 
 
 
     const gridCard = (pokemonList: any, index: number) => {
+
       return (
         <Grid.Col key={Math.random()} span={4}>
           <PokeCard
             imgUrl={pokemonList.sprites.back_default}
-            link={`./Pokemon/${index}`}
-            index={Number(index) + 1}
+            link={`./Pokemon/${index + 1}`}
+            index={index + 1}
             serchPokemon={serchPokemon}
           />
         </Grid.Col>
@@ -30,6 +32,7 @@ export const FilteredPoke: FC<Props> = React.memo(
     return (
       <Grid>
         {pokemonList?.map((pokemonList: any, index: number) => {
+
           return isAllPokemon
             ? gridCard(pokemonList, index)
             : pokemonList.sprites.back_female !== null
@@ -38,4 +41,4 @@ export const FilteredPoke: FC<Props> = React.memo(
         })}
       </Grid>
     );
-  });
+  };

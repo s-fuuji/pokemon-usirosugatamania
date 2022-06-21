@@ -1,6 +1,6 @@
 import { Button, Checkbox, Image } from "@mantine/core";
 import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
-import { DiceCount, PartyStatus } from "../types/battlePage";
+import { DiceCount, PartyStatus } from "../types/battlePageTypes";
 import { PhaseChange } from "./PhaseChange";
 import { randomNumber } from "./RandomNumber";
 
@@ -95,7 +95,7 @@ export const StatusUpPhase: React.FC<Props> = ({
         <div className="flex justify-around">
             <div>
                 {partyStatus.player.map((member: any, index: number) => {
-                    return <div className="flex items-center">
+                    return <div key={index} className="flex items-center">
                         {isStatusUpPhase && <div>
                             <Button onClick={() => powerUp(index, "up")} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
                                 +
@@ -145,7 +145,7 @@ export const StatusUpPhase: React.FC<Props> = ({
 
             <div>
                 {partyStatus.rival.map((member: any, index: number) => {
-                    return <Image src={member.imgUrl} className="rounded-full w-40" />
+                    return <Image key={index} src={member.imgUrl} className="rounded-full w-40" />
                 })}
             </div>
         </div>

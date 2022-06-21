@@ -8,7 +8,7 @@ import { FightingPhase } from "../components/pokemonBattle/FightingPhase";
 import { randomNumber } from "../components/pokemonBattle/RandomNumber";
 import { SelectPokePhase } from "../components/pokemonBattle/SelectPokePhase";
 import { StatusUpPhase } from "../components/pokemonBattle/StatusUpPhase";
-import { DiceCount, MyStaticParty, PartyStatus, PlayersStatus } from "../components/types/battlePage";
+import { DiceCount, MyStaticParty, PartyStatus, PlayersStatus } from "../components/types/battlePageTypes";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
 
@@ -28,7 +28,7 @@ const Battle: NextPage = () => {
     const [diceCount, setDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const [rivalDiceCount, setRivalDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const got: number[] = useSelector((state: storeState) => state.got);
-    const { pokemonList, pokemonListError } = usePokeSWR();
+    const { pokemonList, error } = usePokeSWR();
     const [partyStatus, setPartyStatus] = useState<PartyStatus>({
         player: [],
         rival: []

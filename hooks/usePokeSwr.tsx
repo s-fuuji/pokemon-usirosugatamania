@@ -1,26 +1,32 @@
 
 import useSWR from "swr";
-import { fetcher, fetcherAll } from "../utils/fetcher";
+import useSWRImmutable from 'swr/immutable'
+export const fecherTest = async (url: string) => {
+  const res = await fetch(url);
+  return res.json();
+};
+
+export const fetcher = (...urls: string[]) => {
+  return Promise.all(urls.map(async (url: string) => {
+    const res = await fetch(url);
+    return res.json();
+  }));
+};
+
 
 export const usePokeSWR = () => {
-  /*　ポケモンの名前と詳細ページのurlだけを取得したデータ*/
-  const { data: pokemonListsData, error: pokemonListDataError } = useSWR(
-    "https://pokeapi.co/api/v2/pokemon/?limit=40",
+  const pokemonListDataUrl = [...Array(40)].map((noUse, index) => {
+    return `https://pokeapi.co/api/v2/pokemon/${index + 1}/`
+  })
+
+  const { data: pokemonList, error: pokemonListError } = useSWRImmutable(
+    pokemonListDataUrl,
     fetcher
   );
 
-  const pokemonListDataUrl = pokemonListsData?.results.map((pd: any) => {
-    return pd.url;
-  });
 
-  /* 上で取得したurlをもとに、ポケモンの詳細情報を取得したデータ */
+  const isLoading = !pokemonList && !pokemonListError;
+  const error = pokemonListError;
 
-  const { data: pokemonList, error: pokemonListError } = useSWR(
-    pokemonListDataUrl ? pokemonListDataUrl : null,
-    fetcherAll
-  );
-  const isLoading = !pokemonListError && !pokemonList;
-
-
-  return { pokemonList, pokemonListError, isLoading };
+  return { pokemonList, error, isLoading };
 };

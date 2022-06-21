@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import { storeState } from "../../slicer/store";
 
 export const MyParty: FC = () => {
-  const { pokemonList, pokemonListError } = usePokeSWR();
+  const { pokemonList, error } = usePokeSWR();
   const got = useSelector((state: storeState) => state.got);
 
   return got?.map((got: number) => {

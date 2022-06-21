@@ -11,7 +11,7 @@ import { cleared, randomQuestion } from "../components/types/quizPageTypes";
 
 
 export const Quiz: NextPage = () => {
-  const { pokemonList, pokemonListError } = usePokeSWR();
+  const { pokemonList, error } = usePokeSWR();
   const [cleared, setCleared] = useState<cleared>({
     correctCount: [],
     quizCleared: false,

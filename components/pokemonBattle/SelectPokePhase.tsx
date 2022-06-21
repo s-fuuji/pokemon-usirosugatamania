@@ -2,7 +2,7 @@ import { Button, Checkbox, Image } from "@mantine/core";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { storeState } from "../../slicer/store";
-import { MyStaticParty, PartyStatus } from "../types/battlePage";
+import { MyStaticParty, PartyStatus } from "../types/battlePageTypes";
 import { PhaseChange } from "./PhaseChange";
 import { randomNumber } from "./RandomNumber";
 

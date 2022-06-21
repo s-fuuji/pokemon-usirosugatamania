@@ -1,9 +1,11 @@
 import { Card, Image, Text, Badge, Group } from "@mantine/core";
 import Link from "next/link";
 import useSWR from "swr";
-import { fetcher } from "../../utils/fetcher";
 import { GetOrGoodby } from "../party/GetOrGoodby";
 import React, { FC } from 'react';
+import { fecherTest, fetcher } from "../../hooks/usePokeSwr";
+import { useRouter } from "next/router";
+
 
 type Props = {
   imgUrl: string;
@@ -20,15 +22,14 @@ export const PokeCard: FC<Props> = ({
 }) => {
   const { data: pokemonListSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
-    fetcher
+    fecherTest
   );
 
   const checkSerchPokemon = pokemonListSpecies?.names[0].name.indexOf(
     serchPokemon)
 
 
-
-  return serchPokemon === "" || (serchPokemon !== "" && checkSerchPokemon !== -1)
+  return serchPokemon === undefined || serchPokemon === "" || (serchPokemon !== "" && checkSerchPokemon !== -1)
     ? (
       <Card shadow="sm" p="lg" withBorder={true} className="bg-red-500">
         <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
