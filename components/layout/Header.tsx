@@ -1,16 +1,16 @@
 import { Button } from "@mantine/core";
-import { useState } from "react";
+import { FC, useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { MyParty } from "../party/MyParty";
-import React from 'react'
+import React from 'react';
 import { storeState } from "../../slicer/store";
 
-export const Header: React.FC = () => {
+export const Header: FC = () => {
   const got = useSelector((state: storeState) => state.got);
   const triedQuiz = useSelector((state: storeState) => state.triedQuiz);
-  const [isPartyVisible, setIsPartyVisivle] = useState(false);
-  const toggleMyParty = () => {
+  const [isPartyVisible, setIsPartyVisivle] = useState<boolean>(false);
+  const toggleMyParty = (): void => {
     setIsPartyVisivle(!isPartyVisible);
   };
 

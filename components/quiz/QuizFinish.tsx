@@ -4,14 +4,14 @@ import { triedQuizCount } from "../../slicer/triedQuizSlicer";
 import React from 'react'
 
 type Props = {
-  numCorrect: number,
-  numQuestion: number
+  numCorrect: number
+  numQuestion: number;
 }
 
-export const QuizFinish: React.FC<Props> = (
-  { numCorrect, numQuestion }) => {
+export const QuizFinish: React.FC<Props> = ({
+  numCorrect, numQuestion }) => {
   const dispatch = useDispatch();
-  const resultSave = () => {
+  const resultSave = (): void => {
     dispatch(triedQuizCount({ numCorrect, numQuestion }));
   };
 

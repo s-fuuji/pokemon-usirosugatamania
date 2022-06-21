@@ -3,16 +3,21 @@ import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "../../utils/fetcher";
 import { GetOrGoodby } from "../party/GetOrGoodby";
-import React from 'react'
+import React, { FC } from 'react';
 
 type Props = {
-  imgUrl: string,
-  link: string,
-  index: number,
-  serchPokemon?: string
-}
+  imgUrl: string;
+  link: string;
+  index: number;
+  serchPokemon?: string;
+};
 
-export const PokeCard: React.FC<Props> = ({ imgUrl, link, index, serchPokemon }) => {
+export const PokeCard: FC<Props> = ({
+  imgUrl,
+  link,
+  index,
+  serchPokemon
+}) => {
   const { data: pokemonListSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
     fetcher
@@ -51,4 +56,4 @@ export const PokeCard: React.FC<Props> = ({ imgUrl, link, index, serchPokemon })
         <GetOrGoodby index={index} />
       </Card>
     ) : null
-}
+};

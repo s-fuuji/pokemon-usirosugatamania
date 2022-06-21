@@ -1,10 +1,13 @@
 import { Image } from "@mantine/core";
 import Link from "next/link";
-import React from 'react'
+import { FC } from 'react';
 
-type Props = { imgUrl: string | undefined, link: string }
+type Props = {
+  imgUrl: string;
+  link: string;
+};
 
-export const PartyHolder: React.FC<Props> = ({ imgUrl, link }) => {
+export const PartyHolder: FC<Props> = ({ imgUrl, link }) => {
   return (
     <li>
       <Link href={link}>

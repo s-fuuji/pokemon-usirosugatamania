@@ -3,21 +3,12 @@ import { useState } from "react";
 import { QuizFinish } from "../components/quiz/QuizFinish";
 import { ShuffleCard } from "../components/quiz/ShuffleCard";
 import { usePokeSWR } from "../hooks/usePokeSwr";
-import React from 'react'
+import React from 'react';
 import { NextPage } from "next/types";
-import { quizImgUrl } from "../components/types/type";
+import { cleared, randomQuestion } from "../components/types/quizPageTypes";
 
-type cleared = {
-  correctCount: string[];
-  quizCleared: boolean;
-}
 
-type randomQuestion = {
-  selectPokeIndex: number;
-  quizImgUrl: quizImgUrl;
-  prevQuizPokeArray: number[];
 
-}
 
 export const Quiz: NextPage = () => {
   const { pokemonList, pokemonListError } = usePokeSWR();
@@ -37,7 +28,7 @@ export const Quiz: NextPage = () => {
 
   const { selectPokeIndex, quizImgUrl, prevQuizPokeArray } = randomQuestion;
 
-  const quizPokeArray = pokemonList ? pokemonList.filter((p: any) => p.sprites.back_female !== null) : [0]
+  const quizPokeArray = pokemonList ? pokemonList.filter((p: any) => p.sprites.back_female !== null) : [0];
   const numAllQuestion = quizPokeArray?.length;
   const numNowQuestion = cleared.correctCount.length + 1;
   const numCorrect = cleared.correctCount.filter((s) => s === "correct").length;
@@ -68,7 +59,7 @@ export const Quiz: NextPage = () => {
   };
 
   const InCorrectAnswer = () => {
-    setCleared({ ...cleared, correctCount: [...cleared.correctCount, "inCorrect"] })
+    setCleared({ ...cleared, correctCount: [...cleared.correctCount, "inCorrect"] });
     prevQuizPokeArray.length !== 1
       ? Randomizer()
       : setCleared({ ...cleared, quizCleared: true });

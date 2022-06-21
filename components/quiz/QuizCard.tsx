@@ -1,13 +1,14 @@
 import { Card, Image } from "@mantine/core";
-import React from 'react'
+import React, { FC } from 'react';
 
 type Props = {
-  imgUrl: string,
-  onClick: VoidFunction
-}
+  imgUrl: string | undefined;
+  onClick: React.MouseEventHandler<HTMLDivElement>
+};
 
-export const QuizCard: React.FC<Props> = (
-  { imgUrl, onClick }) => {
+export const QuizCard: FC<Props> = ({
+  imgUrl,
+  onClick }) => {
   return (
     <Card
       shadow="sm"

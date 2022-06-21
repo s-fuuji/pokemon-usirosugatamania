@@ -1,13 +1,14 @@
 import { QuizCard } from "./QuizCard";
-import React, { ReactNode } from 'react'
-import { quizImgUrl } from "../types/type";
+import React, { ReactNode } from 'react';
+import { quizImgUrl } from "../types/quizPageTypes";
+
 
 type Props = {
-  CorrectAnswer: VoidFunction,
-  InCorrectAnswer: VoidFunction,
-  quizImgUrl: quizImgUrl
-  children: ReactNode
-}
+  CorrectAnswer: () => void;
+  InCorrectAnswer: () => void;
+  quizImgUrl: quizImgUrl;
+  children: ReactNode;
+};
 
 export const ShuffleCard: React.FC<Props> = ({
   CorrectAnswer,

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type GotPokemonState = number[]
 
-const initialState: GotPokemonState = []
+
+const initialState: number[] = [];
 
 const gotPokemonSlice = createSlice({
   name: "got",

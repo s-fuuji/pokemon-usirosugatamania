@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core"
 import { FC } from "react";
-import { DiceCount, PlayersStatus } from "../types/battlePage";
+import { DiceCount, PlayersStatus } from "../types/battlePageTypes";
 
 type Props = {
     diceCount: DiceCount;

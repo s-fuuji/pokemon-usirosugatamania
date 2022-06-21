@@ -1,14 +1,14 @@
 import { Grid } from "@mantine/core";
 import { usePokeSWR } from "../../hooks/usePokeSwr";
 import { PokeCard } from "../util/PokeCard";
-import React from 'react'
+import React, { FC } from 'react';
 
 type Props = {
   isAllPokemon: boolean;
   serchPokemon: string;
-}
+};
 
-export const FilteredPoke: React.FC<Props> = React.memo(
+export const FilteredPoke: FC<Props> = React.memo(
   ({ isAllPokemon, serchPokemon }) => {
     const { pokemonList, pokemonListError } = usePokeSWR();
 

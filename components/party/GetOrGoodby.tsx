@@ -1,14 +1,14 @@
 import { Button } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import { get, goodbye } from "../../slicer/gotPokemonSlicer";
-import React from 'react'
+import React, { FC } from 'react'
 import { storeState } from "../../slicer/store";
 
 type Props = {
   index: number
-}
+};
 
-export const GetOrGoodby: React.FC<Props> = ({ index }) => {
+export const GetOrGoodby: FC<Props> = ({ index }) => {
   const got = useSelector((state: storeState) => state.got);
   const dispatch = useDispatch();
 
