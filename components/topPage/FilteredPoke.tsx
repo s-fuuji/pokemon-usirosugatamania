@@ -4,8 +4,8 @@ import { PokeCard } from "../util/PokeCard";
 import React from 'react'
 
 type Props = {
-  isAllPokemon: boolean,
-  serchPokemon: string
+  isAllPokemon: boolean;
+  serchPokemon: string;
 }
 
 export const FilteredPoke: React.FC<Props> = React.memo(

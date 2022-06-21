@@ -1,14 +1,14 @@
 import { Button } from "@mantine/core"
+import { FC } from "react";
+import { DiceCount, PlayersStatus } from "../types/battlePage";
 
 type Props = {
-    diceCount: any;
-    rivalDiceCount: any;
-    playersStatus: any;
-}
+    diceCount: DiceCount;
+    rivalDiceCount: DiceCount;
+    playersStatus: PlayersStatus;
+};
 
-
-
-export const BattleFieldLayout = ({ diceCount, rivalDiceCount, playersStatus }) => {
+export const BattleFieldLayout: FC<Props> = ({ diceCount, rivalDiceCount, playersStatus }) => {
 
 
     return (
@@ -23,8 +23,7 @@ export const BattleFieldLayout = ({ diceCount, rivalDiceCount, playersStatus }) 
                     プレイヤーのHP:{playersStatus.playerHp}
                 </Button>
                 <Button className="" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 35 }}>
-                    <p>ライバルのHP:</p>
-                    <p>{playersStatus.rivalHp}</p>
+                    <p>ライバルのHP:{playersStatus.rivalHp}</p>
                 </Button>
             </div>
 

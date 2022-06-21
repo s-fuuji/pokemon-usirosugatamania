@@ -1,6 +1,6 @@
 import { Button, Image } from "@mantine/core";
 import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
-import { PartyStatus, PlayersStatus } from "../types/battlePage";
+import { Party, PartyStatus, PlayersStatus } from "../types/battlePage";
 import { PhaseChange } from "./PhaseChange";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
     setIsEndPhase: Dispatch<SetStateAction<boolean>>;
     partyStatus: PartyStatus;
     playersStatus: PlayersStatus;
-}
+};
 
 export const FightingPhase: FC<Props> = ({
     partyStatus,
@@ -19,7 +19,7 @@ export const FightingPhase: FC<Props> = ({
     setIsFightPhase,
     setIsDiceRollPhase,
     setIsEndPhase }) => {
-    const [order, setOrder] = useState(0);
+    const [order, setOrder] = useState<number>(0);
 
     const newMyFighters = [...partyStatus.player].sort((fighterA, fighterB) => {
         if (fighterA.order < fighterB.order) return -1;
@@ -33,12 +33,12 @@ export const FightingPhase: FC<Props> = ({
         return 0;
     });
 
-    const [myFighters, setMyfighters] = useState(newMyFighters);
-    const [rivalFighters, setRivalFighters] = useState(newRivalFighters);
+    const [myFighters, setMyfighters] = useState<Party[]>(newMyFighters);
+    const [rivalFighters, setRivalFighters] = useState<Party[]>(newRivalFighters);
     const newMyDamage = myFighters.map((prev, index) => {
         return prev.power - rivalFighters[index].power;
     });
-    const [myDamage, setMydamage] = useState(newMyDamage);
+    const [myDamage, setMydamage] = useState<number[]>(newMyDamage);
 
 
 
@@ -52,40 +52,44 @@ export const FightingPhase: FC<Props> = ({
 
     const sleep = (milliseconds: number) => {
         return new Promise((resolve) => setTimeout(resolve, milliseconds));
-    }
+    };
 
-    const asyncOrderCount = async () => {
+    const asyncOrderCount = async (): Promise<void> => {
         for (let i = 0; i < 3; i++) {
             hitPointCheck(i);
             await sleep(2000);
         }
         PhaseChange(setIsFightPhase, setIsDiceRollPhase);
-    }
-
+    };
 
     useEffect(() => {
-        asyncOrderCount();
+        if (playersStatus.playerHp <= 0 || playersStatus.rivalHp <= 0) {
+            setTimeout(() => {
+                PhaseChange(setIsFightPhase, setIsEndPhase)
+            }, 1500);
+        };
+    }, [playersStatus]);
+
+    const effectUsedRef = useRef(false);
+
+    useEffect(() => {
+        if (!effectUsedRef.current) {
+            asyncOrderCount();
+            effectUsedRef.current = true;
+        };
     }, []);
 
-    const asyncIsEndPhase = async () => {
-        await sleep(4000);
-        (playersStatus.playerHp <= 0 || playersStatus.rivalHp <= 0) && PhaseChange(setIsFightPhase, setIsEndPhase);
-    }
-
-    useEffect(() => {
-        asyncIsEndPhase();
-    }, [playersStatus])
 
 
 
 
 
 
-
-    //
 
     return (
         <div className="">
+            <button onClick={asyncOrderCount}>btn</button>
+
             {order === 0 && <div className="flex items-center">
                 <Image src={myFighters[0].imgUrl} className="rounded-full w-44" />
                 <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>

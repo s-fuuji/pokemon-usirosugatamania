@@ -19,8 +19,8 @@ export const usePokeSWR = () => {
     pokemonListDataUrl ? pokemonListDataUrl : null,
     fetcherAll
   );
+  const isLoading = !pokemonListError && !pokemonList;
 
 
-
-  return { pokemonList, pokemonListError };
+  return { pokemonList, pokemonListError, isLoading };
 };

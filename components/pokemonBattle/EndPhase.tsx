@@ -1,11 +1,16 @@
 import { Button } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { PlayersStatus } from "../types/battlePage";
 
-export const EndPhase = ({ playersStatus }) => {
+type Props = {
+    playersStatus: PlayersStatus;
+};
+
+export const EndPhase: FC<Props> = ({ playersStatus }) => {
     const [isWin, setIsWin] = useState(false);
     useEffect(() => {
-        playersStatus.plyerHp >= playersStatus.rivalHP && setIsWin(true);
-    }, [])
+        playersStatus.playerHp >= playersStatus.rivalHp && setIsWin(true);
+    }, []);
 
     return (
         <div className="flex items-center justify-center">
