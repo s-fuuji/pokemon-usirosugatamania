@@ -9,7 +9,7 @@ const triedQuizSlice = createSlice({
     },
     reducers: {
         triedQuizCount: (state, action) => {
-            state.red = `${action.payload.numCorrect}/${action.payload.numQuestion}問クリア`;
+            state.red = `${action.payload.correctAnswersCount}/${action.payload.allQuestionNum}問クリア`;
         },
     },
 });

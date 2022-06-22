@@ -1,35 +1,35 @@
 import { QuizCard } from "./QuizCard";
 import React, { ReactNode } from 'react';
-import { quizImgUrl } from "../types/quizPageTypes";
+import { nextQuestionImgUrls } from "../types/quizPageTypes";
 
 
 type Props = {
-  CorrectAnswer: () => void;
-  InCorrectAnswer: () => void;
-  quizImgUrl: quizImgUrl;
+  addCorrect: () => void;
+  addInCorrect: () => void;
+  nextQuestionImgUrls: nextQuestionImgUrls;
   children: ReactNode;
 };
 
 export const ShuffleCard: React.FC<Props> = ({
-  CorrectAnswer,
-  InCorrectAnswer,
-  quizImgUrl,
+  addCorrect,
+  addInCorrect,
+  nextQuestionImgUrls,
   children,
 }) => {
   const right = Math.random();
   const left = Math.random();
-  const { maleUrl, femaleUrl } = quizImgUrl;
-  const rCorrect = right >= left;
+  const { maleImgUrl, femaleImgUrl } = nextQuestionImgUrls;
+  const isMaleLeft = right >= left;
   return (
     <div className="flex justify-center items-center">
       <QuizCard
-        imgUrl={rCorrect ? maleUrl : femaleUrl}
-        onClick={rCorrect ? InCorrectAnswer : CorrectAnswer}
+        imgUrl={isMaleLeft ? maleImgUrl : femaleImgUrl}
+        onClick={isMaleLeft ? addInCorrect : addCorrect}
       />
       {children}
       <QuizCard
-        imgUrl={rCorrect ? femaleUrl : maleUrl}
-        onClick={rCorrect ? CorrectAnswer : InCorrectAnswer}
+        imgUrl={isMaleLeft ? femaleImgUrl : maleImgUrl}
+        onClick={isMaleLeft ? addCorrect : addInCorrect}
       />
     </div>
   );

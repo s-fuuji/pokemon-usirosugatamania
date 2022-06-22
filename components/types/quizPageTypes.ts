@@ -1,15 +1,15 @@
-export type quizImgUrl = {
-    maleUrl: string,
-    femaleUrl: string,
+export type nextQuestionImgUrls = {
+    maleImgUrl: string,
+    femaleImgUrl: string,
 };
 
-export type cleared = {
-    correctCount: string[];
-    quizCleared: boolean;
+export type QuizResult = {
+    answeredResultsArray: string[];
+    isAllQuizAnswered: boolean;
 };
 
-export type randomQuestion = {
-    selectPokeIndex: number;
-    quizImgUrl: quizImgUrl;
-    prevQuizPokeArray: number[];
+export type nextQuestion = {
+    prevAskedPokeIndex: number;
+    nextQuestionImgUrls: nextQuestionImgUrls;
+    nextQuestionPokeArray: number[];
 };

@@ -1,24 +1,25 @@
 import { Button } from "@mantine/core";
 import { useDispatch } from "react-redux";
 import { triedQuizCount } from "../../slicer/triedQuizSlicer";
-import React from 'react'
+import React from 'react';
 
 type Props = {
-  numCorrect: number
-  numQuestion: number;
-}
+  correctAnswersCount: number
+  allQuestionNum: number;
+};
 
-export const QuizFinish: React.FC<Props> = ({
-  numCorrect, numQuestion }) => {
+export const FinishedQuiz: React.FC<Props> = ({
+  correctAnswersCount, allQuestionNum
+}) => {
   const dispatch = useDispatch();
   const resultSave = (): void => {
-    dispatch(triedQuizCount({ numCorrect, numQuestion }));
+    dispatch(triedQuizCount({ correctAnswersCount, allQuestionNum }));
   };
 
   return (
     <div className="mt-24 text-center ">
       <p className=" text-5xl text-red-800">
-        {numQuestion}問中{numCorrect}
+        {allQuestionNum}問中{correctAnswersCount}
         問正解！
       </p>
       <Button
