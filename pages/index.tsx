@@ -1,22 +1,20 @@
 import { Button, Input } from "@mantine/core";
 import { useState } from "react";
-import { FilteredPoke } from "../components/topPage/FilteredPoke";
 import { NextPage } from "next/types";
-import React from 'react'
+import React from 'react';
+import { Pokedex } from "../components/topPage/Pokedex";
+
 const Home: NextPage = () => {
-  const [isAllPokemon, setIsAllPokemon] = useState(false);
-  const [serchPokemon, setSerchPokemon] = useState("")
-  const toggleAllPokemon = () => {
-    setIsAllPokemon(!isAllPokemon);
+  const [showAllPoke, setShowAllPoke] = useState(true);
+  const [serchingPokeName, setSerchingPokeName] = useState("");
+  const toggleShowAllPoke = () => {
+    setShowAllPoke(!showAllPoke);
   };
-
-
-
 
   return (
     <div>
       <Button
-        onClick={toggleAllPokemon}
+        onClick={toggleShowAllPoke}
         variant="gradient"
         gradient={{ from: "orange", to: "red" }}
         style={{ marginBottom: 30 }}
@@ -26,12 +24,12 @@ const Home: NextPage = () => {
 
       <input
         className="ml-5"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSerchPokemon(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSerchingPokeName(e.target.value)}
         placeholder="好きなポケモンを検索"
 
       />
 
-      <FilteredPoke serchPokemon={serchPokemon} isAllPokemon={!isAllPokemon} />
+      <Pokedex serchingPokeName={serchingPokeName} showAllPoke={showAllPoke} />
     </div>
   );
 };

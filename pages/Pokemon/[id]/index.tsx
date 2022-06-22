@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { GetStaticProps, NextPage } from "next/types";
 import { GetServerSideProps } from "next/types";
 import React from 'react';
-import { fetcher, usePokeSWR } from "../../../hooks/usePokeSwr";
+import { fetcherAll, usePokeSWR } from "../../../hooks/usePokeSwr";
 import { SWRConfig } from "swr";
 
 

@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: number[] = [];
 
 const gotPokemonSlice = createSlice({
-  name: "got",
+  name: "capturedPoke",
   initialState,
   reducers: {
     get: (state, action: PayloadAction<number>) => {

@@ -1,12 +1,12 @@
 
 import useSWR from "swr";
 import useSWRImmutable from 'swr/immutable'
-export const fecherTest = async (url: string) => {
+export const fecher = async (url: string) => {
   const res = await fetch(url);
   return res.json();
 };
 
-export const fetcher = (...urls: string[]) => {
+export const fetcherAll = (...urls: string[]) => {
   return Promise.all(urls.map(async (url: string) => {
     const res = await fetch(url);
     return res.json();
@@ -21,7 +21,7 @@ export const usePokeSWR = () => {
 
   const { data: pokemonList, error: pokemonListError } = useSWRImmutable(
     pokemonListDataUrl,
-    fetcher
+    fetcherAll
   );
 
 

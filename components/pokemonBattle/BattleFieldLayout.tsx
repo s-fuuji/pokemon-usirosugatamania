@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core"
+import { Button } from "@mantine/core";
 import { FC } from "react";
 import { DiceCount, PlayersStatus } from "../types/battlePageTypes";
 
@@ -8,8 +8,10 @@ type Props = {
     playersStatus: PlayersStatus;
 };
 
-export const BattleFieldLayout: FC<Props> = ({ diceCount, rivalDiceCount, playersStatus }) => {
-
+export const BattleFieldLayout: FC<Props> = ({
+    diceCount,
+    rivalDiceCount,
+    playersStatus }) => {
 
     return (
         <div className="flex justify-around">
@@ -32,5 +34,5 @@ export const BattleFieldLayout: FC<Props> = ({ diceCount, rivalDiceCount, player
                 ライバルのパワー{rivalDiceCount.totalDice}
             </Button>
         </div>
-    )
-}
+    );
+};

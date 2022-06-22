@@ -3,8 +3,8 @@ import { gotReducer } from "./gotPokemonSlicer";
 import { triedQuizReducer } from "./triedQuizSlicer";
 
 const rootReducer = combineReducers({
-  got: gotReducer,
-  triedQuiz: triedQuizReducer,
+  capturedPoke: gotReducer,
+  triedQuizData: triedQuizReducer,
 });
 
 export default rootReducer;

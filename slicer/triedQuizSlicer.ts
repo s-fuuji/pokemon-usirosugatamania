@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const triedQuizSlice = createSlice({
-    name: "triedQuiz",
+    name: "triedQuizData",
     initialState: {
         red: "未挑戦",
         gold: "未挑戦",

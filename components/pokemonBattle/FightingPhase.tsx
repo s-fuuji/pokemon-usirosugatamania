@@ -19,6 +19,7 @@ export const FightingPhase: FC<Props> = ({
     setIsFightPhase,
     setIsDiceRollPhase,
     setIsEndPhase }) => {
+
     const [order, setOrder] = useState<number>(0);
 
     const newMyFighters = [...partyStatus.player].sort((fighterA, fighterB) => {

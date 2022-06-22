@@ -7,11 +7,11 @@ import React from 'react';
 import { storeState } from "../../slicer/store";
 
 export const Header: FC = () => {
-  const got = useSelector((state: storeState) => state.got);
-  const triedQuiz = useSelector((state: storeState) => state.triedQuiz);
-  const [isPartyVisible, setIsPartyVisivle] = useState<boolean>(false);
+  const capturedPoke = useSelector((state: storeState) => state.capturedPoke);
+  const triedQuizData = useSelector((state: storeState) => state.triedQuizData);
+  const [showParty, setShowParty] = useState<boolean>(false);
   const toggleMyParty = (): void => {
-    setIsPartyVisivle(!isPartyVisible);
+    setShowParty(!showParty);
   };
 
   return (
@@ -45,9 +45,9 @@ export const Header: FC = () => {
           </Button>
         </Link>
         <ul className="flex gap-3 ">
-          <li>初代：{triedQuiz.red}</li>
-          <li>金銀：{triedQuiz.gold}</li>
-          <li>ルビサファ：{triedQuiz.ruby}</li>
+          <li>初代：{triedQuizData.red}</li>
+          <li>金銀：{triedQuizData.gold}</li>
+          <li>ルビサファ：{triedQuizData.ruby}</li>
         </ul>
 
         <Button
@@ -57,12 +57,12 @@ export const Header: FC = () => {
           gradient={{ from: "orange", to: "red" }}
           style={{ marginBottom: 30 }}
         >
-          手持ち: <span>{got.length}</span> 匹
+          手持ち: <span>{capturedPoke.length}</span> 匹
         </Button>
       </div>
 
       <ul className="flex gap-3 items-center">
-        {isPartyVisible ? <MyParty /> : null}
+        {showParty ? <MyParty /> : null}
       </ul>
     </header>
   );

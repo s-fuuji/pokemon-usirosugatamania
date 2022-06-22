@@ -2,16 +2,9 @@ import { Button } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
 import { PlayersStatus } from "../types/battlePageTypes";
 
-
-
-
-
 type Props = {
     playersStatus: PlayersStatus;
 };
-
-
-
 
 export const EndPhase: FC<Props> = ({ playersStatus }) => {
     const [isWin, setIsWin] = useState(false);
@@ -25,5 +18,5 @@ export const EndPhase: FC<Props> = ({ playersStatus }) => {
                 <p className="text-8xl">{isWin ? "勝利！" : "敗北..."}</p>
             </Button>
         </div>
-    )
+    );
 };

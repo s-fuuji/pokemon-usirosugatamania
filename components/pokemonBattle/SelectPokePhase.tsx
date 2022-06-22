@@ -25,7 +25,7 @@ export const SelectPokePhase: React.FC<Props> = ({
     setMyBattleParty,
     setIsDiceRollPhase
 }) => {
-    const got = useSelector((state: storeState) => state.got);
+    const capturedPoke = useSelector((state: storeState) => state.capturedPoke);
     const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
@@ -67,7 +67,7 @@ export const SelectPokePhase: React.FC<Props> = ({
 
                 <div className="flex-col ">
                     <div className="flex justify-center">
-                        {pokemonList && got?.map((gotPokeIndex: number, index: number) => {
+                        {pokemonList && capturedPoke?.map((gotPokeIndex: number, index: number) => {
                             return <label htmlFor={`id_${index}`} key={`key_${index}`} className="flex-col">
                                 <Image src={pokemonList[gotPokeIndex]?.sprites.back_default} className="rounded-full w-36 mx-10" />
                                 <Checkbox

@@ -6,16 +6,17 @@ import { storeState } from "../../slicer/store";
 
 export const MyParty: FC = () => {
   const { pokemonList, error } = usePokeSWR();
-  const got = useSelector((state: storeState) => state.got);
+  const capturedPoke = useSelector((state: storeState) => state.capturedPoke);
 
-  return got?.map((got: number) => {
+  return capturedPoke?.map((capturedPoke: number) => {
     return (
-      <PartyHolder
-        imgUrl={pokemonList ? pokemonList[got - 1].sprites.back_default : null}
-        link={`./Pokemon/${got}`}
-        key={Math.random()}
-
-      />
+      <div>
+        <PartyHolder
+          imgUrl={pokemonList ? pokemonList[capturedPoke - 1].sprites.back_default : null}
+          link={`./Pokemon/${capturedPoke}`}
+          key={Math.random()}
+        />
+      </div>
     );
   });
 };

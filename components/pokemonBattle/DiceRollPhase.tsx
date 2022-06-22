@@ -16,18 +16,25 @@ type Props = {
 }
 
 
-export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRivalDiceCount, setIsStatusUpPhase, isStatusUpPhase, isDiceRollPhase, setIsDiceRollPhase }) => {
-    const [isDiceRollEffect, setIsDiceRollEffect] = useState(false)
-    const diceEffectStart = () => {
+export const DiceRollPhase: React.FC<Props> = ({
+    diceCount,
+    setDiceCount,
+    setRivalDiceCount,
+    setIsStatusUpPhase,
+    isDiceRollPhase,
+    setIsDiceRollPhase }) => {
+
+    const [showDiceRollEffect, setShowDiceRollEffect] = useState(false)
+    const startDiceEffect = () => {
         TripleDice(setDiceCount);
         TripleDice(setRivalDiceCount);
-        PhaseChange(setIsDiceRollPhase, setIsDiceRollEffect);
-        setTimeout(() => { PhaseChange(setIsDiceRollEffect, setIsStatusUpPhase) }, 1000);
+        PhaseChange(setIsDiceRollPhase, setShowDiceRollEffect);
+        setTimeout(() => { PhaseChange(setShowDiceRollEffect, setIsStatusUpPhase) }, 1000);
     }
 
 
     return <div className="text-center">
-        {isDiceRollEffect ?
+        {showDiceRollEffect ?
             <div className="flex justify-center">
                 <DiceRollEffect />
                 <DiceRollEffect />
@@ -48,6 +55,6 @@ export const DiceRollPhase: React.FC<Props> = ({ diceCount, setDiceCount, setRiv
                 </Paper>
             </div>
         }
-        {isDiceRollPhase && <Button onClick={diceEffectStart}>サイコロを振る</Button>}
+        {isDiceRollPhase && <Button onClick={startDiceEffect}>サイコロを振る</Button>}
     </div>
-}
+};

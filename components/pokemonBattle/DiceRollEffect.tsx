@@ -1,5 +1,5 @@
 import { Paper, Text } from "@mantine/core";
-import { useState } from "react"
+import { useState } from "react";
 
 export const DiceRollEffect = () => {
     const [count, setCount] = useState(1);
@@ -8,12 +8,9 @@ export const DiceRollEffect = () => {
     const end = () => { clearInterval(start) }
     setTimeout(end, 2000);
 
-
-
-
     return <div>
         <Paper shadow="xs" p="md">
             <Text>{count}</Text>
         </Paper>
     </div>
-}
+};

@@ -27,7 +27,7 @@ const Battle: NextPage = () => {
     const [rivalParty, setRivalParty] = useState<number[]>(randomNumber(0, 6, 6));
     const [diceCount, setDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const [rivalDiceCount, setRivalDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
-    const got: number[] = useSelector((state: storeState) => state.got);
+    const capturedPoke: number[] = useSelector((state: storeState) => state.capturedPoke);
     const { pokemonList, error } = usePokeSWR();
     const [partyStatus, setPartyStatus] = useState<PartyStatus>({
         player: [],
@@ -36,10 +36,10 @@ const Battle: NextPage = () => {
     const [myBattleParty, setMyBattleParty] = useState<MyStaticParty>([]);
 
     useEffect(() => {
-        const newMyBattleParty = got.map((got, index) => {
+        const newMyBattleParty = capturedPoke.map((capturedPoke, index) => {
             return ({
                 id: index,
-                pokeIndex: got,
+                pokeIndex: capturedPoke,
                 checked: false,
             });
         });

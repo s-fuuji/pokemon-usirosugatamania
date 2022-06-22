@@ -1,35 +1,33 @@
 import { Card, Image, Text, Badge, Group } from "@mantine/core";
 import Link from "next/link";
 import useSWR from "swr";
-import { GetOrGoodby } from "../party/GetOrGoodby";
+import { Capturing } from "../party/Capturing";
 import React, { FC } from 'react';
-import { fecherTest, fetcher } from "../../hooks/usePokeSwr";
-import { useRouter } from "next/router";
-
+import { fecher } from "../../hooks/usePokeSwr";
 
 type Props = {
   imgUrl: string;
   link: string;
   index: number;
-  serchPokemon?: string;
+  serchingPokeName?: string;
 };
 
 export const PokeCard: FC<Props> = ({
   imgUrl,
   link,
   index,
-  serchPokemon
+  serchingPokeName
 }) => {
   const { data: pokemonListSpecies, error: spexiesError } = useSWR(
     index ? `https://pokeapi.co/api/v2/pokemon-species/${index}/` : null,
-    fecherTest
+    fecher
   );
 
   const checkSerchPokemon = pokemonListSpecies?.names[0].name.indexOf(
-    serchPokemon)
+    serchingPokeName);
 
 
-  return serchPokemon === undefined || serchPokemon === "" || (serchPokemon !== "" && checkSerchPokemon !== -1)
+  return serchingPokeName === undefined || serchingPokeName === "" || (serchingPokeName !== "" && checkSerchPokemon !== -1)
     ? (
       <Card shadow="sm" p="lg" withBorder={true} className="bg-red-500">
         <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
@@ -54,7 +52,7 @@ export const PokeCard: FC<Props> = ({
         <Text size="sm" style={{ color: "black", lineHeight: 1.5 }}>
           {pokemonListSpecies?.flavor_text_entries[22].flavor_text}
         </Text>
-        <GetOrGoodby index={index} />
+        <Capturing index={index} />
       </Card>
     ) : null
 };
