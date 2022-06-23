@@ -1,7 +1,7 @@
 import { Button, Image } from "@mantine/core";
 import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
-import { Party, PartyStatus, PlayersStatus } from "../types/battlePageTypes";
-import { PhaseChange } from "./PhaseChange";
+import { Party, PartyStatus, PlayersStatus } from "../../../types/battlePageTypes";
+import { PhaseChange } from "../functional/PhaseChange";
 
 type Props = {
     setPlayersHitPoint: Dispatch<SetStateAction<PlayersStatus>>;

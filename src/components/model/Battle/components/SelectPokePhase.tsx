@@ -1,10 +1,10 @@
 import { Button, Checkbox, Image } from "@mantine/core";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { storeState } from "../../slicer/store";
-import { MyStaticParty, PartyStatus } from "../types/battlePageTypes";
-import { PhaseChange } from "./PhaseChange";
-import { CreateRandomNumbers } from "./CreateRandomNumbers";
+import { storeState } from "../../../../slicer/store";
+import { MyStaticParty, PartyStatus } from "../../../types/battlePageTypes";
+import { PhaseChange } from "../functional/PhaseChange";
+import { CreateRandomNumbers } from "../functional/CreateRandomNumbers";
 
 type Props = {
     rivalPartyArray: number[];

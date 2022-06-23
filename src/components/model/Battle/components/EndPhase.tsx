@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
-import { PlayersStatus } from "../types/battlePageTypes";
+import { PlayersStatus } from "../../../types/battlePageTypes";
 
 type Props = {
     playersHitPoint: PlayersStatus;

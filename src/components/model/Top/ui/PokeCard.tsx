@@ -1,9 +1,9 @@
 import { Card, Image, Text, Badge, Group } from "@mantine/core";
 import Link from "next/link";
 import useSWR from "swr";
-import { Capturing } from "../party/Capturing";
+import { CaptureButton } from "./CaptureButton";
 import React, { FC } from 'react';
-import { fecher } from "../../hooks/usePokeSwr";
+import { fecher } from "../../../../api/usePokeSwr";
 
 type Props = {
   imgUrl: string;
@@ -52,7 +52,7 @@ export const PokeCard: FC<Props> = ({
         <Text size="sm" style={{ color: "black", lineHeight: 1.5 }}>
           {pokemonListSpecies?.flavor_text_entries[22].flavor_text}
         </Text>
-        <Capturing index={index} />
+        <CaptureButton index={index} />
       </Card>
     ) : null
 };

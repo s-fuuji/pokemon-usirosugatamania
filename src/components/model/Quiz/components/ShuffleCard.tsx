@@ -1,6 +1,6 @@
-import { QuizCard } from "./QuizCard";
+import { QuizCard } from "../ui/QuizCard";
 import React, { ReactNode } from 'react';
-import { nextQuestionImgUrls } from "../types/quizPageTypes";
+import { nextQuestionImgUrls } from "../../../types/quizPageTypes";
 
 
 type Props = {

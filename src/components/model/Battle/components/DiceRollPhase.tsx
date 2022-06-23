@@ -1,8 +1,8 @@
 import { Button, Paper, Text } from "@mantine/core";
 import { useState } from "react";
-import { DiceRollEffect } from "./DiceRollEffect";
-import { PhaseChange } from "./PhaseChange";
-import { RollThreeDice } from "./rollThreeDice";
+import { DiceRollEffect } from "../functional/DiceRollEffect";
+import { PhaseChange } from "../functional/PhaseChange";
+import { RollThreeDice } from "../functional/RollThreeDice";
 
 type Props = {
     isStatusUpPhase: any;

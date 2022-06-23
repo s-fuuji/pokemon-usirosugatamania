@@ -1,14 +1,14 @@
 import { Button } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { get, goodbye } from "../../slicer/gotPokemonSlicer";
+import { get, goodbye } from "../../../../slicer/gotPokemonSlicer";
 import React, { FC } from 'react';
-import { storeState } from "../../slicer/store";
+import { storeState } from "../../../../slicer/store";
 
 type Props = {
   index: number
 };
 
-export const Capturing: FC<Props> = ({ index }) => {
+export const CaptureButton: FC<Props> = ({ index }) => {
   const capturedPoke = useSelector((state: storeState) => state.capturedPoke);
   const dispatch = useDispatch();
 

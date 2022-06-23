@@ -1,8 +1,8 @@
 import { Button, Checkbox, Image } from "@mantine/core";
 import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
-import { DiceCount, PartyStatus } from "../types/battlePageTypes";
-import { PhaseChange } from "./PhaseChange";
-import { CreateRandomNumbers } from "./CreateRandomNumbers";
+import { DiceCount, PartyStatus } from "../../../types/battlePageTypes";
+import { PhaseChange } from "../functional/PhaseChange";
+import { CreateRandomNumbers } from "../functional/CreateRandomNumbers";
 
 type Props = {
     setDiceCountArray: Dispatch<SetStateAction<DiceCount>>;

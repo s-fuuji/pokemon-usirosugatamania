@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { useDispatch } from "react-redux";
-import { triedQuizCount } from "../../slicer/triedQuizSlicer";
+import { triedQuizCount } from "../../../../slicer/triedQuizSlicer";
 import React from 'react';
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   allQuestionNum: number;
 };
 
-export const FinishedQuiz: React.FC<Props> = ({
+export const AfterClearQuiz: React.FC<Props> = ({
   correctAnswersCount, allQuestionNum
 }) => {
   const dispatch = useDispatch();

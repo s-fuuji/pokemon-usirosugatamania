@@ -2,9 +2,9 @@ import { Button } from "@mantine/core";
 import { FC, useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { MyParty } from "../party/MyParty";
 import React from 'react';
 import { storeState } from "../../slicer/store";
+import { MyParty } from "../model/Header/components/MyParty";
 
 export const Header: FC = () => {
   const capturedPoke = useSelector((state: storeState) => state.capturedPoke);

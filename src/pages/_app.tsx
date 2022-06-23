@@ -8,6 +8,7 @@ import { AppProps } from "next/dist/shared/lib/router/router";
 import React from 'react'
 import { PersistGate } from "redux-persist/integration/react";
 import persistStore from "redux-persist/lib/persistStore";
+import { AppProviders } from "../providers/AppProviders";
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -18,19 +19,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
-      <Provider store={store}>
-        <MantineProvider
-          theme={{ fontFamily: "Open Sans" }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <Header />
-          <main className="pt-24 px-4 bg-slate-600 min-h-screen">
-            <Component {...pageProps} />
-          </main>
-        </MantineProvider>
-
-      </Provider>
+      <AppProviders>
+        <Header />
+        <main className="pt-24 px-4 bg-slate-600 min-h-screen">
+          <Component {...pageProps} />
+        </main>
+      </AppProviders>
     </div>
   );
 }
