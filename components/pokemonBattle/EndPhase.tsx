@@ -3,13 +3,13 @@ import { FC, useEffect, useState } from "react";
 import { PlayersStatus } from "../types/battlePageTypes";
 
 type Props = {
-    playersStatus: PlayersStatus;
+    playersHitPoint: PlayersStatus;
 };
 
-export const EndPhase: FC<Props> = ({ playersStatus }) => {
+export const EndPhase: FC<Props> = ({ playersHitPoint }) => {
     const [isWin, setIsWin] = useState(false);
     useEffect(() => {
-        playersStatus.playerHp >= playersStatus.rivalHp && setIsWin(true);
+        playersHitPoint.playerHp >= playersHitPoint.rivalHp && setIsWin(true);
     }, []);
 
     return (

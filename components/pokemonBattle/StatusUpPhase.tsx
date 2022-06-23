@@ -2,27 +2,27 @@ import { Button, Checkbox, Image } from "@mantine/core";
 import { Dispatch, ReactNode, SetStateAction, useEffect } from "react";
 import { DiceCount, PartyStatus } from "../types/battlePageTypes";
 import { PhaseChange } from "./PhaseChange";
-import { randomNumber } from "./RandomNumber";
+import { CreateRandomNumbers } from "./CreateRandomNumbers";
 
 type Props = {
-    setDiceCount: Dispatch<SetStateAction<DiceCount>>;
-    setPartyStatus: Dispatch<SetStateAction<PartyStatus>>;
+    setDiceCountArray: Dispatch<SetStateAction<DiceCount>>;
+    setPlayersPartyStatus: Dispatch<SetStateAction<PartyStatus>>;
     setIsBattlePhase: Dispatch<SetStateAction<boolean>>;
     setIsFightPhase: Dispatch<SetStateAction<boolean>>;
     setIsStatusUpPhase: Dispatch<SetStateAction<boolean>>;
     isStatusUpPhase: boolean;
-    diceCount: DiceCount;
+    diceCountArray: DiceCount;
     rivalDiceCount: DiceCount;
-    partyStatus: PartyStatus;
+    playersPartyStatus: PartyStatus;
     children: ReactNode;
 };
 
 
 export const StatusUpPhase: React.FC<Props> = ({
-    diceCount,
-    setDiceCount,
-    partyStatus,
-    setPartyStatus,
+    diceCountArray,
+    setDiceCountArray,
+    playersPartyStatus,
+    setPlayersPartyStatus,
     isStatusUpPhase,
     setIsBattlePhase,
     rivalDiceCount,
@@ -30,36 +30,36 @@ export const StatusUpPhase: React.FC<Props> = ({
     setIsStatusUpPhase,
     children }) => {
     const rivalPowerUp = (): void => {
-        let newRivalPartyStatus = partyStatus.rival;
+        let newRivalPartyStatus = playersPartyStatus.rival;
         for (let i = rivalDiceCount.totalDice; i > 0; i--) {
-            const powerUpIndex = randomNumber(0, 2, 1)[0];
+            const powerUpIndex = CreateRandomNumbers(0, 2, 1)[0];
             const preRivalPartyStatus = newRivalPartyStatus.map(rival => {
                 return rival.id === powerUpIndex ? { ...rival, power: rival.power + 1 } : rival
             });
             newRivalPartyStatus = preRivalPartyStatus;
         };
 
-        const shuffleNumber = randomNumber(0, 2, 3);
+        const shuffleNumber = CreateRandomNumbers(0, 2, 3);
         newRivalPartyStatus = newRivalPartyStatus.map((prev, index: number) => {
             return { ...prev, order: shuffleNumber[index] };
         });
 
-        setPartyStatus(
-            { ...partyStatus, rival: newRivalPartyStatus }
+        setPlayersPartyStatus(
+            { ...playersPartyStatus, rival: newRivalPartyStatus }
         );
     };
 
 
     const powerUp = (powerUpIndex: number, up?: string): void => {
-        if (up && diceCount.totalDice > 0 || !up && partyStatus.player[powerUpIndex].power > 0) {
-            const powerUpPokemon = partyStatus.player.map(member => {
+        if (up && diceCountArray.totalDice > 0 || !up && playersPartyStatus.player[powerUpIndex].power > 0) {
+            const powerUpPokemon = playersPartyStatus.player.map(member => {
                 return member.id === powerUpIndex ? { ...member, power: member.power + (up ? +1 : -1) } : member;
             });
             const newPartyStatus = {
-                ...partyStatus, player: powerUpPokemon
+                ...playersPartyStatus, player: powerUpPokemon
             };
-            setDiceCount({ ...diceCount, totalDice: diceCount.totalDice + (up ? -1 : 1) });
-            setPartyStatus(newPartyStatus);
+            setDiceCountArray({ ...diceCountArray, totalDice: diceCountArray.totalDice + (up ? -1 : 1) });
+            setPlayersPartyStatus(newPartyStatus);
         } else {
             console.log("null");
         };
@@ -67,17 +67,17 @@ export const StatusUpPhase: React.FC<Props> = ({
 
 
     const selectFighter = (order: number): void => {
-        const orderIndex = partyStatus.player.filter(fighter => fighter.checked).length;
-        const newPartyStatus = partyStatus.player.map(fighter => {
+        const orderIndex = playersPartyStatus.player.filter(fighter => fighter.checked).length;
+        const newPartyStatus = playersPartyStatus.player.map(fighter => {
             return fighter.id === order ? { ...fighter, order: orderIndex, checked: !fighter.checked, disabled: true } : fighter;
         });
-        setPartyStatus({ ...partyStatus, player: newPartyStatus });
+        setPlayersPartyStatus({ ...playersPartyStatus, player: newPartyStatus });
         orderIndex >= 3 && setIsBattlePhase(true);
     };
 
     const orderLiset = (): void => {
-        const newPlayerPartyStatus = partyStatus.player.map((prev) => { return { ...prev, order: 0, checked: false } });
-        setPartyStatus({ ...partyStatus, player: newPlayerPartyStatus });
+        const newPlayerPartyStatus = playersPartyStatus.player.map((prev) => { return { ...prev, order: 0, checked: false } });
+        setPlayersPartyStatus({ ...playersPartyStatus, player: newPlayerPartyStatus });
         setIsBattlePhase(false);
     };
 
@@ -94,7 +94,7 @@ export const StatusUpPhase: React.FC<Props> = ({
     return (
         <div className="flex justify-around">
             <div>
-                {partyStatus.player.map((member: any, index: number) => {
+                {playersPartyStatus.player.map((member: any, index: number) => {
                     return <div key={index} className="flex items-center">
                         {isStatusUpPhase && <div>
                             <Button onClick={() => powerUp(index, "up")} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
@@ -113,9 +113,9 @@ export const StatusUpPhase: React.FC<Props> = ({
                             {isStatusUpPhase && <Checkbox
                                 size="xl"
                                 id={`battleId_${index}`}
-                                disabled={partyStatus.player[index].checked}
+                                disabled={playersPartyStatus.player[index].checked}
                                 onChange={() => selectFighter(index)}
-                                checked={partyStatus.player[index].checked}
+                                checked={playersPartyStatus.player[index].checked}
                             />}
                         </label>
 
@@ -123,7 +123,7 @@ export const StatusUpPhase: React.FC<Props> = ({
                 })}
             </div>
             <div className="flex-col -ml-32 text-center">
-                {partyStatus.player.filter(fighter => fighter.checked).length === 3 && <div>
+                {playersPartyStatus.player.filter(fighter => fighter.checked).length === 3 && <div>
                     <div className="my-6">
                         <Button onClick={orderLiset} variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
                             順番をリセット
@@ -144,7 +144,7 @@ export const StatusUpPhase: React.FC<Props> = ({
 
 
             <div>
-                {partyStatus.rival.map((member: any, index: number) => {
+                {playersPartyStatus.rival.map((member: any, index: number) => {
                     return <Image key={index} src={member.imgUrl} className="rounded-full w-40" />
                 })}
             </div>

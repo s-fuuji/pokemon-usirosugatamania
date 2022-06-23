@@ -4,50 +4,45 @@ import { Party, PartyStatus, PlayersStatus } from "../types/battlePageTypes";
 import { PhaseChange } from "./PhaseChange";
 
 type Props = {
-    setPlayersStatus: Dispatch<SetStateAction<PlayersStatus>>;
+    setPlayersHitPoint: Dispatch<SetStateAction<PlayersStatus>>;
     setIsFightPhase: Dispatch<SetStateAction<boolean>>;
     setIsDiceRollPhase: Dispatch<SetStateAction<boolean>>;
     setIsEndPhase: Dispatch<SetStateAction<boolean>>;
-    partyStatus: PartyStatus;
-    playersStatus: PlayersStatus;
+    playersPartyStatus: PartyStatus;
+    playersHitPoint: PlayersStatus;
 };
 
 export const FightingPhase: FC<Props> = ({
-    partyStatus,
-    playersStatus,
-    setPlayersStatus,
+    playersPartyStatus,
+    playersHitPoint,
+    setPlayersHitPoint,
     setIsFightPhase,
     setIsDiceRollPhase,
     setIsEndPhase }) => {
 
-    const [order, setOrder] = useState<number>(0);
+    const [turn, setTurn] = useState<number>(0);
 
-    const newMyFighters = [...partyStatus.player].sort((fighterA, fighterB) => {
+    const sortedMyParty = [...playersPartyStatus.player].sort((fighterA, fighterB) => {
         if (fighterA.order < fighterB.order) return -1;
         if (fighterA.order > fighterB.order) return 1;
         return 0;
     });
 
-    const newRivalFighters = [...partyStatus.rival].sort((fighterA, fighterB) => {
+    const sortedRivalParty = [...playersPartyStatus.rival].sort((fighterA, fighterB) => {
         if (fighterA.order < fighterB.order) return -1;
         if (fighterA.order > fighterB.order) return 1;
         return 0;
     });
 
-    const [myFighters, setMyfighters] = useState<Party[]>(newMyFighters);
-    const [rivalFighters, setRivalFighters] = useState<Party[]>(newRivalFighters);
-    const newMyDamage = myFighters.map((prev, index) => {
-        return prev.power - rivalFighters[index].power;
+    const checkedDamage = sortedMyParty.map((prev, index) => {
+        return prev.power - sortedRivalParty[index].power;
     });
-    const [myDamage, setMydamage] = useState<number[]>(newMyDamage);
 
-
-
-    const hitPointCheck = (i: number) => {
-        setOrder(i);
-        setPlayersStatus((prevPlayersStatus) => {
-            return myDamage[i] >= 0 ? { playerHp: prevPlayersStatus.playerHp, rivalHp: prevPlayersStatus.rivalHp - myDamage[i] } :
-                { playerHp: prevPlayersStatus.playerHp + myDamage[i], rivalHp: prevPlayersStatus.rivalHp };
+    const reduceHitPoint = (i: number) => {
+        setTurn(i);
+        setPlayersHitPoint((prevPlayersStatus) => {
+            return checkedDamage[i] >= 0 ? { playerHp: prevPlayersStatus.playerHp, rivalHp: prevPlayersStatus.rivalHp - checkedDamage[i] } :
+                { playerHp: prevPlayersStatus.playerHp + checkedDamage[i], rivalHp: prevPlayersStatus.rivalHp };
         });
     };
 
@@ -57,19 +52,19 @@ export const FightingPhase: FC<Props> = ({
 
     const asyncOrderCount = async (): Promise<void> => {
         for (let i = 0; i < 3; i++) {
-            hitPointCheck(i);
+            reduceHitPoint(i);
             await sleep(2000);
         }
         PhaseChange(setIsFightPhase, setIsDiceRollPhase);
     };
 
     useEffect(() => {
-        if (playersStatus.playerHp <= 0 || playersStatus.rivalHp <= 0) {
+        if (playersHitPoint.playerHp <= 0 || playersHitPoint.rivalHp <= 0) {
             setTimeout(() => {
                 PhaseChange(setIsFightPhase, setIsEndPhase)
             }, 1500);
         };
-    }, [playersStatus]);
+    }, [playersHitPoint]);
 
     const effectUsedRef = useRef(false);
 
@@ -80,39 +75,29 @@ export const FightingPhase: FC<Props> = ({
         };
     }, []);
 
-
-
-
-
-
-
-
     return (
-        <div className="">
-            <button onClick={asyncOrderCount}>btn</button>
-
-            {order === 0 && <div className="flex items-center">
-                <Image src={myFighters[0].imgUrl} className="rounded-full w-44" />
+        <div>
+            {turn === 0 && <div className="flex items-center">
+                <Image src={sortedMyParty[0].imgUrl} className="rounded-full w-44" />
                 <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
-                    {myDamage[0] >= 0 ? `相手に-${myDamage[0]}ダメージ！` : `自分に${myDamage[0]}ダメージ！`}
+                    {checkedDamage[0] >= 0 ? `相手に-${checkedDamage[0]}ダメージ！` : `自分に${checkedDamage[0]}ダメージ！`}
                 </Button>
-                <Image src={rivalFighters[0].imgUrl} className="rounded-full w-44" />
+                <Image src={sortedRivalParty[0].imgUrl} className="rounded-full w-44" />
             </div>}
-            {order === 1 && <div className="flex items-center">
-                <Image src={myFighters[1].imgUrl} className="rounded-full w-44" />
+            {turn === 1 && <div className="flex items-center">
+                <Image src={sortedMyParty[1].imgUrl} className="rounded-full w-44" />
                 <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
-                    {myDamage[1] >= 0 ? `相手に-${myDamage[1]}ダメージ！` : `自分に${myDamage[1]}ダメージ！`}
+                    {checkedDamage[1] >= 0 ? `相手に-${checkedDamage[1]}ダメージ！` : `自分に${checkedDamage[1]}ダメージ！`}
                 </Button>
-                <Image src={rivalFighters[1].imgUrl} className="rounded-full w-44" />
+                <Image src={sortedRivalParty[1].imgUrl} className="rounded-full w-44" />
             </div>}
-            {order === 2 && <div className="flex items-center">
-                <Image src={myFighters[2].imgUrl} className="rounded-full w-44" />
+            {turn === 2 && <div className="flex items-center">
+                <Image src={sortedMyParty[2].imgUrl} className="rounded-full w-44" />
                 <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>
-                    {myDamage[2] >= 0 ? `相手に-${myDamage[2]}ダメージ！` : `自分に${myDamage[2]}ダメージ！`}
+                    {checkedDamage[2] >= 0 ? `相手に-${checkedDamage[2]}ダメージ！` : `自分に${checkedDamage[2]}ダメージ！`}
                 </Button>
-                <Image src={rivalFighters[2].imgUrl} className="rounded-full w-44" />
+                <Image src={sortedRivalParty[2].imgUrl} className="rounded-full w-44" />
             </div>}
         </div>
-
-    )
-}
+    );
+};

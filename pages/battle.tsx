@@ -5,7 +5,7 @@ import { BattleFieldLayout } from "../components/pokemonBattle/BattleFieldLayout
 import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
 import { EndPhase } from "../components/pokemonBattle/EndPhase";
 import { FightingPhase } from "../components/pokemonBattle/FightingPhase";
-import { randomNumber } from "../components/pokemonBattle/RandomNumber";
+import { CreateRandomNumbers } from "../components/pokemonBattle/CreateRandomNumbers";
 import { SelectPokePhase } from "../components/pokemonBattle/SelectPokePhase";
 import { StatusUpPhase } from "../components/pokemonBattle/StatusUpPhase";
 import { DiceCount, MyStaticParty, PartyStatus, PlayersStatus } from "../components/types/battlePageTypes";
@@ -21,69 +21,66 @@ const Battle: NextPage = () => {
     const [isStatusUpPhase, setIsStatusUpPhase] = useState<boolean>(false);
     const [isFightPhase, setIsFightPhase] = useState<boolean>(false);
     const [isEndPhase, setIsEndPhase] = useState<boolean>(false);
-    const [playersStatus, setPlayersStatus] = useState<PlayersStatus>({
+    const [playersHitPoint, setPlayersHitPoint] = useState<PlayersStatus>({
         playerHp: 50, rivalHp: 50
     });
-    const [rivalParty, setRivalParty] = useState<number[]>(randomNumber(0, 6, 6));
-    const [diceCount, setDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
+    const [rivalPartyArray, setRivalPartyArray] = useState<number[]>(CreateRandomNumbers(0, 6, 6));
+    const [diceCountArray, setDiceCountArray] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const [rivalDiceCount, setRivalDiceCount] = useState<DiceCount>({ threeDice: [0, 0, 0], totalDice: 0 });
     const capturedPoke: number[] = useSelector((state: storeState) => state.capturedPoke);
     const { pokemonList, error } = usePokeSWR();
-    const [partyStatus, setPartyStatus] = useState<PartyStatus>({
+    const [playersPartyStatus, setPlayersPartyStatus] = useState<PartyStatus>({
         player: [],
         rival: []
     });
-    const [myBattleParty, setMyBattleParty] = useState<MyStaticParty>([]);
+    const [playerDefaultParty, setPlayerDefaultParty] = useState<MyStaticParty>([]);
 
     useEffect(() => {
-        const newMyBattleParty = capturedPoke.map((capturedPoke, index) => {
+        const newPlayerDefaultParty = capturedPoke.map((capturedPoke, index) => {
             return ({
                 id: index,
                 pokeIndex: capturedPoke,
                 checked: false,
             });
         });
-        setMyBattleParty(newMyBattleParty);
+        setPlayerDefaultParty(newPlayerDefaultParty);
     }, []);
-
-
-
 
     return (
         <div>
             {!isEndPhase ? isSelectPokePhase ?
                 <SelectPokePhase
-                    rivalParty={rivalParty}
+                    rivalPartyArray={rivalPartyArray}
                     pokemonList={pokemonList}
-                    myBattleParty={myBattleParty}
+                    playerDefaultParty={playerDefaultParty}
                     setIsSelectPokePhase={setIsSelectPokePhase}
                     setIsDiceRollPhase={setIsDiceRollPhase}
-                    setPartyStatus={setPartyStatus}
-                    setMyBattleParty={setMyBattleParty}
+                    setPlayersPartyStatus={setPlayersPartyStatus}
+                    setPlayerDefaultParty={setPlayerDefaultParty}
                 />
                 :
                 <div>
                     <BattleFieldLayout
-                        playersStatus={playersStatus}
-                        diceCount={diceCount}
+                        playersHitPoint={playersHitPoint}
+                        diceCountArray={diceCountArray}
                         rivalDiceCount={rivalDiceCount}
                     />
 
                     <StatusUpPhase
-                        diceCount={diceCount}
-                        setDiceCount={setDiceCount}
-                        partyStatus={partyStatus}
+                        diceCountArray={diceCountArray}
+                        setDiceCountArray={setDiceCountArray}
+                        playersPartyStatus={playersPartyStatus}
                         isStatusUpPhase={isStatusUpPhase}
                         setIsStatusUpPhase={setIsStatusUpPhase}
-                        setPartyStatus={setPartyStatus}
+                        setPlayersPartyStatus={setPlayersPartyStatus}
                         setIsBattlePhase={setIsBattlePhase}
                         rivalDiceCount={rivalDiceCount}
                         setIsFightPhase={setIsFightPhase}
                     >
                         {isFightPhase && <FightingPhase
-                            playersStatus={playersStatus}
-                            setPlayersStatus={setPlayersStatus}
-                            partyStatus={partyStatus}
+                            playersHitPoint={playersHitPoint}
+                            setPlayersHitPoint={setPlayersHitPoint}
+                            playersPartyStatus={playersPartyStatus}
                             setIsFightPhase={setIsFightPhase}
                             setIsDiceRollPhase={setIsDiceRollPhase}
                             setIsEndPhase={setIsEndPhase}
@@ -91,8 +88,8 @@ const Battle: NextPage = () => {
                     </StatusUpPhase>
 
                     <DiceRollPhase
-                        diceCount={diceCount}
-                        setDiceCount={setDiceCount}
+                        diceCountArray={diceCountArray}
+                        setDiceCountArray={setDiceCountArray}
                         setRivalDiceCount={setRivalDiceCount}
                         isStatusUpPhase={isStatusUpPhase}
                         setIsStatusUpPhase={setIsStatusUpPhase}
@@ -100,7 +97,7 @@ const Battle: NextPage = () => {
                         setIsDiceRollPhase={setIsDiceRollPhase}
                     />
                 </div>
-                : <EndPhase playersStatus={playersStatus} />}
+                : <EndPhase playersHitPoint={playersHitPoint} />}
         </div>
     )
 }

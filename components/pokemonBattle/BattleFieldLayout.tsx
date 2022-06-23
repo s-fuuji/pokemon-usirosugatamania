@@ -3,29 +3,29 @@ import { FC } from "react";
 import { DiceCount, PlayersStatus } from "../types/battlePageTypes";
 
 type Props = {
-    diceCount: DiceCount;
+    diceCountArray: DiceCount;
     rivalDiceCount: DiceCount;
-    playersStatus: PlayersStatus;
+    playersHitPoint: PlayersStatus;
 };
 
 export const BattleFieldLayout: FC<Props> = ({
-    diceCount,
+    diceCountArray,
     rivalDiceCount,
-    playersStatus }) => {
+    playersHitPoint }) => {
 
     return (
         <div className="flex justify-around">
             <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }}>
-                自分のパワー{diceCount.totalDice}
+                自分のパワー{diceCountArray.totalDice}
             </Button>
 
 
             <div className="flex">
                 <Button className="ml-14" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 35 }}>
-                    プレイヤーのHP:{playersStatus.playerHp}
+                    プレイヤーのHP:{playersHitPoint.playerHp}
                 </Button>
                 <Button className="" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 35 }}>
-                    <p>ライバルのHP:{playersStatus.rivalHp}</p>
+                    <p>ライバルのHP:{playersHitPoint.rivalHp}</p>
                 </Button>
             </div>
 

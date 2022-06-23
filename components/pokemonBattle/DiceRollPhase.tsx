@@ -1,24 +1,22 @@
-import { Button, Paper, Text } from "@mantine/core"
-import { Dispatch, SetStateAction, useState } from "react";
+import { Button, Paper, Text } from "@mantine/core";
+import { useState } from "react";
 import { DiceRollEffect } from "./DiceRollEffect";
 import { PhaseChange } from "./PhaseChange";
-import { TripleDice } from "./TripleDice";
-
+import { RollThreeDice } from "./rollThreeDice";
 
 type Props = {
     isStatusUpPhase: any;
     setIsStatusUpPhase: any;
-    diceCount: any;
-    setDiceCount: any;
+    diceCountArray: any;
+    setDiceCountArray: any;
     setRivalDiceCount: any;
     isDiceRollPhase: any;
     setIsDiceRollPhase: any;
-}
-
+};
 
 export const DiceRollPhase: React.FC<Props> = ({
-    diceCount,
-    setDiceCount,
+    diceCountArray,
+    setDiceCountArray,
     setRivalDiceCount,
     setIsStatusUpPhase,
     isDiceRollPhase,
@@ -26,8 +24,8 @@ export const DiceRollPhase: React.FC<Props> = ({
 
     const [showDiceRollEffect, setShowDiceRollEffect] = useState(false)
     const startDiceEffect = () => {
-        TripleDice(setDiceCount);
-        TripleDice(setRivalDiceCount);
+        RollThreeDice(setDiceCountArray);
+        RollThreeDice(setRivalDiceCount);
         PhaseChange(setIsDiceRollPhase, setShowDiceRollEffect);
         setTimeout(() => { PhaseChange(setShowDiceRollEffect, setIsStatusUpPhase) }, 1000);
     }
@@ -45,13 +43,13 @@ export const DiceRollPhase: React.FC<Props> = ({
             </div>
             :
             <div className="flex justify-center">
-                {diceCount.threeDice.map((count: number, index: number) => {
+                {diceCountArray.threeDice.map((count: number, index: number) => {
                     return <Paper key={index} shadow="xs" p="md">
                         <Text>{count}</Text>
                     </Paper>
                 })}
                 <Paper className="ml-3" shadow="xs" p="md">
-                    <Text>{diceCount.totalDice}</Text>
+                    <Text>{diceCountArray.totalDice}</Text>
                 </Paper>
             </div>
         }

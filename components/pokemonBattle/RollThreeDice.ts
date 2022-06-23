@@ -1,6 +1,6 @@
 
 
-export const TripleDice = (setAny: any) => {
+export const RollThreeDice = (setAny: any) => {
     const diceRoll = () => Math.floor(Math.random() * 6 + 1);
     const dice1 = diceRoll();
     const dice2 = diceRoll();
@@ -9,5 +9,5 @@ export const TripleDice = (setAny: any) => {
     const newDice = { threeDice: [dice1, dice2, dice3], totalDice }
 
 
-    setAny(newDice)
-}
+    setAny(newDice);
+};
