@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { BattleFieldLayout } from "../components/pokemonBattle/BattleFieldLayout";
 import { DiceRollPhase } from "../components/pokemonBattle/DiceRollPhase";
 import { EndPhase } from "../components/pokemonBattle/EndPhase";
 import { FightingPhase } from "../components/pokemonBattle/FightingPhase";
@@ -11,7 +10,9 @@ import { StatusUpPhase } from "../components/pokemonBattle/StatusUpPhase";
 import { DiceCount, MyStaticParty, PartyStatus, PlayersStatus } from "../components/types/battlePageTypes";
 import { usePokeSWR } from "../hooks/usePokeSwr";
 import { storeState } from "../slicer/store";
+import { BattleFieldLayout } from "../components/pokemonBattle/BattleFieldLayout";
 
+BattleFieldLayout
 
 
 const Battle: NextPage = () => {
