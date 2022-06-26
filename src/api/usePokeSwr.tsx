@@ -1,18 +1,18 @@
-
-import useSWR from "swr";
+import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
 export const fecher = async (url: string) => {
-  const res = await fetch(url);
-  return res.json();
-};
+  const res = await fetch(url)
+  return res.json()
+}
 
 export const fetcherAll = (...urls: string[]) => {
-  return Promise.all(urls.map(async (url: string) => {
-    const res = await fetch(url);
-    return res.json();
-  }));
-};
-
+  return Promise.all(
+    urls.map(async (url: string) => {
+      const res = await fetch(url)
+      return res.json()
+    })
+  )
+}
 
 export const usePokeSWR = () => {
   const pokemonListDataUrl = [...Array(40)].map((noUse, index) => {
@@ -22,11 +22,10 @@ export const usePokeSWR = () => {
   const { data: pokemonList, error: pokemonListError } = useSWRImmutable(
     pokemonListDataUrl,
     fetcherAll
-  );
+  )
 
+  const isLoading = !pokemonList && !pokemonListError
+  const error = pokemonListError
 
-  const isLoading = !pokemonList && !pokemonListError;
-  const error = pokemonListError;
-
-  return { pokemonList, error, isLoading };
-};
+  return { pokemonList, error, isLoading }
+}

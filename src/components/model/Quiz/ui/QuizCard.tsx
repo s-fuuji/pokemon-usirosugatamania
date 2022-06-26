@@ -1,14 +1,12 @@
-import { Card, Image } from "@mantine/core";
-import React, { FC } from 'react';
+import { Card, Image } from '@mantine/core'
+import React, { FC } from 'react'
 
 type Props = {
-  imgUrl: string | undefined;
+  imgUrl: string | undefined
   onClick: React.MouseEventHandler<HTMLDivElement>
-};
+}
 
-export const QuizCard: FC<Props> = ({
-  imgUrl,
-  onClick }) => {
+export const QuizCard: FC<Props> = ({ imgUrl, onClick }) => {
   return (
     <div>
       <Card
@@ -18,7 +16,7 @@ export const QuizCard: FC<Props> = ({
         onClick={onClick}
         className="bg-red-500"
       >
-        <Card.Section style={{ marginLeft: "auto", marginRight: "auto" }}>
+        <Card.Section style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           <Image
             className="bg-card-back bg-cover w-96 pl-24"
             src={imgUrl}
@@ -29,5 +27,5 @@ export const QuizCard: FC<Props> = ({
         </Card.Section>
       </Card>
     </div>
-  );
-};
+  )
+}

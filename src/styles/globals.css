@@ -1,5 +1,5 @@
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 html,
 body {
@@ -7,9 +7,8 @@ body {
   margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: black;
-  background-image: url('https://game.watch.impress.co.jp/img/gmw/list/1344/820/1.jpg');
-  background-size: cover;
+  background: url('../../public/img/poke-back2.jpg') 0 / cover;
+  background-attachment: fixed;
 }
 
 a {

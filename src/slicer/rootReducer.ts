@@ -1,10 +1,10 @@
-import { combineReducers } from "@reduxjs/toolkit";
-import { gotReducer } from "./gotPokemonSlicer";
-import { triedQuizReducer } from "./triedQuizSlicer";
+import { combineReducers } from '@reduxjs/toolkit'
+import { gotReducer } from './gotPokemonSlicer'
+import { triedQuizResulltReducer } from './triedQuizSlicer'
 
 const rootReducer = combineReducers({
   capturedPoke: gotReducer,
-  triedQuizData: triedQuizReducer,
-});
+  triedQuizResulltData: triedQuizResulltReducer,
+})
 
-export default rootReducer;
+export default rootReducer

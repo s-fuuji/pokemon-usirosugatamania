@@ -1,14 +1,13 @@
-import { QuizCard } from "../ui/QuizCard";
-import React, { ReactNode } from 'react';
-import { nextQuestionImgUrls } from "../../../types/quizPageTypes";
-
+import { QuizCard } from '../ui/QuizCard'
+import React, { ReactNode } from 'react'
+import { nextQuestionImgUrls } from '../../../types/quizPageTypes'
 
 type Props = {
-  addCorrect: () => void;
-  addInCorrect: () => void;
-  nextQuestionImgUrls: nextQuestionImgUrls;
-  children: ReactNode;
-};
+  addCorrect: () => void
+  addInCorrect: () => void
+  nextQuestionImgUrls: nextQuestionImgUrls
+  children: ReactNode
+}
 
 export const ShuffleCard: React.FC<Props> = ({
   addCorrect,
@@ -16,10 +15,11 @@ export const ShuffleCard: React.FC<Props> = ({
   nextQuestionImgUrls,
   children,
 }) => {
-  const right = Math.random();
-  const left = Math.random();
-  const { maleImgUrl, femaleImgUrl } = nextQuestionImgUrls;
-  const isMaleLeft = right >= left;
+  const right = Math.random()
+  const left = Math.random()
+  const { maleImgUrl, femaleImgUrl } = nextQuestionImgUrls
+  const isMaleLeft = right >= left
+
   return (
     <div className="flex justify-center items-center">
       <QuizCard
@@ -32,5 +32,5 @@ export const ShuffleCard: React.FC<Props> = ({
         onClick={isMaleLeft ? addCorrect : addInCorrect}
       />
     </div>
-  );
-};
+  )
+}

@@ -1,11 +1,3 @@
-import { Quiz } from "../components/page/Quiz"
+import { Quiz } from '../components/page/Quiz'
 
-
-
-export const quiz = () => {
-    return (
-        <Quiz />
-    )
-}
-
-export default quiz
+export default Quiz

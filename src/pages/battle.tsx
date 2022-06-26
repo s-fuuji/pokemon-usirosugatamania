@@ -1,12 +1,3 @@
-import { Battle } from "../components/page/Battle"
+import { Battle } from '../components/page/Battle'
 
-
-
-export const battle = () => {
-    return (
-        <Battle />
-    )
-
-}
-
-export default battle
+export default Battle

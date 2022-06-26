@@ -1,18 +1,17 @@
-import Head from "next/head";
-import "../styles/globals.css";
-import { MantineProvider } from "@mantine/core";
-import { Header } from "../components/layout/Header";
-import { store } from "../slicer/store"
-import { Provider } from "react-redux";
-import { AppProps } from "next/dist/shared/lib/router/router";
+import Head from 'next/head'
+import '../styles/globals.css'
+import { MantineProvider } from '@mantine/core'
+import { Header } from '../components/layout/Header'
+import { store } from '../slicer/store'
+import { Provider } from 'react-redux'
+import { AppProps } from 'next/dist/shared/lib/router/router'
 import React from 'react'
-import { PersistGate } from "redux-persist/integration/react";
-import persistStore from "redux-persist/lib/persistStore";
-import { AppProviders } from "../providers/AppProviders";
+import { PersistGate } from 'redux-persist/integration/react'
+import persistStore from 'redux-persist/lib/persistStore'
+import { AppProviders } from '../providers/AppProviders'
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  let persistor = persistStore(store);
+  let persistor = persistStore(store)
   return (
     <div>
       <Head>
@@ -21,12 +20,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <AppProviders>
         <Header />
-        <main className="pt-24 px-4 bg-slate-600 min-h-screen">
-          <Component {...pageProps} />
-        </main>
+
+        <Component {...pageProps} />
       </AppProviders>
     </div>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

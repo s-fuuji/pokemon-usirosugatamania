@@ -1,20 +1,21 @@
-import { Button } from "@mantine/core";
-import { useDispatch } from "react-redux";
-import { triedQuizCount } from "../../../../slicer/triedQuizSlicer";
-import React from 'react';
+import { Button } from '@mantine/core'
+import { useDispatch } from 'react-redux'
+import React from 'react'
+import { setTriedQuizResullt } from '../../../../slicer/triedQuizSlicer'
 
 type Props = {
   correctAnswersCount: number
-  allQuestionNum: number;
-};
+  allQuestionNum: number
+}
 
 export const AfterClearQuiz: React.FC<Props> = ({
-  correctAnswersCount, allQuestionNum
+  correctAnswersCount,
+  allQuestionNum,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const resultSave = (): void => {
-    dispatch(triedQuizCount({ correctAnswersCount, allQuestionNum }));
-  };
+    dispatch(setTriedQuizResullt({ correctAnswersCount, allQuestionNum }))
+  }
 
   return (
     <div className="mt-24 text-center ">
@@ -26,7 +27,7 @@ export const AfterClearQuiz: React.FC<Props> = ({
         className="h-28 text-5xl rounded-full px-11"
         onClick={() => resultSave()}
         variant="gradient"
-        gradient={{ from: "yellow", to: "red" }}
+        gradient={{ from: 'yellow', to: 'red' }}
         style={{ marginBottom: 30 }}
       >
         結果を保存
@@ -35,11 +36,11 @@ export const AfterClearQuiz: React.FC<Props> = ({
         className="h-28 text-5xl rounded-full px-11"
         onClick={() => window.location.reload()}
         variant="gradient"
-        gradient={{ from: "yellow", to: "red" }}
+        gradient={{ from: 'yellow', to: 'red' }}
         style={{ marginBottom: 30 }}
       >
         もう一度
       </Button>
     </div>
-  );
-};
+  )
+}
