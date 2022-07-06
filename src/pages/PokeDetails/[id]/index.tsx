@@ -3,7 +3,7 @@ import { SWRConfig } from 'swr'
 import { PokeDetailPage } from '../../../components/model/Quiz/PokeDetail'
 
 export const getStaticPaths = async () => {
-  const paths = [...Array(40)].map((noUse, index) => {
+  const paths = [...Array(151)].map((noUse, index) => {
     const trueIndex = index + 1
     return { params: { id: trueIndex.toString() } }
   })

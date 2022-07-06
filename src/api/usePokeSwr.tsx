@@ -15,7 +15,7 @@ export const fetcherAll = (...urls: string[]) => {
 }
 
 export const usePokeSWR = () => {
-  const pokemonListDataUrl = [...Array(40)].map((noUse, index) => {
+  const pokemonListDataUrl = [...Array(151)].map((noUse, index) => {
     return `https://pokeapi.co/api/v2/pokemon/${index + 1}/`
   })
 
