@@ -1,4 +1,4 @@
-import { Button, Checkbox, Image } from '@mantine/core'
+import { Button, Checkbox, Image, Paper } from '@mantine/core'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { storeState } from '../../../../slicer/store'
@@ -94,7 +94,9 @@ export const SelectPokePhase: React.FC<Props> = ({
           )
         })}
       </div>
-      <p className="text-red-500 text-4xl">VS</p>
+      <Paper className="inline-block bg-red-600 text-5xl text-white my-10 px-5 py-2 rounded-md  ">
+        VS
+      </Paper>
 
       <div className="flex-col ">
         <div className="flex justify-center">

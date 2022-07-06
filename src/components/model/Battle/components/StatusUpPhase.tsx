@@ -1,4 +1,4 @@
-import { Button, Checkbox, Image } from '@mantine/core'
+import { Button, Checkbox, Image, Paper } from '@mantine/core'
 import { Dispatch, ReactNode, SetStateAction, useEffect } from 'react'
 import { DiceCount, PartyStatus } from '../../../types/battlePageTypes'
 import { PhaseChange } from '../functional/PhaseChange'
@@ -7,7 +7,6 @@ import { CreateRandomNumbers } from '../functional/CreateRandomNumbers'
 type Props = {
   setDiceCountArray: Dispatch<SetStateAction<DiceCount>>
   setPlayersPartyStatus: Dispatch<SetStateAction<PartyStatus>>
-  setIsBattlePhase: Dispatch<SetStateAction<boolean>>
   setIsFightPhase: Dispatch<SetStateAction<boolean>>
   setIsStatusUpPhase: Dispatch<SetStateAction<boolean>>
   isStatusUpPhase: boolean
@@ -23,7 +22,6 @@ export const StatusUpPhase: React.FC<Props> = ({
   playersPartyStatus,
   setPlayersPartyStatus,
   isStatusUpPhase,
-  setIsBattlePhase,
   rivalDiceCount,
   setIsFightPhase,
   setIsStatusUpPhase,
@@ -88,7 +86,6 @@ export const StatusUpPhase: React.FC<Props> = ({
         : fighter
     })
     setPlayersPartyStatus({ ...playersPartyStatus, player: newPartyStatus })
-    orderIndex >= 3 && setIsBattlePhase(true)
   }
 
   const orderLiset = (): void => {
@@ -99,7 +96,6 @@ export const StatusUpPhase: React.FC<Props> = ({
       ...playersPartyStatus,
       player: newPlayerPartyStatus,
     })
-    setIsBattlePhase(false)
   }
 
   useEffect(() => {
@@ -141,23 +137,29 @@ export const StatusUpPhase: React.FC<Props> = ({
                   </Button>
                 </div>
               )}
-
-              <label
-                className="flex"
-                htmlFor={`battleId_${index}`}
-                key={`battleKey_${index}`}
-              >
-                <Image src={member.imgUrl} className="rounded-full w-40" />
+              <div className="flex-col items-center justify-center text-right">
                 {isStatusUpPhase && (
-                  <Checkbox
-                    size="xl"
-                    id={`battleId_${index}`}
-                    disabled={playersPartyStatus.player[index].checked}
-                    onChange={() => selectFighter(index)}
-                    checked={playersPartyStatus.player[index].checked}
-                  />
+                  <Paper className="inline-block bg-red-600 text-base text-white px-1 rounded-md">
+                    順番を決める
+                  </Paper>
                 )}
-              </label>
+                <label
+                  className="flex"
+                  htmlFor={`battleId_${index}`}
+                  key={`battleKey_${index}`}
+                >
+                  <Image src={member.imgUrl} className="rounded-full w-40" />
+                  {isStatusUpPhase && (
+                    <Checkbox
+                      size="xl"
+                      id={`battleId_${index}`}
+                      disabled={playersPartyStatus.player[index].checked}
+                      onChange={() => selectFighter(index)}
+                      checked={playersPartyStatus.player[index].checked}
+                    />
+                  )}
+                </label>
+              </div>
             </div>
           )
         })}

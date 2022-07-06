@@ -19,7 +19,6 @@ import { BattleFieldLayout } from '../../model/Battle/components/BattleFieldLayo
 
 export const Battle: NextPage = () => {
   const [isSelectPokePhase, setIsSelectPokePhase] = useState<boolean>(true)
-  const [IsBattlePhase, setIsBattlePhase] = useState<boolean>(false)
   const [isDiceRollPhase, setIsDiceRollPhase] = useState<boolean>(false)
   const [isStatusUpPhase, setIsStatusUpPhase] = useState<boolean>(false)
   const [isFightPhase, setIsFightPhase] = useState<boolean>(false)
@@ -90,7 +89,6 @@ export const Battle: NextPage = () => {
               isStatusUpPhase={isStatusUpPhase}
               setIsStatusUpPhase={setIsStatusUpPhase}
               setPlayersPartyStatus={setPlayersPartyStatus}
-              setIsBattlePhase={setIsBattlePhase}
               rivalDiceCount={rivalDiceCount}
               setIsFightPhase={setIsFightPhase}
             >
