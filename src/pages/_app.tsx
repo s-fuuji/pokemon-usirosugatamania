@@ -14,10 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   let persistor = persistStore(store)
   return (
     <div>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-
       <AppProviders>
         <Header />
 

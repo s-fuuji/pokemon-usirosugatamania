@@ -29,7 +29,7 @@ export const PokeCard: FC<Props> = ({
   return serchingPokeName === undefined ||
     serchingPokeName === '' ||
     (serchingPokeName !== '' && checkSerchPokemon !== -1) ? (
-    <Card shadow="sm" p="lg" className="bg-dark-red h-80">
+    <Card shadow="sm" p="lg" className="bg-red-600 h-[19.6rem]">
       <Card.Section className="mx-auto">
         <Link href={link} style={{ marginBottom: 10 }}>
           <a>
@@ -53,7 +53,7 @@ export const PokeCard: FC<Props> = ({
         </Badge>
       </Group>
       <Text size="sm" style={{ color: 'white', lineHeight: 1.5 }}>
-        {pokemonListSpecies?.flavor_text_entries[22].flavor_text}
+        {pokemonListSpecies?.flavor_text_entries[29].flavor_text}
       </Text>
       <CaptureButton index={index} />
     </Card>

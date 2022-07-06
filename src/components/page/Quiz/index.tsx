@@ -1,4 +1,4 @@
-import { Button } from '@mantine/core'
+import { Button, Paper } from '@mantine/core'
 import { useState } from 'react'
 import { ShuffleCard } from '../../model/Quiz/components/ShuffleCard'
 import { usePokeSWR } from '../../../api/usePokeSwr'
@@ -81,17 +81,19 @@ export const Quiz: NextPage = () => {
       allQuestionNum={allQuestionNum}
     />
   ) : nextQuestionImgUrls.maleImgUrl !== '' ? (
-    <div>
+    <div className="text-center">
       <ShuffleCard
         addCorrect={addCorrect}
         addInCorrect={addInCorrect}
         nextQuestionImgUrls={nextQuestionImgUrls}
       >
-        <h1 className="text-red-600">
+        <Paper className="bg-red-600 text-white text-3xl p-2">
           {correctQuestionNum}/{allQuestionNum}問目
-        </h1>
+        </Paper>
       </ShuffleCard>
-      <div>メスだと思うポケモンをクリックしよう</div>
+      <Paper className="inline-block bg-red-600 text-5xl text-white mt-20 p-5 rounded-2xl ">
+        メスだと思うポケモンをクリックしよう
+      </Paper>
     </div>
   ) : (
     <div className="text-center mt-48">

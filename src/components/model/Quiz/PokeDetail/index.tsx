@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router'
-import { GetStaticProps, NextPage } from 'next/types'
-import { GetServerSideProps } from 'next/types'
+import { NextPage } from 'next/types'
 import React from 'react'
-import { SWRConfig } from 'swr'
 import { usePokeSWR } from '../../../../api/usePokeSwr'
 import { PokeCard } from '../../Top/ui/PokeCard'
 
