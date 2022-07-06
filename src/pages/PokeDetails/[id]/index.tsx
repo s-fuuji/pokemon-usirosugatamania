@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
   }
 }
 
-export const PokeDetails = (props: any) => {
+function PokeDetails(props: any) {
   const { fallback } = props
   return (
     <SWRConfig value={{ fallback }}>
