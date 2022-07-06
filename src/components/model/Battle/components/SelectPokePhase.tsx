@@ -5,7 +5,7 @@ import { storeState } from '../../../../slicer/store'
 import { MyStaticParty, PartyStatus } from '../../../types/battlePageTypes'
 import { PhaseChange } from '../functional/PhaseChange'
 import { CreateRandomNumbers } from '../functional/CreateRandomNumbers'
-
+Text
 type Props = {
   rivalPartyArray: number[]
   pokemonList: any[] | undefined
