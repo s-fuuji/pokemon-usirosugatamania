@@ -97,6 +97,7 @@ export const SelectPokePhase: React.FC<Props> = ({
               p="lg"
               radius="lg"
               withBorder
+              key={rivalPokeIndex}
             >
               <Image
                 key={Math.random()}
