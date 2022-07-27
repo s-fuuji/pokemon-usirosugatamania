@@ -21,16 +21,29 @@ export const CaptureButton: FC<Props> = ({ index }) => {
   }
 
   return !capturedPoke.includes(index) ? (
-    <Button
-      className="bg-amber-900 hover:bg-amber-800"
-      value={index}
-      onClick={() => capturePoke(index)}
-      variant="light"
-      fullWidth
-      style={{ marginTop: 14 }}
-    >
-      手持ちに加える
-    </Button>
+    capturedPoke.length < 6 ? (
+      <Button
+        className="bg-amber-900 hover:bg-amber-800"
+        value={index}
+        onClick={() => capturePoke(index)}
+        variant="light"
+        fullWidth
+        style={{ marginTop: 14 }}
+      >
+        手持ちに加える
+      </Button>
+    ) : (
+      <Button
+        className="bg-amber-900 hover:bg-amber-800"
+        value={index}
+        onClick={() => capturePoke(index)}
+        variant="light"
+        fullWidth
+        style={{ marginTop: 14 }}
+      >
+        手持ちがいっぱいだ！
+      </Button>
+    )
   ) : (
     <Button
       className="bg-amber-900 hover:bg-amber-800"

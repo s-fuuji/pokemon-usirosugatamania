@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const Pokedex: FC<Props> = ({ showAllPoke, serchingPokeName }) => {
-  const { pokemonList, error } = usePokeSWR()
+  const { pokemonList } = usePokeSWR()
   const createGridCol = (pokemonList: any, index: number) => {
     return (
       <Grid.Col key={Math.random()} span={4}>
