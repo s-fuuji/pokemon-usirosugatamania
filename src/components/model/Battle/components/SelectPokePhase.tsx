@@ -58,7 +58,10 @@ export const SelectPokePhase: React.FC<Props> = ({
 
   const battleStart = () => {
     const checkedMyParty = playerDefaultParty.filter((member) => member.checked)
-    const rivalBattleParty = CreateRandomNumbers(0, 6, 3)
+    const pickRivalParty = CreateRandomNumbers(0, 6, 3)
+    const rivalBattleParty = pickRivalParty.map((member: number, index) => {
+      return rivalPartyArray[member]
+    })
     const newPartyStatus = {
       player: checkedMyParty.map((member, index) => {
         return {
