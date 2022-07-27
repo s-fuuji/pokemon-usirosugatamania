@@ -1,4 +1,11 @@
-import { Button, Checkbox, Image, Paper } from '@mantine/core'
+import {
+  Button,
+  Card,
+  CardSection,
+  Checkbox,
+  Image,
+  Paper,
+} from '@mantine/core'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { storeState } from '../../../../slicer/store'
@@ -81,25 +88,34 @@ export const SelectPokePhase: React.FC<Props> = ({
 
   return (
     <div className="text-center">
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-2">
         {rivalPartyArray?.map((rivalPokeIndex: any) => {
           return (
-            <Image
-              key={Math.random()}
-              src={
-                pokemonList && pokemonList[rivalPokeIndex].sprites.back_default
-              }
-              className="rounded-full w-36 mx-10"
-            />
+            <Card
+              className="bg-red-600 w-52 border-white"
+              shadow="sm"
+              p="lg"
+              radius="lg"
+              withBorder
+            >
+              <Image
+                key={Math.random()}
+                src={
+                  pokemonList &&
+                  pokemonList[rivalPokeIndex].sprites.back_default
+                }
+                className="rounded-full w-24 mx-auto mb-5 bg-red-100"
+              />
+            </Card>
           )
         })}
       </div>
-      <Paper className="inline-block bg-red-600 text-5xl text-white my-10 px-5 py-2 rounded-md  ">
+      <Paper className="inline-block bg-red-600 text-5xl text-white my-20 px-5 py-2 rounded-lg  ">
         VS
       </Paper>
 
       <div className="flex-col ">
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-2">
           {pokemonList &&
             capturedPoke?.map((gotPokeIndex: number, index: number) => {
               return (
@@ -108,19 +124,30 @@ export const SelectPokePhase: React.FC<Props> = ({
                   key={`key_${index}`}
                   className="flex-col"
                 >
-                  <Image
-                    src={pokemonList[gotPokeIndex]?.sprites.back_default}
-                    className="rounded-full w-36 mx-10"
-                  />
-                  <Checkbox
-                    className="pl-24"
-                    id={`id_${index}`}
-                    size="xl"
-                    disabled={
-                      !playerDefaultParty[index]?.checked ? isDisabled : false
-                    }
-                    onChange={() => myPartyChange(index)}
-                  />
+                  <Card
+                    className="bg-red-600 w-52 border-white"
+                    shadow="sm"
+                    p="lg"
+                    radius="lg"
+                    withBorder
+                  >
+                    <Image
+                      src={pokemonList[gotPokeIndex]?.sprites.back_default}
+                      className="rounded-full w-24 mx-auto mb-5 bg-red-100"
+                    />
+                    <div className="ml-16">
+                      <Checkbox
+                        id={`id_${index}`}
+                        size="xl"
+                        disabled={
+                          !playerDefaultParty[index]?.checked
+                            ? isDisabled
+                            : false
+                        }
+                        onChange={() => myPartyChange(index)}
+                      />
+                    </div>
+                  </Card>
                 </label>
               )
             })}

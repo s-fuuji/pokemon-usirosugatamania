@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { NextPage } from 'next/types'
 import React from 'react'
-import { usePokeSWR } from '../../../../api/usePokeSwr'
-import { PokeCard } from '../../Top/ui/PokeCard'
+import { usePokeSWR } from '../../../api/usePokeSwr'
+import { PokeCard } from '../../model/Top/ui/PokeCard'
 
 export const PokeDetailPage: NextPage = () => {
   const { pokemonList, error, isLoading } = usePokeSWR()
@@ -15,18 +15,23 @@ export const PokeDetailPage: NextPage = () => {
   }
 
   return (
-    <div className="flex justify-center">
-      <PokeCard
-        imgUrl={pokemonListId.sprites.back_default}
-        link="/"
-        index={indexId}
-      />
-      {pokemonListId.sprites.back_female && (
+    <div className="flex justify-around">
+      <div className="w-2/5">
         <PokeCard
-          imgUrl={pokemonListId.sprites.back_female}
+          imgUrl={pokemonListId.sprites.back_default}
           link="/"
           index={indexId}
         />
+      </div>
+
+      {pokemonListId.sprites.back_female && (
+        <div className="w-2/5">
+          <PokeCard
+            imgUrl={pokemonListId.sprites.back_female}
+            link="/"
+            index={indexId}
+          />
+        </div>
       )}
     </div>
   )

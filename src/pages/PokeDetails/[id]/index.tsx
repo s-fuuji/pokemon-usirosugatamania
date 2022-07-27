@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
 import { SWRConfig } from 'swr'
-import { PokeDetailPage } from '../../../components/model/Quiz/PokeDetail'
+import { PokeDetailPage } from '../../../components/page/PokeDetail'
 
 export const getStaticPaths = async () => {
   const paths = [...Array(151)].map((noUse, index) => {
