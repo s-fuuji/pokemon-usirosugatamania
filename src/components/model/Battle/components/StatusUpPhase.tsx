@@ -148,7 +148,10 @@ export const StatusUpPhase: React.FC<Props> = ({
                   htmlFor={`battleId_${index}`}
                   key={`battleKey_${index}`}
                 >
-                  <Image src={member.imgUrl} className="rounded-full w-40" />
+                  <Image
+                    src={member.imgUrl}
+                    className="rounded-full w-36 mt-2 mx-auto mb-5 bg-red-500"
+                  />
                   {isStatusUpPhase && (
                     <Checkbox
                       size="xl"
@@ -197,7 +200,7 @@ export const StatusUpPhase: React.FC<Props> = ({
             <Image
               key={index}
               src={member.imgUrl}
-              className="rounded-full w-40"
+              className="rounded-full w-36 mt-2 mx-auto mb-5 bg-red-500"
             />
           )
         })}
