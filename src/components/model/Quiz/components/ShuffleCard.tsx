@@ -21,7 +21,7 @@ export const ShuffleCard: React.FC<Props> = ({
   const isMaleLeft = right >= left
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex gap-10 justify-center items-center">
       <QuizCard
         imgUrl={isMaleLeft ? maleImgUrl : femaleImgUrl}
         onClick={isMaleLeft ? addInCorrect : addCorrect}

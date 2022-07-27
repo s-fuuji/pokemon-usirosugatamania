@@ -28,7 +28,7 @@ export const Battle: NextPage = () => {
     rivalHp: 50,
   })
   const [rivalPartyArray, setRivalPartyArray] = useState<number[]>(
-    CreateRandomNumbers(0, 6, 6)
+    CreateRandomNumbers(0, 150, 6)
   )
   const [diceCountArray, setDiceCountArray] = useState<DiceCount>({
     threeDice: [0, 0, 0],

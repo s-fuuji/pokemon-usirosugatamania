@@ -87,7 +87,7 @@ export const Quiz: NextPage = () => {
         addInCorrect={addInCorrect}
         nextQuestionImgUrls={nextQuestionImgUrls}
       >
-        <Paper className="bg-red-600 text-white text-3xl p-2">
+        <Paper className="bg-red-600 text-white text-3xl p-2 rounded-">
           {correctQuestionNum}/{allQuestionNum}問目
         </Paper>
       </ShuffleCard>
