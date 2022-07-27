@@ -53,7 +53,7 @@ export const PokeCard: FC<Props> = ({
         </Badge>
       </Group>
       <Text size="sm" style={{ color: 'white', lineHeight: 1.5 }}>
-        {pokemonListSpecies?.flavor_text_entries[29].flavor_text}
+        {pokemonListSpecies?.flavor_text_entries[30].flavor_text}
       </Text>
       <CaptureButton index={index} />
     </Card>
