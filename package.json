@@ -12,7 +12,8 @@
     "lint:prettier": "prettier --check .",
     "lint-fix": "run-s -c lint-fix:*",
     "lint-fix:eslint": "npm run lint:eslint -- --fix",
-    "lint-fix:prettier": "prettier --write ."
+    "lint-fix:prettier": "prettier --write .",
+    "export": "next export"
   },
   "dependencies": {
     "@mantine/core": "^4.2.6",
